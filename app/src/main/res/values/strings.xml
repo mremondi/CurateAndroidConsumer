@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Curate</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_feed">Feed</string>
+    <string name="title_search">Search</string>
+    <string name="title_user_activity">Activity</string>
+    <string name="title_more">Activity</string>
 </resources>
