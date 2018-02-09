@@ -13,5 +13,5 @@ public interface ItemService {
 
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @GET("/search")
-    Call<List<CurateAPIItem>> searchItems(@Query("query") String query);
+    Call<List<CurateAPIItem>> searchItems(@Query("nameLike") String query);
 }

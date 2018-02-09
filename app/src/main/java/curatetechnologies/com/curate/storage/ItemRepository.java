@@ -25,10 +25,9 @@ public class ItemRepository implements ItemModelRepository {
         final List<ItemModel> items = new ArrayList<>();
 
         // make network call
-        Log.d("QUERY", query);
-        Log.d("ItemService class", ItemService.class.toString());
         ItemService itemService = CurateClient.getService(ItemService.class);
         try {
+            Log.d("TRYING", "HERE");
             Response<List<CurateAPIItem>> response = itemService.searchItems(query).execute();
             Log.d("RESPONSE.BODY", "searchItems: " + response.body().toString());
             items.add(CurateItemConverter.convertCurateItemToItemModel(response.body().get(0)));
