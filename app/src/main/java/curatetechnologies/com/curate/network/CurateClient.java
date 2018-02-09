@@ -19,9 +19,6 @@ public class CurateClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Log.d("S_RETROFIT","HERE" +  s_retrofit.toString());
-        Log.d("S_RETROFIT BASE URL", s_retrofit.baseUrl().toString());
-
         return s_retrofit.create(serviceClass);
     }
 }

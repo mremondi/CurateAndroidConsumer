@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.network.converters;
 
+import android.util.Log;
+
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.network.model.CurateAPIItem;
 
@@ -11,8 +13,8 @@ public class CurateItemConverter {
 
 
     public static ItemModel convertCurateItemToItemModel(CurateAPIItem apiItem){
-        // TODO: Do actual conversions
-        ItemModel itemModel = new ItemModel();
+
+        ItemModel itemModel = new ItemModel(apiItem.getItemName(), apiItem.getItemDescription(), apiItem.getItemImageURL());
         return itemModel;
     }
 

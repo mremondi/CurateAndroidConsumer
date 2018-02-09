@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 public interface ItemService {
 
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
-    @GET("/search")
+    @GET("items/search")
     Call<List<CurateAPIItem>> searchItems(@Query("nameLike") String query);
 }
