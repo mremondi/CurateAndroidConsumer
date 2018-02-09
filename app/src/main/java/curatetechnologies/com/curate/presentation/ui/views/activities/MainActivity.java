@@ -1,27 +1,23 @@
-package curatetechnologies.com.curate;
+package curatetechnologies.com.curate.presentation.ui.views.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.bluelinelabs.conductor.Conductor;
-import com.bluelinelabs.conductor.Router;
-import com.bluelinelabs.conductor.RouterTransaction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import curatetechnologies.com.curate.R;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
 
 
     @BindView(R.id.navigation) BottomNavigationView navigation;
-    @BindView(R.id.controller_container) ViewGroup container;
-
-    private Router router;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        router = Conductor.attachRouter(this, container, savedInstanceState);
-        if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(new SearchController()));
-        }
+        Fragment orderQueue = new SearchFragment();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.content_frame, orderQueue);
+        transaction.commit();
+
     }
 
 }
