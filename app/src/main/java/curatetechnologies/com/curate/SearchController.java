@@ -17,7 +17,6 @@ public class SearchController extends Controller {
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflater.inflate(R.layout.controller_search, container, false);
-        ((TextView)view.findViewById(R.id.tv_title)).setText("Hello World");
         return view;
     }
 }
