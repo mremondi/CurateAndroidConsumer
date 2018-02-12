@@ -5,27 +5,29 @@ import java.util.List;
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.storage.ItemModelRepository;
+import curatetechnologies.com.curate.storage.RestaurantModelRepository;
 
 /**
- * Created by mremondi on 2/9/18.
+ * Created by mremondi on 2/12/18.
  */
 
-public class SearchItemsInteractorImpl extends AbstractInteractor implements SearchItemsInteractor {
+public class SearchRestaurantsInteractorImpl extends AbstractInteractor implements SearchRestaurantsInteractor {
 
-    private SearchItemsInteractor.Callback mCallback;
-    private ItemModelRepository mItemModelRepository;
+    private SearchRestaurantsInteractor.Callback mCallback;
+    private RestaurantModelRepository mRestaurantModelRepository;
 
     private String mQuery;
 
-    public SearchItemsInteractorImpl(Executor threadExecutor,
+    public SearchRestaurantsInteractorImpl(Executor threadExecutor,
                                      MainThread mainThread,
                                      Callback callback,
-                                     ItemModelRepository itemModelRepository,
+                                     RestaurantModelRepository restaurantModelRepository,
                                      String query) {
         super(threadExecutor, mainThread);
         mCallback = callback;
-        mItemModelRepository = itemModelRepository;
+        mRestaurantModelRepository = restaurantModelRepository;
         mQuery = query;
     }
 
@@ -38,11 +40,11 @@ public class SearchItemsInteractorImpl extends AbstractInteractor implements Sea
         });
     }
 
-    private void postItems(final List<ItemModel> items) {
+    private void postItems(final List<RestaurantModel> restaurants) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchItemsRetrieved(items);
+                mCallback.onSearchRestaurantsRetrieved(restaurants);
             }
         });
     }
@@ -52,11 +54,10 @@ public class SearchItemsInteractorImpl extends AbstractInteractor implements Sea
     public void run() {
 
         // retrieve the message
-        final List<ItemModel> items = mItemModelRepository.searchItems(mQuery);
+        final List<RestaurantModel> restaurants = mRestaurantModelRepository.searchRestaurants(mQuery);
 
         // check if we have failed to retrieve our message
-        if (items == null || items.size() == 0) {
-
+        if (restaurants == null || restaurants.size() == 0) {
             // notify the failure on the main thread
             notifyError();
 
@@ -64,6 +65,6 @@ public class SearchItemsInteractorImpl extends AbstractInteractor implements Sea
         }
 
         // we have retrieved our message, notify the UI on the main thread
-        postItems(items);
+        postItems(restaurants);
     }
 }

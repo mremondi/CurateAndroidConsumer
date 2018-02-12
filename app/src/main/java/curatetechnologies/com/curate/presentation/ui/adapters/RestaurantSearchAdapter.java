@@ -16,38 +16,39 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 
 /**
- * Created by mremondi on 2/9/18.
+ * Created by mremondi on 2/12/18.
  */
 
-public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.ViewHolder>{
+public class RestaurantSearchAdapter extends RecyclerView.Adapter<RestaurantSearchAdapter.ViewHolder>{
 
-    List<ItemModel> searchResults;
+    List<RestaurantModel> searchResults;
     private RecyclerViewClickListener mListener;
 
-    public ItemSearchAdapter(List<ItemModel> searchResults, RecyclerViewClickListener listener){
+    public RestaurantSearchAdapter(List<RestaurantModel> searchResults, RecyclerViewClickListener listener){
         this.searchResults = searchResults;
         this.mListener = listener;
     }
 
-    public void updateData(List<ItemModel> newData) {
+    public void updateData(List<RestaurantModel> newData) {
         this.searchResults = newData;
         this.notifyDataSetChanged();
     }
 
     @Override
-    public ItemSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView view =  (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_view_holder, parent, false);
-        ViewHolder vh = new ViewHolder(view, mListener);
+    public RestaurantSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        CardView view =  (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_search_view_holder, parent, false);
+        RestaurantSearchAdapter.ViewHolder vh = new RestaurantSearchAdapter.ViewHolder(view, mListener);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(final ItemSearchAdapter.ViewHolder holder, int position) {
-        ItemModel item = this.searchResults.get(position);
-        holder.bindData(item);
+    public void onBindViewHolder(final RestaurantSearchAdapter.ViewHolder holder, int position) {
+        RestaurantModel restaurant = this.searchResults.get(position);
+        holder.bindData(restaurant);
     }
 
     @Override
@@ -60,14 +61,12 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
 
         private RecyclerViewClickListener mListener;
 
-        @BindView(R.id.item_search_view_holder_item_image)
-        ImageView itemImage;
-        @BindView(R.id.item_search_view_holder_item_name)
-        TextView itemName;
-        @BindView(R.id.item_search_view_holder_item_description)
-        TextView itemDescription;
-
         CardView view;
+        @BindView(R.id.restaurant_search_view_holder_restaurant_logo)
+        ImageView restaurantLogo;
+        @BindView(R.id.restaurant_search_view_holder_restaurant_name)
+        TextView restaurantName;
+
         public ViewHolder(CardView searchRow, RecyclerViewClickListener listener){
             super(searchRow);
             this.mListener = listener;
@@ -76,14 +75,13 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
             searchRow.setOnClickListener(this);
         }
 
-        public void bindData(ItemModel item){
-            if (item.getImageURL() != null){
-                Glide.with(view).load(item.getImageURL()).into(itemImage);
+        public void bindData(RestaurantModel restaurant){
+            if (restaurant.getLogoURL() != null){
+                Glide.with(view).load(restaurant.getLogoURL()).into(restaurantLogo);
             } else {
 
             }
-            itemName.setText(item.getName());
-            itemDescription.setText(item.getDescription());
+            restaurantName.setText(restaurant.getName());
         }
 
         // -- BEGIN View.OnClickListener methods

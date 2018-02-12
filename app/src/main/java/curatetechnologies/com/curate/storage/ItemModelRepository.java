@@ -1,4 +1,4 @@
-package curatetechnologies.com.curate.domain.repository;
+package curatetechnologies.com.curate.storage;
 
 import java.util.List;
 
@@ -11,4 +11,5 @@ import curatetechnologies.com.curate.domain.model.ItemModel;
 public interface ItemModelRepository {
 
     List<ItemModel> searchItems(String query);
+    ItemModel getItemById(Integer itemId);
 }

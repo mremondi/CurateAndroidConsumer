@@ -4,24 +4,48 @@
     android:layout_height="match_parent"
     tools:context="curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment">
 
-
     <LinearLayout
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/etSearch"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/search_bar_input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search for any meal here"/>
-        <Button
-            android:id="@+id/btnSearch"
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            
+            <android.support.v7.widget.SearchView
+                android:id="@+id/fragment_search_search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/fragment_search_item_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/scope_bar_button_background"
+                android:textColor="@color/scope_bar_button_text"
+                android:text="Items"/>
+            <Button
+                android:id="@+id/fragment_search_restaurant_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/scope_bar_button_background"
+                android:textColor="@color/scope_bar_button_text"
+                android:text="Restaurants"/>
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

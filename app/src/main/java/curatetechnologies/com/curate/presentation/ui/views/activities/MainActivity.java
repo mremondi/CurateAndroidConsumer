@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import curatetechnologies.com.curate.R;
+import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,13 +44,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Fragment orderQueue = new SearchFragment();
+        Fragment searchFragment = new SearchFragment();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, orderQueue);
+        transaction.replace(R.id.content_frame, searchFragment);
         transaction.commit();
 
     }

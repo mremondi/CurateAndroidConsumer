@@ -11,13 +11,13 @@ import curatetechnologies.com.curate.network.model.CurateAPIItem;
 
 public class CurateItemConverter {
 
-
+    // Converts the outward facing data item model to the view model
     public static ItemModel convertCurateItemToItemModel(CurateAPIItem apiItem){
-
-        ItemModel itemModel = new ItemModel(apiItem.getItemName(), apiItem.getItemDescription(), apiItem.getItemImageURL());
+        ItemModel itemModel = new ItemModel(apiItem.getItemID(), apiItem.getItemName(), apiItem.getItemDescription(), apiItem.getItemImageURL());
         return itemModel;
     }
 
+    // Converts the item view model to the outward facing data model
     public static CurateAPIItem convertItemModelToCurateItem(CurateAPIItem itemModel){
         // TODO: Do actual conversions
         CurateAPIItem apiItem = new CurateAPIItem();

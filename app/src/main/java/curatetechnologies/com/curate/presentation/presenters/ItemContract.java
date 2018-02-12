@@ -1,19 +1,22 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+/**
+ * Created by mremondi on 2/10/18.
+ */
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.presentation.ui.BaseView;
 
 /**
- * Created by mremondi on 2/9/18.
+ * This specifies the contract between the view and the presenter.
  */
-
-public interface ItemSearchPresenter {
+public interface ItemContract {
 
     interface View extends BaseView {
-        void displayItems(List<ItemModel> items);
+        void displayItem(ItemModel item);
     }
 
-    void searchItems(String query);
+    void getItemById(Integer itemId);
 }
