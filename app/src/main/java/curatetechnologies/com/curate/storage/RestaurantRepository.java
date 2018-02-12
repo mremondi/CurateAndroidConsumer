@@ -7,7 +7,7 @@ import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.network.CurateClient;
-import curatetechnologies.com.curate.network.converters.CurateRestaurantConverter;
+import curatetechnologies.com.curate.network.converters.curate.RestaurantConverter;
 import curatetechnologies.com.curate.network.model.CurateAPIRestaurant;
 import curatetechnologies.com.curate.network.services.RestaurantService;
 import retrofit2.Response;
@@ -27,7 +27,7 @@ public class RestaurantRepository implements RestaurantModelRepository {
             Response<List<CurateAPIRestaurant>> response = restaurantService.searchRestaurants(query).execute();
             Log.d("BODY", response.body().toString());
             for (CurateAPIRestaurant restaurant: response.body()){
-                restaurants.add(CurateRestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
+                restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
             }
         } catch (Exception e){
             Log.d("FAILURE", e.getMessage());

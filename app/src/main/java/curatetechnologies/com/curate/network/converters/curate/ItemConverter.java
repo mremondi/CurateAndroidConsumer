@@ -1,4 +1,4 @@
-package curatetechnologies.com.curate.network.converters;
+package curatetechnologies.com.curate.network.converters.curate;
 
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import curatetechnologies.com.curate.network.model.CurateAPIItem;
  * Created by mremondi on 2/9/18.
  */
 
-public class CurateItemConverter {
+public class ItemConverter {
 
     // Converts the outward facing data item model to the view model
     public static ItemModel convertCurateItemToItemModel(CurateAPIItem apiItem){

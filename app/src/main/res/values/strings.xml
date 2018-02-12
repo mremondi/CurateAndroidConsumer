@@ -5,7 +5,6 @@
     <string name="title_search">Search</string>
     <string name="title_user_activity">Activity</string>
     <string name="title_more">Activity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">472813193117902</string>
+    <string name="fb_login_protocol_scheme">fb472813193117902</string>
 </resources>
