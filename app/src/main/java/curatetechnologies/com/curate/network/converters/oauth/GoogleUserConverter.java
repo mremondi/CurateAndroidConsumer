@@ -11,7 +11,15 @@ import curatetechnologies.com.curate.domain.model.UserModel;
 public class GoogleUserConverter {
 
     public static UserModel apply(GoogleSignInAccount account){
-        // TODO: actually convert
-        return new UserModel();
+        String email = account.getEmail();
+        String full_name = account.getDisplayName();
+        String first_name = account.getGivenName();
+        String last_name = account.getFamilyName();
+        UserModel.Gender gender = UserModel.Gender.UNKNOWN;
+        String birthday = "01/01/1901";
+        String profilePictureUrl = (account.getPhotoUrl() != null) ? account.getPhotoUrl().toString() : "";
+
+        return new UserModel(0, "", email, 0, full_name, first_name, last_name,
+                birthday, 0, gender, profilePictureUrl, "", "", account.getIdToken());
     }
 }

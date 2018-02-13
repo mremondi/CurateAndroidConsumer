@@ -71,7 +71,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         btnRestaurant.setSelected(true);
         btnItem.setSelected(false);
         searchResults.setAdapter(null);
-
     }
 
     // -- BEGIN: Fragment methods
@@ -81,6 +80,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
         unbinder = ButterKnife.bind(this, v);
+
+        mSearchPresenter = new SearchPresenter(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                new ItemRepository(),
+                new RestaurantRepository());
 
         // SET DEFAULTS
         searchType = SearchType.ITEM_SEARCH;
@@ -110,13 +116,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
             }
         });
         searchResults.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-        mSearchPresenter = new SearchPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                this,
-                new ItemRepository(),
-                new RestaurantRepository());
         return v;
 
     }
