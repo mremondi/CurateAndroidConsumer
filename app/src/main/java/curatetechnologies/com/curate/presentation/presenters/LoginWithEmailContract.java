@@ -9,7 +9,7 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
 
 public interface LoginWithEmailContract {
     interface View extends BaseView {
-        void updateUI(UserModel user);
+        void updateUI(String jwt);
     }
 
     void loginUserEmailPassword(String email, String password);

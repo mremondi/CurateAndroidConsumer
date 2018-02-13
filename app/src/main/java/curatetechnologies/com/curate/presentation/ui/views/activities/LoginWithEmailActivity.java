@@ -1,7 +1,5 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +12,6 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
-import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailContract;
 import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailPresenter;
 import curatetechnologies.com.curate.storage.UserRepository;
@@ -40,7 +37,7 @@ public class LoginWithEmailActivity extends AppCompatActivity implements LoginWi
         }
     }
     @OnClick(R.id.connect_with_email_btn_login) void loginClick(){
-        mConnectWithEmailPresenter.loginUserEmailPassword("", "");
+        mConnectWithEmailPresenter.loginUserEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     @Override
@@ -60,8 +57,8 @@ public class LoginWithEmailActivity extends AppCompatActivity implements LoginWi
         );
     }
 
-    public void updateUI(UserModel user){
-
+    public void updateUI(String jwt){
+        Log.d("JWT", jwt);
     }
 
     @Override

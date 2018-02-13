@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.domain.interactor;
 
+import android.util.Log;
+
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
 import curatetechnologies.com.curate.storage.UserModelRepository;
@@ -54,10 +56,9 @@ public class LoginWithEmailInteractorImpl extends AbstractInteractor implements 
 
         // check if we have failed to retrieve our message
         if (jwt == null || jwt.equals("")) {
-
             // notify the failure on the main thread
+            Log.d("NOTIFY ERROR ", "RUN");
             notifyError();
-
             return;
         }
         // we have retrieved our message, notify the UI on the main thread

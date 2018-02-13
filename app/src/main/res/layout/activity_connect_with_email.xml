@@ -14,7 +14,8 @@
         android:background="@color/white"
         android:textCursorDrawable="@null"
         android:paddingLeft="20dp"
-        android:hint="email"/>
+        android:hint="email"
+        android:inputType="textEmailAddress"/>
     <EditText
         android:id="@+id/connect_with_email_et_password"
         android:layout_width="match_parent"
@@ -24,6 +25,7 @@
         android:textCursorDrawable="@null"
         android:paddingLeft="20dp"
         android:background="@color/white"
+        android:inputType="textPassword"
         android:hint="password"/>
 
     <Button
