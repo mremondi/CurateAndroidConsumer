@@ -64,8 +64,14 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
         ImageView itemImage;
         @BindView(R.id.item_search_view_holder_item_name)
         TextView itemName;
-        @BindView(R.id.item_search_view_holder_item_description)
+        @BindView(R.id.item_search_view_holder_item_restaurant_name)
         TextView itemDescription;
+        @BindView(R.id.item_search_view_holder_item_distance)
+        TextView itemDistance;
+        @BindView(R.id.item_search_view_holder_item_price)
+        TextView itemPrice;
+        @BindView(R.id.item_search_view_holder_item_rating)
+        TextView itemRating;
 
         CardView view;
         public ViewHolder(CardView searchRow, RecyclerViewClickListener listener){
@@ -84,6 +90,9 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
             }
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
+            itemDistance.setText(item.getDistance_in_mi());
+            itemPrice.setText(item.getPrice());
+            itemRating.setText(item.getRating());
         }
 
         // -- BEGIN View.OnClickListener methods

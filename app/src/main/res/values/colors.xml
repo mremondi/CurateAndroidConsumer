@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#040F18</color>
     <color name="colorAccent">#ED2026</color>
     <color name="white">#FFFFFF</color>
+    <color name="distanceBlue">#76BEFF</color>
     <color name="buttonActiveBlue">#76BEFF</color>
     <color name="buttonInactiveBlue">#ADD6FF</color>
 </resources>

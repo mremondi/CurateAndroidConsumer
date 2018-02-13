@@ -10,12 +10,19 @@ public class ItemModel{
     private String name;
     private String description;
     private String imageURL;
+    private String distance_in_mi;
+    private String price;
+    private String rating;
 
-    public ItemModel(Integer id, String name, String description, String imageURL){
+    public ItemModel(Integer id, String name, String description, String imageURL, String distance_in_mi,
+                     String price, String rating){
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
+        this.distance_in_mi = distance_in_mi;
+        this.price = price;
+        this.rating = rating;
     }
 
     public String getName() {
@@ -48,5 +55,29 @@ public class ItemModel{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getDistance_in_mi() {
+        return distance_in_mi;
+    }
+
+    public void setDistance_in_mi(String distance_in_mi) {
+        this.distance_in_mi = distance_in_mi;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }
