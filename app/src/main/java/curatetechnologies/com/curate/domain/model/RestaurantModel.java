@@ -8,11 +8,13 @@ public class RestaurantModel {
     private Integer id;
     private String name;
     private String logoURL;
+    private String distance_in_mi;
 
-    public RestaurantModel(Integer id, String name, String logoURL) {
+    public RestaurantModel(Integer id, String name, String logoURL, String distance_in_mi) {
         this.id = id;
         this.name = name;
         this.logoURL = logoURL;
+        this.distance_in_mi = distance_in_mi;
     }
 
     public Integer getId() {
@@ -37,5 +39,13 @@ public class RestaurantModel {
 
     public void setLogoURL(String logoURL) {
         this.logoURL = logoURL;
+    }
+
+    public String getDistance_in_mi() {
+        return distance_in_mi;
+    }
+
+    public void setDistance_in_mi(String distance_in_mi) {
+        this.distance_in_mi = distance_in_mi;
     }
 }

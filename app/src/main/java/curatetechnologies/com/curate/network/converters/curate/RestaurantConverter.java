@@ -11,6 +11,6 @@ public class RestaurantConverter {
 
     public static RestaurantModel convertCurateRestaurantToRestaurantModel(CurateAPIRestaurant apiRestaurant){
         return new RestaurantModel(apiRestaurant.getRestaurantID(), apiRestaurant.getRestaurantName(),
-                                    apiRestaurant.getRestaurantLogoURL());
+                                    apiRestaurant.getRestaurantLogoURL(), "0.0mi");
     }
 }

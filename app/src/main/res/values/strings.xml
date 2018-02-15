@@ -4,7 +4,7 @@
     <string name="title_feed">Feed</string>
     <string name="title_search">Search</string>
     <string name="title_user_activity">Activity</string>
-    <string name="title_more">Activity</string>
+    <string name="title_more">More</string>
     <string name="facebook_app_id">472813193117902</string>
     <string name="fb_login_protocol_scheme">fb472813193117902</string>
 </resources>

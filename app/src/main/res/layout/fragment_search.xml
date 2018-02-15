@@ -5,26 +5,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment">
 
-    <LinearLayout
-        android:id="@+id/search_bar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_search_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/search_bar_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="10">
-            
             <android.support.v7.widget.SearchView
                 android:id="@+id/fragment_search_search_bar"
                 android:layout_width="350dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-
                 app:queryHint="Search for meals or restaurants"
                 android:background="#E3E3E3"/>
             <Button
@@ -39,7 +35,14 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:id="@+id/fragment_search_scope_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_search_toolbar"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,22 +64,17 @@
                 android:textColor="@color/scope_bar_button_text"
                 android:text="Restaurants"/>
         </LinearLayout>
-
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/search_bar">
-
+        android:layout_below="@+id/fragment_search_scope_buttons">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"/>
     </LinearLayout>
-
-
 </RelativeLayout>
