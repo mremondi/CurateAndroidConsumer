@@ -22,6 +22,7 @@ import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.presentation.presenters.OnBoardUserContract;
 import curatetechnologies.com.curate.presentation.presenters.OnBoardUserPresenter;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage0;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage1;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage2;
 import curatetechnologies.com.curate.storage.UserRepository;
@@ -125,11 +126,11 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new OnBoardingFragmentPage1();
+                    return new OnBoardingFragmentPage0();
                 case 1:
+                    return new OnBoardingFragmentPage1();
+                case 2:
                     return new OnBoardingFragmentPage2();
-//                case 2:
-//                    return new OnBoardingFragmentPage3();
 //                case 3:
 //                    return new OnBoardingFragmentPage4();
 //                case 4:

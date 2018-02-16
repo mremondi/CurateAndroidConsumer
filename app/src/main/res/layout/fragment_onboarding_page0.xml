@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:src="@drawable/white_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="4dp"
+        android:padding="8dp"
+        android:layout_above="@+id/fragment_onboarding_page0_explanation"/>
+
+    <TextView
+        android:id="@+id/fragment_onboarding_page0_explanation"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Please fill out some information for us so we can help find you your next great meal!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:layout_margin="4dp"
+        android:padding="8dp"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/fragment_onboarding_page1_next_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:text="Next"/>
+
+
+</RelativeLayout>

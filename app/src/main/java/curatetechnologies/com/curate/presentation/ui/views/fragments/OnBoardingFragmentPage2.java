@@ -48,7 +48,7 @@ public class OnBoardingFragmentPage2 extends Fragment {
     }
 
     @OnClick(R.id.fragment_onboarding_page2_next_button) void nextPage(){
-        ((OnBoardingWorkflowActivity)getActivity()).mPager.setCurrentItem(2);
+        ((OnBoardingWorkflowActivity)getActivity()).mPager.setCurrentItem(3);
     }
 
     @Override
