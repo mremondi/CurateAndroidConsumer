@@ -1,7 +1,6 @@
 package curatetechnologies.com.curate.domain.interactor;
 
 import android.util.Log;
-import android.util.Pair;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
@@ -9,58 +8,52 @@ import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.storage.UserModelRepository;
 
 /**
- * Created by mremondi on 2/13/18.
+ * Created by mremondi on 2/16/18.
  */
 
-public class LoginWithEmailInteractorImpl extends AbstractInteractor implements LoginWithEmailInteractor {
-
-    private LoginWithEmailInteractor.Callback mCallback;
+public class GetUserInteractorImpl extends AbstractInteractor implements GetUserInteractor {
+    private GetUserInteractor.Callback mCallback;
     private UserModelRepository mUserModelRepository;
 
-    private String mEmail;
-    private String mPassword;
-
-    public LoginWithEmailInteractorImpl(Executor threadExecutor,
+    public GetUserInteractorImpl(Executor threadExecutor,
                                         MainThread mainThread,
-                                        Callback callback,
-                                        UserModelRepository userModelRepository,
-                                        String email,
-                                        String password) {
+                                        GetUserInteractor.Callback callback,
+                                        UserModelRepository userModelRepository) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mUserModelRepository = userModelRepository;
-        mEmail = email;
-        mPassword = password;
     }
 
     private void notifyError() {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLoginRetrievalFailed("User Login Failed");
+                mCallback.onRetrieveUserFailed("User Retrieval Failed");
             }
         });
     }
 
-    private void postJWTUser(final UserModel user) {
+    private void postUser(final UserModel user) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLoginUserRetrieved(user);
+                mCallback.onUserRetrieved(user);
             }
         });
     }
+
 
     @Override
     public void run() {
         // retrieve the message
-        final UserModel user = mUserModelRepository.loginUserEmailPassword(mEmail, mPassword);
+        final UserModel user = mUserModelRepository.getCurrentUser();
         // check if we have failed to retrieve our message
         if (user == null){
             Log.d("User is ", "null");
             notifyError();
             return;
         }
-        postJWTUser(user);
+        postUser(user);
+
     }
 }

@@ -22,6 +22,9 @@ public class CurateAPIUser {
     private Integer userLoyaltyPoints;
     @SerializedName("User_FullName")
     @Expose
+    private String userFirstName;
+    @SerializedName("User_FirstName")
+    @Expose
     private String userFullName;
     @SerializedName("User_LastName")
     @Expose
@@ -152,4 +155,11 @@ public class CurateAPIUser {
         this.userInstagramToken = userInstagramToken;
     }
 
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
+    }
 }

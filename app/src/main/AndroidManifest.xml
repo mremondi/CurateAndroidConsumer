@@ -42,10 +42,12 @@
         </activity>
         <activity
             android:name=".presentation.ui.views.activities.MainActivity"
-            android:label="@string/title_activity_main"/>
+            android:label="@string/title_activity_main" />
         <activity android:name=".presentation.ui.views.activities.LoginActivity" />
-        <activity android:name=".presentation.ui.views.activities.LoginWithEmailActivity"
-            android:theme="@style/LoginWithEmailTheme"/>
+        <activity
+            android:name=".presentation.ui.views.activities.LoginWithEmailActivity"
+            android:theme="@style/LoginWithEmailTheme" />
+        <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity"></activity>
     </application>
 
 </manifest>

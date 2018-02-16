@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
+import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailContract;
 import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailPresenter;
 import curatetechnologies.com.curate.storage.UserRepository;
@@ -53,13 +55,23 @@ public class LoginWithEmailActivity extends AppCompatActivity implements LoginWi
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                new UserRepository()
+                UserRepository.getInstance(getApplicationContext())
         );
     }
 
-    public void updateUI(String jwt){
-        Log.d("JWT", jwt);
+    // -- BEGIN LOGIN CONTRACT METHODS
+    @Override
+    public void updateUI() {
+        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
+        startActivity(i);
+        finish();
     }
+
+    @Override
+    public void saveUser(UserModel user) {
+        mConnectWithEmailPresenter.saveUser(user);
+    }
+    // -- END LOGIN CONTRACT METHODS
 
     @Override
     public void showProgress() {

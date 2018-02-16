@@ -32,4 +32,8 @@ public interface UserService {
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("googleLogin")
     Call<String> loginUserGoogle(@Body String googleToken);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @POST("createUser")
+    Call<Integer> createUser(@Body CurateAPIUser user);
 }

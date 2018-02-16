@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.util.Pair;
+
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.presentation.ui.BaseView;
 
@@ -9,8 +11,10 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
 
 public interface LoginWithEmailContract {
     interface View extends BaseView {
-        void updateUI(String jwt);
+        void updateUI();
+        void saveUser(UserModel user);
     }
 
     void loginUserEmailPassword(String email, String password);
+    void saveUser(UserModel user);
 }

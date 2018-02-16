@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CurateClient {
 
     public static <T> T getService(Class<T> serviceClass){
-        final String CURATE_API_URL = "https://curate-staging.appspot.com/api/";
+        final String CURATE_API_URL = "http://03b187d4.ngrok.io/api/";//https://curate-staging.appspot.com/api/";
 
         Retrofit s_retrofit = new Retrofit.Builder()
                 .baseUrl(CURATE_API_URL)

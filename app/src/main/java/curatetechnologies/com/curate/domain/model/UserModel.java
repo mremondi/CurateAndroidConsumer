@@ -1,13 +1,20 @@
 package curatetechnologies.com.curate.domain.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
+import curatetechnologies.com.curate.storage.local.UserRoomDB;
+
+@Entity(tableName = UserRoomDB.TABLE_NAME)
 public class UserModel {
 
-    public enum Gender{
+    public enum Gender {
         MALE,
         FEMALE,
         UNKNOWN
     }
-
+    @PrimaryKey
     private int id;
     private String username;
     private String email;
@@ -17,15 +24,18 @@ public class UserModel {
     private String lastName;
     private String birthday;
     private int age;
+    @Ignore
     private Gender gender;
     private String profilePictureURL;
-    private String stripeId;
     private String facebookToken;
     private String googleToken;
+    private String curateToken;
+
+    public UserModel(){}
 
     public UserModel(int id, String username, String email, int loyaltyPoints, String fullName,
                      String firstName, String lastName, String birthday, int age, Gender gender,
-                     String profilePictureURL, String stripeId, String facebookToken, String googleToken) {
+                     String profilePictureURL, String facebookToken, String googleToken, String curateToken) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -37,9 +47,9 @@ public class UserModel {
         this.age = age;
         this.gender = gender;
         this.profilePictureURL = profilePictureURL;
-        this.stripeId = stripeId;
         this.facebookToken = facebookToken;
         this.googleToken = googleToken;
+        this.curateToken = curateToken;
     }
 
     public int getId() {
@@ -130,14 +140,6 @@ public class UserModel {
         this.profilePictureURL = profilePictureURL;
     }
 
-    public String getStripeId() {
-        return stripeId;
-    }
-
-    public void setStripeId(String stripeId) {
-        this.stripeId = stripeId;
-    }
-
     public String getFacebookToken() {
         return facebookToken;
     }
@@ -152,5 +154,13 @@ public class UserModel {
 
     public void setGoogleToken(String googleToken) {
         this.googleToken = googleToken;
+    }
+
+    public String getCurateToken() {
+        return curateToken;
+    }
+
+    public void setCurateToken(String curateToken) {
+        this.curateToken = curateToken;
     }
 }
