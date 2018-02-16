@@ -7,4 +7,5 @@
     <color name="distanceBlue">#76BEFF</color>
     <color name="buttonActiveBlue">#76BEFF</color>
     <color name="buttonInactiveBlue">#ADD6FF</color>
+    <color name="selectedGreen">#fa63de5d</color>
 </resources>

@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
     @OnClick(R.id.btn_login_skip) void btnLoginSkipClick(){
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
         startActivity(i);
         finish();
     }

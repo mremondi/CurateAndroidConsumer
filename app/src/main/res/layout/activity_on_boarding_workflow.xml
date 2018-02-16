@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.OnBoardingWorkflowActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.OnBoardingWorkflowActivity"
+    android:background="@drawable/onboarding_background">
 
-</android.support.constraint.ConstraintLayout>
+    <curatetechnologies.com.curate.presentation.ui.views.subclasses.NonSwipableViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.PagerTitleStrip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+
+    </curatetechnologies.com.curate.presentation.ui.views.subclasses.NonSwipableViewPager>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/view_pager_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabBackground="@drawable/pager_indicator_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#64a9a9a9"/>
+
+</RelativeLayout>
