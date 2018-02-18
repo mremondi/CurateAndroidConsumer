@@ -1,7 +1,9 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +21,12 @@ import curatetechnologies.com.curate.presentation.ui.views.activities.OnBoarding
  */
 
 public class OnBoardingFragmentPage0 extends Fragment {
-
+    OnBoardingWorkflowActivity activity;
     Unbinder unbinder;
+
+    @OnClick(R.id.fragment_onboarding_page0_next_button) void nextClick(){
+        activity.mPager.setCurrentItem(1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,5 +41,11 @@ public class OnBoardingFragmentPage0 extends Fragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (OnBoardingWorkflowActivity) context;
     }
 }

@@ -43,22 +43,12 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
 
     private OnBoardUserContract mOnBoardUserPresenter;
 
-    private UserModel user;
+    public UserModel user;
 
     @BindView(R.id.pager)
     public ViewPager mPager;
     @BindView(R.id.view_pager_indicator)
     TabLayout tabLayout;
-
-
-    @OnClick(R.id.onboarding_next_button) void nextPage(){
-        Integer index = mPager.getCurrentItem() + 1;
-        if (index > 4){
-            segueToMainApp();
-        }
-        mPager.setCurrentItem(index);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

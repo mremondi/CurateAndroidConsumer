@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -23,10 +24,15 @@ import curatetechnologies.com.curate.presentation.ui.views.activities.OnBoarding
  */
 
 public class OnBoardingFragmentPage3 extends Fragment {
-
+    OnBoardingWorkflowActivity activity;
     Unbinder unbinder;
 
     Map<CardView, TagTypeModel> cardToPreferenceMap = new HashMap<>();
+
+    @OnClick(R.id.fragment_onboarding_page3_next_button) void nextClick(){
+        activity.mPager.setCurrentItem(4);
+
+    }
 
     @OnClick({R.id.iced_card, R.id.hot_card, R.id.decaf_card, R.id.caffeinated_card}) void cardClick(CardView card){
         TagTypeModel preference = cardToPreferenceMap.get(card);
@@ -52,6 +58,12 @@ public class OnBoardingFragmentPage3 extends Fragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (OnBoardingWorkflowActivity) context;
     }
 
     public void initializeCardPreferenceMap(){

@@ -1,5 +1,8 @@
 package curatetechnologies.com.curate.network.services;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import org.json.JSONObject;
 
 import java.util.List;
@@ -11,8 +14,10 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by mremondi on 2/13/18.
@@ -36,4 +41,9 @@ public interface UserService {
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("createUser")
     Call<Integer> createUser(@Body CurateAPIUser user);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @GET("user/usernameAvailable")
+    Call<JsonObject> checkUsernameAvailable(@Query("username") String username);
+
 }

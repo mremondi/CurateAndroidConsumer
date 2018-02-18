@@ -5,6 +5,9 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import org.json.JSONObject;
 
 import curatetechnologies.com.curate.domain.model.UserModel;
@@ -89,5 +92,19 @@ public class UserRepository implements UserModelRepository {
         UserRoomDB db = Room.databaseBuilder(this.appContext,
                 UserRoomDB.class, UserRoomDB.DB_NAME).build();
         return db.userDAO().getUser();
+    }
+
+    public Boolean checkUsernameAvailable(String username){
+        Boolean available;
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            Response<JsonObject> response = userService.checkUsernameAvailable(username).execute();
+            available = response.body().get("isAvailable").getAsBoolean();
+            return available;
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+            available = false;
+        }
+        return available;
     }
 }

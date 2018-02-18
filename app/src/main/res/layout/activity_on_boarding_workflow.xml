@@ -20,18 +20,6 @@
 
     </curatetechnologies.com.curate.presentation.ui.views.subclasses.NonSwipableViewPager>
 
-    <Button
-        android:id="@+id/onboarding_next_button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/view_pager_indicator"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"
-        android:text="Next"/>
-
     <android.support.design.widget.TabLayout
         android:id="@+id/view_pager_indicator"
         android:layout_width="match_parent"

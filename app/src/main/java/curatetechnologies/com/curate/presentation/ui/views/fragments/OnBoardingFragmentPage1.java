@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,16 +18,21 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
+import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
+import curatetechnologies.com.curate.presentation.presenters.OnBoardingFragment1Contract;
+import curatetechnologies.com.curate.presentation.presenters.OnBoardingFragment1Presenter;
 import curatetechnologies.com.curate.presentation.ui.views.activities.OnBoardingWorkflowActivity;
+import curatetechnologies.com.curate.storage.UserRepository;
+import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 /**
  * Created by mremondi on 2/16/18.
  */
 
-public class OnBoardingFragmentPage1 extends Fragment {
-
+public class OnBoardingFragmentPage1 extends Fragment implements OnBoardingFragment1Contract.View {
+    OnBoardingWorkflowActivity activity;
     Unbinder unbinder;
-
+    private OnBoardingFragment1Contract mOnBoardUserPresenter;
 
     @BindView(R.id.fragment_onboarding_page1_username)
     EditText username;
@@ -34,6 +41,10 @@ public class OnBoardingFragmentPage1 extends Fragment {
     @BindView(R.id.fragment_onboarding_page1_last_name)
     EditText lastName;
 
+    @OnClick(R.id.fragment_onboarding_page1_next_button) void nextClick(){
+        mOnBoardUserPresenter.checkUsernameAvailable(username.getText().toString());
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +52,12 @@ public class OnBoardingFragmentPage1 extends Fragment {
                 R.layout.fragment_onboarding_page1, container, false);
 
         unbinder = ButterKnife.bind(this, rootView);
-
+        mOnBoardUserPresenter = new OnBoardingFragment1Presenter(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                UserRepository.getInstance(activity.getApplicationContext())
+        );
         return rootView;
     }
 
@@ -50,8 +66,40 @@ public class OnBoardingFragmentPage1 extends Fragment {
         unbinder.unbind();
     }
 
-    private boolean validateUsername(){
-        // TODO: Actually implement this method. Check the validity of the string and check that it's available on our backend
-        return true;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (OnBoardingWorkflowActivity) context;
+    }
+
+    @Override
+    public void usernameAvailable(Boolean available) {
+        if (available){
+            activity.user.setUsername(username.getText().toString());
+            activity.user.setFirstName(firstName.getText().toString());
+            activity.user.setLastName(firstName.getText().toString());
+            activity.mPager.setCurrentItem(2);
+        }
+        else{
+            username.getText().clear();
+            Toast.makeText(getContext(),
+                    "This username is already taken. Please enter another username",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
     }
 }

@@ -62,5 +62,17 @@
         android:textAlignment="center"
         android:hint="last name"/>
 
+    <Button
+        android:id="@+id/fragment_onboarding_page1_next_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:text="Next"/>
+
 
 </RelativeLayout>

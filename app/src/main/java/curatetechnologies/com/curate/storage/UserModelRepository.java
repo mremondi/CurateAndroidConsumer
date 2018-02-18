@@ -13,5 +13,6 @@ public interface UserModelRepository {
     UserModel loginUserEmailPassword(String email, String password);
     Boolean saveUser(UserModel userModel);
     UserModel getCurrentUser();
+    Boolean checkUsernameAvailable(String username);
 
 }
