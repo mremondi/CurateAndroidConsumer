@@ -34,16 +34,6 @@ public class OnBoardingFragmentPage1 extends Fragment {
     @BindView(R.id.fragment_onboarding_page1_last_name)
     EditText lastName;
 
-    @OnClick(R.id.fragment_onboarding_page1_next_button) void nextPage(){
-
-        if(validateUsername()) {
-            ((OnBoardingWorkflowActivity) getActivity()).mPager.setCurrentItem(2);
-        } else {
-            Toast.makeText(getContext(), "That username is already taken. Please enter a new username", Toast.LENGTH_LONG);
-            username.getText().clear();
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -9,13 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.TagTypeModel;
@@ -25,6 +25,8 @@ import curatetechnologies.com.curate.presentation.presenters.OnBoardUserPresente
 import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage0;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage1;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage2;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage3;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.OnBoardingFragmentPage4;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
@@ -47,6 +49,16 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
     public ViewPager mPager;
     @BindView(R.id.view_pager_indicator)
     TabLayout tabLayout;
+
+
+    @OnClick(R.id.onboarding_next_button) void nextPage(){
+        Integer index = mPager.getCurrentItem() + 1;
+        if (index > 4){
+            segueToMainApp();
+        }
+        mPager.setCurrentItem(index);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +143,12 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
                     return new OnBoardingFragmentPage1();
                 case 2:
                     return new OnBoardingFragmentPage2();
-//                case 3:
-//                    return new OnBoardingFragmentPage4();
-//                case 4:
-//                    return new OnBoardingFragmentPage5();
+                case 3:
+                    return new OnBoardingFragmentPage3();
+                case 4:
+                    return new OnBoardingFragmentPage4();
                 default:
-                    return new OnBoardingFragmentPage1();
+                    return null;
             }
         }
 

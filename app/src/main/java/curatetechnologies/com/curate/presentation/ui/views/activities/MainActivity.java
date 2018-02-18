@@ -8,15 +8,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
-
 
     @BindView(R.id.navigation) BottomNavigationView navigation;
 

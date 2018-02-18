@@ -22,10 +22,6 @@ public class OnBoardingFragmentPage0 extends Fragment {
 
     Unbinder unbinder;
 
-    @OnClick(R.id.fragment_onboarding_page1_next_button) void nextPage(){
-        ((OnBoardingWorkflowActivity)getActivity()).mPager.setCurrentItem(1);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
