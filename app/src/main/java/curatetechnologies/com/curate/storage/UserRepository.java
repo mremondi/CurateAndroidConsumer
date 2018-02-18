@@ -10,6 +10,9 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
+import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.CurateClient;
 import curatetechnologies.com.curate.network.converters.curate.UserConverter;
@@ -68,6 +71,7 @@ public class UserRepository implements UserModelRepository {
         Log.d("HERE", "in save user");
         UserService userService = CurateClient.getService(UserService.class);
 
+        // TODO: get the NETWORK call working!
         //CurateAPIUser user = new CurateAPIUser();
         //Call<Integer> saveUser = userService.createUser(user);
         //String bearerToken = "Bearer " + userModel.getCurateToken();
@@ -78,7 +82,6 @@ public class UserRepository implements UserModelRepository {
         // Cache userModel locally
         Log.d("HERE", "in save user try");
         return this.cacheUser(userModel);
-
     }
 
     private Boolean cacheUser(UserModel userModel){
@@ -87,6 +90,19 @@ public class UserRepository implements UserModelRepository {
         db.userDAO().insertUser(userModel);
         return true;
     }
+
+    @Override
+    public Boolean saveUserPreferences(List<TagTypeModel> preferences){
+        // TODO: get the NETWORK call working!
+        return true;
+    }
+
+    private Boolean cachePreferences(List<TagTypeModel> preferences){
+        // TODO: get the CACHE call working!
+        return true;
+    }
+
+
 
     public UserModel getCurrentUser(){
         UserRoomDB db = Room.databaseBuilder(this.appContext,

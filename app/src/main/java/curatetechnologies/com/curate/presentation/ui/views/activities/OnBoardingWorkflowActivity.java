@@ -137,6 +137,9 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
                     return new OnBoardingFragmentPage3();
                 case 4:
                     return new OnBoardingFragmentPage4();
+                case 5:
+                    mOnBoardUserPresenter.saveUser(user);
+                    mOnBoardUserPresenter.saveUserPreferences(preferences);
                 default:
                     return null;
             }

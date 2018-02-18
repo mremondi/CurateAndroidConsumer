@@ -36,12 +36,12 @@ public class OnBoardingFragmentPage4 extends Fragment {
     @OnClick({R.id.healthy_card, R.id.gluten_free_card, R.id.sweets_card})
     void cardClick(CardView card) {
         TagTypeModel preference = cardToPreferenceMap.get(card);
-        if (!((OnBoardingWorkflowActivity) getActivity()).containsPreference(preference)) {
+        if (activity.containsPreference(preference)) {
             card.setCardBackgroundColor(getResources().getColor(R.color.selectedGreen));
-            ((OnBoardingWorkflowActivity) getActivity()).addPreference(preference);
+            activity.addPreference(preference);
         } else {
             card.setCardBackgroundColor(getResources().getColor(R.color.white));
-            ((OnBoardingWorkflowActivity) getActivity()).removePreference(preference);
+            activity.removePreference(preference);
         }
     }
 

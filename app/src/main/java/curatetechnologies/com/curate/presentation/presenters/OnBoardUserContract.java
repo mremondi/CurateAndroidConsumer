@@ -1,5 +1,8 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import java.util.List;
+
+import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.presentation.ui.BaseView;
 
@@ -15,4 +18,6 @@ public interface OnBoardUserContract {
     }
 
     void getCurrentUser();
+    void saveUser(UserModel user);
+    void saveUserPreferences(List<TagTypeModel> preferences);
 }

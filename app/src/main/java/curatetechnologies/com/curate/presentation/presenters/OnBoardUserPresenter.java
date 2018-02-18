@@ -2,12 +2,17 @@ package curatetechnologies.com.curate.presentation.presenters;
 
 import android.util.Log;
 
+import java.util.List;
+
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
 import curatetechnologies.com.curate.domain.interactor.GetUserInteractor;
 import curatetechnologies.com.curate.domain.interactor.GetUserInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractor;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.SaveUserPreferencesInteractor;
+import curatetechnologies.com.curate.domain.interactor.SaveUserPreferencesInteractorImpl;
+import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.storage.UserModelRepository;
 
@@ -37,6 +42,30 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
                 mUserRepository
         );
         getUserInteractor.execute();
+    }
+
+    @Override
+    public void saveUser(UserModel user) {
+        SaveUserInteractor saveUserInteractor = new SaveUserInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository,
+                user
+        );
+        saveUserInteractor.execute();
+    }
+
+    @Override
+    public void saveUserPreferences(List<TagTypeModel> preferences) {
+        SaveUserPreferencesInteractor saveUserPreferencesInteractor = new SaveUserPreferencesInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository,
+                preferences
+        );
+        saveUserPreferencesInteractor.execute();
     }
 
     @Override
