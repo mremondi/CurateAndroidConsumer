@@ -1,7 +1,12 @@
 package curatetechnologies.com.curate.network.services;
 
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import curatetechnologies.com.curate.network.model.CurateAPIPreferencePost;
 import curatetechnologies.com.curate.network.model.CurateAPIUserGet;
 import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
@@ -41,5 +46,10 @@ public interface UserService {
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @GET("user/usernameAvailable")
     Call<JsonObject> checkUsernameAvailable(@Query("username") String username);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @POST("user/addPreferences")
+    Call<JsonNull> createUserPreferences(@Header("authorization") String token,
+                                         @Body CurateAPIPreferencePost preference);
 
 }

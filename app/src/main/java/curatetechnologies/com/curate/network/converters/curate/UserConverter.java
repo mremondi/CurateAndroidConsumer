@@ -22,7 +22,7 @@ public class UserConverter {
     }
 
     public static CurateAPIUserPost convertUserModelToCurateUserPost(UserModel userModel){
-        return new CurateAPIUserPost((int)userModel.getId(), userModel.getUsername(), userModel.getEmail(),
+        return new CurateAPIUserPost(userModel.getId(), userModel.getUsername(), userModel.getEmail(),
                 userModel.getLoyaltyPoints(), userModel.getFirstName(), userModel.getFullName(),
                 userModel.getLastName(), userModel.getBirthday(), userModel.getAge(), userModel.getGender(),
                 userModel.getProfilePictureURL(), userModel.getFacebookToken(), userModel.getGoogleToken(),

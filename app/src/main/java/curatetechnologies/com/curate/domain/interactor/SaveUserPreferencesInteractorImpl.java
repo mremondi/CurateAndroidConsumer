@@ -20,16 +20,19 @@ public class SaveUserPreferencesInteractorImpl extends AbstractInteractor implem
     private UserModelRepository mUserModelRepository;
 
     private List<TagTypeModel> mPreferences;
+    private UserModel mUserModel;
 
     public SaveUserPreferencesInteractorImpl(Executor threadExecutor,
                                   MainThread mainThread,
                                   SaveUserPreferencesInteractor.Callback callback,
                                   UserModelRepository userModelRepository,
+                                  UserModel userModel,
                                   List<TagTypeModel> preferences) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mUserModelRepository = userModelRepository;
         mPreferences = preferences;
+        this.mUserModel = userModel;
     }
 
     private void notifyError() {
@@ -53,10 +56,9 @@ public class SaveUserPreferencesInteractorImpl extends AbstractInteractor implem
 
     @Override
     public void run() {
-        Log.d("HERE", "IN RUN");
 
         // retrieve the message
-        boolean success = mUserModelRepository.saveUserPreferences(mPreferences);
+        boolean success = mUserModelRepository.saveUserPreferences(mUserModel, mPreferences);
 
         // check if we have failed to retrieve our message
         if (!success) {

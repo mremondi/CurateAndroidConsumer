@@ -15,7 +15,7 @@ public interface UserModelRepository {
 
     UserModel loginUserEmailPassword(String email, String password);
     Boolean saveUser(UserModel userModel, boolean remote);
-    Boolean saveUserPreferences(List<TagTypeModel> preferences);
+    Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences);
     UserModel getCurrentUser();
     Boolean checkUsernameAvailable(String username);
 

@@ -14,10 +14,11 @@ public interface OnBoardUserContract {
 
     interface View extends BaseView {
         void beginOnBoarding(UserModel user);
+        void saveUserPreferences();
         void segueToMainApp();
     }
 
     void getCurrentUser();
     void saveUser(UserModel user);
-    void saveUserPreferences(List<TagTypeModel> preferences);
+    void saveUserPreferences(UserModel user, List<TagTypeModel> preferences);
 }

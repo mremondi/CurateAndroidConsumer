@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,15 @@ public class OnBoardingFragmentPage3 extends Fragment {
 
     Map<CardView, TagTypeModel> cardToPreferenceMap = new HashMap<>();
 
+    @BindView(R.id.iced_card)
+    CardView icedCard;
+    @BindView(R.id.hot_card)
+    CardView hotCard;
+    @BindView(R.id.decaf_card)
+    CardView decafCard;
+    @BindView(R.id.caffeinated_card)
+    CardView caffeinatedCard;
+
     @OnClick(R.id.fragment_onboarding_page3_next_button) void nextClick(){
         activity.mPager.setCurrentItem(4);
 
@@ -36,7 +46,7 @@ public class OnBoardingFragmentPage3 extends Fragment {
 
     @OnClick({R.id.iced_card, R.id.hot_card, R.id.decaf_card, R.id.caffeinated_card}) void cardClick(CardView card){
         TagTypeModel preference = cardToPreferenceMap.get(card);
-        if (activity.containsPreference(preference)) {
+        if (!activity.containsPreference(preference)) {
             card.setCardBackgroundColor(getResources().getColor(R.color.selectedGreen));
             activity.addPreference(preference);
         } else {
@@ -68,6 +78,9 @@ public class OnBoardingFragmentPage3 extends Fragment {
 
     public void initializeCardPreferenceMap(){
         // TODO: UN HARDCODE THIS STUFF
-
+        cardToPreferenceMap.put(icedCard, new TagTypeModel(2, "Cold Drink", ""));
+        cardToPreferenceMap.put(hotCard, new TagTypeModel(1, "Hot Drink", ""));
+        cardToPreferenceMap.put(caffeinatedCard, new TagTypeModel(3, "Caffeinated", ""));
+        cardToPreferenceMap.put(decafCard, new TagTypeModel(4, "Decaf", ""));
     }
 }

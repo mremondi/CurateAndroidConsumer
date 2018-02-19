@@ -6,14 +6,17 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.CurateClient;
 import curatetechnologies.com.curate.network.converters.curate.UserConverter;
+import curatetechnologies.com.curate.network.model.CurateAPIPreferencePost;
 import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
 import curatetechnologies.com.curate.network.services.UserService;
@@ -70,7 +73,6 @@ public class UserRepository implements UserModelRepository {
                 String bearerToken = "Bearer " + userModel.getCurateToken();
                 Call<JsonObject> saveUser = userService.createUser(bearerToken, user);
                 Response<JsonObject> response = saveUser.execute();
-                userModel.setId(response.body().get("userID").getAsInt());
             } catch (Exception e) {
                 Log.d("network save user", "failure " + e.getLocalizedMessage());
             }
@@ -89,25 +91,32 @@ public class UserRepository implements UserModelRepository {
     }
 
     @Override
-    public Boolean saveUserPreferences(List<TagTypeModel> preferences){
+    public Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences){
         // TODO: get the NETWORK call working!
+        Log.d("SAVE user", "preferences");
+        ArrayList<Integer> tagIds = new ArrayList<>();
+        for (TagTypeModel preference: preferences){
+            tagIds.add(preference.getId());
+        }
+
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            String bearerToken = "Bearer " + userModel.getCurateToken();
+            CurateAPIPreferencePost preferencePost = new CurateAPIPreferencePost(userModel.getId(), tagIds);
+            Call<JsonNull> saveUserPreferences = userService.createUserPreferences(bearerToken, preferencePost);
+            Response<JsonNull> response = saveUserPreferences.execute();
+        } catch (Exception e) {
+            Log.d("network save preference", "failure " + e.getLocalizedMessage());
+            return false;
+        }
         return true;
     }
-
-    private Boolean cachePreferences(List<TagTypeModel> preferences){
-        // TODO: get the CACHE call working!
-        return true;
-    }
-
-
 
     public UserModel getCurrentUser(){
-        Log.d("GETTING CURRENT USER", "HERE line 105");
         SharedPreferences  prefs = appContext.getSharedPreferences("CURATE", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = prefs.getString("User", "");
         UserModel user = gson.fromJson(json, UserModel.class);
-        Log.d("GET CURRENT USER ID", String.valueOf(user.getId()));
         return user;
     }
 

@@ -13,10 +13,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentTop="true"
         android:padding="8dp"
-        android:textAlignment="center"
-        android:layout_above="@+id/fragment_onboarding_page3_top_cards"/>
+        android:textAlignment="center" />
 
     <RelativeLayout
         android:id="@+id/fragment_onboarding_page3_top_cards"
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@id/fragment_onboarding_page3_iced_or_hot">
 
         <android.support.v7.widget.CardView
             android:id="@+id/iced_card"

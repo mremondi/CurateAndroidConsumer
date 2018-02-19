@@ -59,12 +59,13 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
     }
 
     @Override
-    public void saveUserPreferences(List<TagTypeModel> preferences) {
+    public void saveUserPreferences(UserModel user, List<TagTypeModel> preferences) {
         SaveUserPreferencesInteractor saveUserPreferencesInteractor = new SaveUserPreferencesInteractorImpl(
                 mExecutor,
                 mMainThread,
                 this,
                 mUserRepository,
+                user,
                 preferences
         );
         saveUserPreferencesInteractor.execute();
@@ -72,17 +73,19 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
 
     @Override
     public void onUserPreferencesSaved() {
-        // TODO
+        Log.d("User preferences saved.", "Good");
+        mView.segueToMainApp();
     }
 
     @Override
     public void onSavePreferencesFailed(String error) {
-        mView.showError(error);
+        // Do nothing other than log
+        Log.d("User preferences save.", "Failed");
     }
 
     @Override
     public void onUserSaved() {
-        mView.segueToMainApp();
+        mView.saveUserPreferences();
     }
 
     @Override

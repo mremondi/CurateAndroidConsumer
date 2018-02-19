@@ -77,8 +77,8 @@ public class OnBoardingFragmentPage2 extends Fragment {
 
     public void initializeCardPreferenceMap(){
         // TODO: UN HARDCODE THIS STUFF
-        cardToPreferenceMap.put(espressoCard, new TagTypeModel(9, "Espresso", ""));
-        cardToPreferenceMap.put(espressoCard, new TagTypeModel(10, "Brewed Coffee", ""));
-        cardToPreferenceMap.put(espressoCard, new TagTypeModel(11, "Tea", ""));
+        cardToPreferenceMap.put(espressoCard, new TagTypeModel(8, "Espresso", ""));
+        cardToPreferenceMap.put(brewedCard, new TagTypeModel(9, "Brewed Coffee", ""));
+        cardToPreferenceMap.put(teaCard, new TagTypeModel(10, "Tea", ""));
     }
 }
