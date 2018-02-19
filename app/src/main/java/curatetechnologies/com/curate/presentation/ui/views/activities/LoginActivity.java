@@ -29,15 +29,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import curatetechnologies.com.curate.R;
+import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.converters.oauth.FacebookUserConverter;
 import curatetechnologies.com.curate.network.converters.oauth.GoogleUserConverter;
+import curatetechnologies.com.curate.presentation.presenters.LoginContract;
+import curatetechnologies.com.curate.presentation.presenters.LoginPresenter;
+import curatetechnologies.com.curate.storage.UserRepository;
+import curatetechnologies.com.curate.threading.MainThreadImpl;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View{
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
     private static final Integer RC_SIGN_IN = 0;
 
+    private LoginContract mLoginPresenter;
 
     CallbackManager callbackManager = CallbackManager.Factory.create();
     GoogleSignInClient mGoogleSignInClient;
@@ -70,6 +76,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mLoginPresenter = new LoginPresenter(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                UserRepository.getInstance(getApplicationContext())
+        );
 
         SharedPreferences pref = getSharedPreferences("CURATE", MODE_PRIVATE);
         pref.edit().clear().apply();
@@ -107,8 +120,11 @@ public class LoginActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
     }
 
-    private void updateUI(UserModel user){
-
+    @Override
+    public void updateUI(){
+        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
+        startActivity(i);
+        finish();
     }
 
     // -- BEGIN: FACEBOOK LOGIN METHODS
@@ -139,8 +155,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.d("JSON", object.toString());
                         UserModel user = FacebookUserConverter.apply(object, loginResult.getAccessToken().getToken());
+                        mLoginPresenter.saveUser(user);
                         Log.d("USER", user.getEmail());
-                        updateUI(user);
                     }
                 });
         Bundle parameters = new Bundle();
@@ -154,11 +170,26 @@ public class LoginActivity extends AppCompatActivity {
     private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            updateUI(GoogleUserConverter.apply(account));
+            mLoginPresenter.saveUser(GoogleUserConverter.apply(account));
         } catch (ApiException e) {
             Log.d("Error Google Account", e.getLocalizedMessage());
-            updateUI(null);
         }
     }
     // -- END: GOOGLE LOGIN METHODS
+
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
 }
