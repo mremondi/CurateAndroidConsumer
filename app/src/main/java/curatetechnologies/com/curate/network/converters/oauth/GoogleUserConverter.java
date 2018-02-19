@@ -15,7 +15,7 @@ public class GoogleUserConverter {
         String full_name = account.getDisplayName();
         String first_name = account.getGivenName();
         String last_name = account.getFamilyName();
-        UserModel.Gender gender = UserModel.Gender.UNKNOWN;
+        String gender = "";
         String birthday = "01/01/1901";
         String profilePictureUrl = (account.getPhotoUrl() != null) ? account.getPhotoUrl().toString() : "";
 

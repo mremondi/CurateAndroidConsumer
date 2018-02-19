@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by mremondi on 2/12/18.
  */
 
-public class CurateAPIUser {
+public class CurateAPIUserGet {
     @SerializedName("User_ID")
     @Expose
     private Integer userID;
@@ -50,6 +50,27 @@ public class CurateAPIUser {
     @SerializedName("User_InstagramToken")
     @Expose
     private String userInstagramToken;
+
+    public CurateAPIUserGet(Integer userID, String userUsername, String userEmail,
+                            Integer userLoyaltyPoints, String userFirstName, String userFullName,
+                            String userLastName, String userDOB, Integer userAge, String userGender,
+                            String userPicture, String userFacebookToken, String userGoogleToken,
+                            String userInstagramToken) {
+        this.userID = userID;
+        this.userUsername = userUsername;
+        this.userEmail = userEmail;
+        this.userLoyaltyPoints = userLoyaltyPoints;
+        this.userFirstName = userFirstName;
+        this.userFullName = userFullName;
+        this.userLastName = userLastName;
+        this.userDOB = userDOB;
+        this.userAge = userAge;
+        this.userGender = userGender;
+        this.userPicture = userPicture;
+        this.userFacebookToken = userFacebookToken;
+        this.userGoogleToken = userGoogleToken;
+        this.userInstagramToken = userInstagramToken;
+    }
 
     public Integer getUserID() {
         return userID;

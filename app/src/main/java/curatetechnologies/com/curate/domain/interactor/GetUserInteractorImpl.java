@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.domain.interactor;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -46,6 +47,7 @@ public class GetUserInteractorImpl extends AbstractInteractor implements GetUser
     @Override
     public void run() {
         // retrieve the message
+
         final UserModel user = mUserModelRepository.getCurrentUser();
         // check if we have failed to retrieve our message
         if (user == null){

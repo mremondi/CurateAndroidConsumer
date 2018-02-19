@@ -43,6 +43,8 @@ public class OnBoardingFragmentPage1 extends Fragment implements OnBoardingFragm
 
     @OnClick(R.id.fragment_onboarding_page1_next_button) void nextClick(){
         mOnBoardUserPresenter.checkUsernameAvailable(username.getText().toString());
+        activity.mPager.setCurrentItem(2);
+
     }
 
     @Override
@@ -82,9 +84,8 @@ public class OnBoardingFragmentPage1 extends Fragment implements OnBoardingFragm
         }
         else{
             username.getText().clear();
-            Toast.makeText(getContext(),
-                    "This username is already taken. Please enter another username",
-                    Toast.LENGTH_LONG).show();
+            username.setHintTextColor(getResources().getColor(R.color.colorAccent));
+            username.setHint("Username taken. Please try another username");
         }
     }
 

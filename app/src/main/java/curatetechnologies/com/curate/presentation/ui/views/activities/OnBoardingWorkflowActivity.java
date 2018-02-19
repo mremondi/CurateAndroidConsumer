@@ -9,13 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.TagTypeModel;
@@ -87,9 +87,16 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
         this.preferences.remove(preference);
     }
 
+
     @Override
     public void beginOnBoarding(UserModel user) {
+        Log.d("USER MODEL", user.getEmail());
         this.user = user;
+    }
+
+    public void completeOnBoarding(){
+        mOnBoardUserPresenter.saveUser(user);
+        mOnBoardUserPresenter.saveUserPreferences(preferences);
     }
 
     @Override
@@ -137,9 +144,6 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
                     return new OnBoardingFragmentPage3();
                 case 4:
                     return new OnBoardingFragmentPage4();
-                case 5:
-                    mOnBoardUserPresenter.saveUser(user);
-                    mOnBoardUserPresenter.saveUserPreferences(preferences);
                 default:
                     return null;
             }

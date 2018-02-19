@@ -29,7 +29,7 @@ public class OnBoardingFragmentPage4 extends Fragment {
     Map<CardView, TagTypeModel> cardToPreferenceMap = new HashMap<>();
 
     @OnClick(R.id.fragment_onboarding_page4_next_button) void nextClick(){
-        activity.mPager.setCurrentItem(5);
+        activity.completeOnBoarding();
 
     }
 

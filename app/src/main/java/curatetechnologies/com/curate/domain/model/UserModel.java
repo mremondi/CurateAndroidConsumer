@@ -1,20 +1,7 @@
 package curatetechnologies.com.curate.domain.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 
-import curatetechnologies.com.curate.storage.local.UserRoomDB;
-
-@Entity(tableName = UserRoomDB.TABLE_NAME)
 public class UserModel {
-
-    public enum Gender {
-        MALE,
-        FEMALE,
-        UNKNOWN
-    }
-    @PrimaryKey
     private int id;
     private String username;
     private String email;
@@ -24,8 +11,7 @@ public class UserModel {
     private String lastName;
     private String birthday;
     private int age;
-    @Ignore
-    private Gender gender;
+    private String gender;
     private String profilePictureURL;
     private String facebookToken;
     private String googleToken;
@@ -34,7 +20,7 @@ public class UserModel {
     public UserModel(){}
 
     public UserModel(int id, String username, String email, int loyaltyPoints, String fullName,
-                     String firstName, String lastName, String birthday, int age, Gender gender,
+                     String firstName, String lastName, String birthday, int age, String gender,
                      String profilePictureURL, String facebookToken, String googleToken, String curateToken) {
         this.id = id;
         this.username = username;
@@ -124,11 +110,11 @@ public class UserModel {
         this.age = age;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

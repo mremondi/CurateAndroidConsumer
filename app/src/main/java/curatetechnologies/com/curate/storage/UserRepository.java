@@ -2,13 +2,11 @@ package curatetechnologies.com.curate.storage;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
-import android.util.Pair;
 
-import com.google.gson.JsonElement;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -16,13 +14,13 @@ import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.CurateClient;
 import curatetechnologies.com.curate.network.converters.curate.UserConverter;
-import curatetechnologies.com.curate.network.model.CurateAPIUser;
+import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
 import curatetechnologies.com.curate.network.services.UserService;
-import curatetechnologies.com.curate.storage.local.UserRoomDB;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by mremondi on 2/13/18.
@@ -53,9 +51,6 @@ public class UserRepository implements UserModelRepository {
         UserService userService = CurateClient.getService(UserService.class);
         try {
             Response<CurateRegisterUser> response = userService.registerUserEmail(email, password).execute();
-            Log.d("REPO", response.body().toString());
-            Log.d("JWT", response.body().getToken());
-            Log.d("User", response.body().getUser().getEmail());
             jwt = response.body().getToken();
             user = UserConverter.convertRegisteredUserToUserModel(response.body(), jwt);
             return user;
@@ -66,28 +61,30 @@ public class UserRepository implements UserModelRepository {
     }
 
     @Override
-    public Boolean saveUser(final UserModel userModel) {
+    public Boolean saveUser(final UserModel userModel, boolean remote) {
         // save user to DB
-        Log.d("HERE", "in save user");
         UserService userService = CurateClient.getService(UserService.class);
-
-        // TODO: get the NETWORK call working!
-        //CurateAPIUser user = new CurateAPIUser();
-        //Call<Integer> saveUser = userService.createUser(user);
-        //String bearerToken = "Bearer " + userModel.getCurateToken();
-        //saveUser.request().newBuilder().addHeader("Authorization", bearerToken);
-        //Response<Integer> response = saveUser.execute();
-        //Log.d("SUCCESS!", response.body().toString());
-       // userModel.setId(response.body());
-        // Cache userModel locally
-        Log.d("HERE", "in save user try");
+        if (remote) {
+            try {
+                CurateAPIUserPost user = UserConverter.convertUserModelToCurateUserPost(userModel);
+                String bearerToken = "Bearer " + userModel.getCurateToken();
+                Call<JsonObject> saveUser = userService.createUser(bearerToken, user);
+                Response<JsonObject> response = saveUser.execute();
+                userModel.setId(response.body().get("userID").getAsInt());
+            } catch (Exception e) {
+                Log.d("network save user", "failure " + e.getLocalizedMessage());
+            }
+        }
         return this.cacheUser(userModel);
     }
 
     private Boolean cacheUser(UserModel userModel){
-        UserRoomDB db = Room.databaseBuilder(this.appContext,
-                UserRoomDB.class, UserRoomDB.DB_NAME).build();
-        db.userDAO().insertUser(userModel);
+        SharedPreferences  prefs = appContext.getSharedPreferences("CURATE", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(userModel);
+        prefsEditor.putString("User", json);
+        prefsEditor.apply();
         return true;
     }
 
@@ -105,9 +102,13 @@ public class UserRepository implements UserModelRepository {
 
 
     public UserModel getCurrentUser(){
-        UserRoomDB db = Room.databaseBuilder(this.appContext,
-                UserRoomDB.class, UserRoomDB.DB_NAME).build();
-        return db.userDAO().getUser();
+        Log.d("GETTING CURRENT USER", "HERE line 105");
+        SharedPreferences  prefs = appContext.getSharedPreferences("CURATE", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("User", "");
+        UserModel user = gson.fromJson(json, UserModel.class);
+        Log.d("GET CURRENT USER ID", String.valueOf(user.getId()));
+        return user;
     }
 
     public Boolean checkUsernameAvailable(String username){

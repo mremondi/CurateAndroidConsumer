@@ -17,16 +17,19 @@ public class SaveUserInteractorImpl extends AbstractInteractor implements SaveUs
     private UserModelRepository mUserModelRepository;
 
     private UserModel mUser;
+    private boolean remote;
 
     public SaveUserInteractorImpl(Executor threadExecutor,
-                                     MainThread mainThread,
-                                     SaveUserInteractor.Callback callback,
-                                     UserModelRepository userModelRepository,
-                                     UserModel userModel) {
+                                  MainThread mainThread,
+                                  SaveUserInteractor.Callback callback,
+                                  UserModelRepository userModelRepository,
+                                  UserModel userModel,
+                                  boolean remote) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mUserModelRepository = userModelRepository;
         mUser = userModel;
+        this.remote = remote;
     }
 
     private void notifyError() {
@@ -50,13 +53,8 @@ public class SaveUserInteractorImpl extends AbstractInteractor implements SaveUs
 
     @Override
     public void run() {
-        Log.d("HERE", "IN RUN");
-
         // retrieve the message
-        boolean success = mUserModelRepository.saveUser(mUser);
-
-        String userEmail = mUserModelRepository.getCurrentUser().getEmail();
-        Log.d("USER EMAIL", userEmail);
+        boolean success = mUserModelRepository.saveUser(mUser, remote);
 
         // check if we have failed to retrieve our message
         if (!success) {
@@ -66,7 +64,6 @@ public class SaveUserInteractorImpl extends AbstractInteractor implements SaveUs
 
             return;
         }
-
         // we have retrieved our message, notify the UI on the main thread
         postSuccess();
     }

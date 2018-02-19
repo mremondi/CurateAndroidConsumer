@@ -25,15 +25,7 @@ public class FacebookUserConverter {
             String full_name = userData.has("name") ? userData.getString("name") : "";
             String first_name = userData.has("first_name") ? userData.getString("first_name") : "";
             String last_name = userData.has("last_name") ? userData.getString("last_name") : "";
-            String g = userData.has("gender") ? userData.getString("gender") : "";
-            UserModel.Gender gender;
-            if (g.equals("male")){
-                gender = UserModel.Gender.MALE;
-            } else if (g.equals("female")){
-                gender = UserModel.Gender.FEMALE;
-            } else {
-                gender = UserModel.Gender.UNKNOWN;
-            }
+            String gender = userData.has("gender") ? userData.getString("gender") : "";
             String birthday = "01/01/1901";
             String profilePictureUrl = "https://graph.facebook.com/" + facebookId + "/picture?width=500&height=500";
             //userData.getJSONObject("picture").getJSONObject("data").getString("url");

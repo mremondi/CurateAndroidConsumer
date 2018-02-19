@@ -21,7 +21,8 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  */
 
 public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUserContract,
-        SaveUserInteractor.Callback, GetUserInteractor.Callback{
+        SaveUserInteractor.Callback, GetUserInteractor.Callback,
+        SaveUserPreferencesInteractor.Callback{
 
     private OnBoardUserContract.View mView;
     private UserModelRepository mUserRepository;
@@ -51,7 +52,8 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
                 mMainThread,
                 this,
                 mUserRepository,
-                user
+                user,
+                true
         );
         saveUserInteractor.execute();
     }
@@ -66,6 +68,16 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
                 preferences
         );
         saveUserPreferencesInteractor.execute();
+    }
+
+    @Override
+    public void onUserPreferencesSaved() {
+        // TODO
+    }
+
+    @Override
+    public void onSavePreferencesFailed(String error) {
+        mView.showError(error);
     }
 
     @Override

@@ -14,7 +14,7 @@ import curatetechnologies.com.curate.domain.model.UserModel;
 public interface UserModelRepository {
 
     UserModel loginUserEmailPassword(String email, String password);
-    Boolean saveUser(UserModel userModel);
+    Boolean saveUser(UserModel userModel, boolean remote);
     Boolean saveUserPreferences(List<TagTypeModel> preferences);
     UserModel getCurrentUser();
     Boolean checkUsernameAvailable(String username);

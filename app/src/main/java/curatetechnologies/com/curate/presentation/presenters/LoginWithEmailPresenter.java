@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.util.Log;
 import android.util.Pair;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -49,7 +50,8 @@ public class LoginWithEmailPresenter extends AbstractPresenter implements LoginW
                 mMainThread,
                 this,
                 mUserRepository,
-                user
+                user,
+                false
         );
         saveUserInteractor.execute();
 
