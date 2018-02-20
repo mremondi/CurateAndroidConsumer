@@ -46,16 +46,7 @@ public class GetUserInteractorImpl extends AbstractInteractor implements GetUser
 
     @Override
     public void run() {
-        // retrieve the message
-
         final UserModel user = mUserModelRepository.getCurrentUser();
-        // check if we have failed to retrieve our message
-        if (user == null){
-            Log.d("User is ", "null");
-            notifyError();
-            return;
-        }
         postUser(user);
-
     }
 }

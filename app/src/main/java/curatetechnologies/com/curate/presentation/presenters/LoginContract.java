@@ -10,7 +10,9 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
 public interface LoginContract {
 
     interface View extends BaseView {
+        void segueToMainApp();
         void updateUI();
     }
+    void getCurrentUser();
     void saveUser(UserModel user);
 }

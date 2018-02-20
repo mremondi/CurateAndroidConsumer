@@ -2,6 +2,8 @@ package curatetechnologies.com.curate.presentation.presenters;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
+import curatetechnologies.com.curate.domain.interactor.GetUserInteractor;
+import curatetechnologies.com.curate.domain.interactor.GetUserInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.LoginWithEmailInteractor;
 import curatetechnologies.com.curate.domain.interactor.LoginWithEmailInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractor;
@@ -14,7 +16,7 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  */
 
 public class LoginPresenter extends AbstractPresenter implements LoginContract,
-        SaveUserInteractor.Callback {
+        GetUserInteractor.Callback, SaveUserInteractor.Callback {
 
     private LoginContract.View mView;
     private UserModelRepository mUserRepository;
@@ -28,6 +30,17 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
 
     // -- BEGIN LOGIN CONTRACT METHODS
     @Override
+    public void getCurrentUser() {
+        GetUserInteractor getUserInteractor = new GetUserInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository
+        );
+        getUserInteractor.execute();
+    }
+
+    @Override
     public void saveUser(UserModel user) {
         SaveUserInteractor saveUserInteractor = new SaveUserInteractorImpl(
                 mExecutor,
@@ -40,6 +53,22 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
         saveUserInteractor.execute();
     }
     // -- END LOGIN CONTRACT METHODS
+
+    // -- BEGIN GET USER CALLBACK METHODS
+
+    @Override
+    public void onUserRetrieved(UserModel user) {
+        if (user != null) {
+            mView.segueToMainApp();
+        }
+    }
+
+    @Override
+    public void onRetrieveUserFailed(String error) {
+        mView.showError(error);
+    }
+
+    // -- END GET USER CALLBACK METHODS
 
     // -- BEGIN SAVE USER CALLBACK METHODS
     @Override

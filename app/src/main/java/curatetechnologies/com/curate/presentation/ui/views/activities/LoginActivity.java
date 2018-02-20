@@ -83,9 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 this,
                 UserRepository.getInstance(getApplicationContext())
         );
-
-        SharedPreferences pref = getSharedPreferences("CURATE", MODE_PRIVATE);
-        pref.edit().clear().apply();
+        mLoginPresenter.getCurrentUser();
 
         ButterKnife.bind(this);
         setUpFacebookLoginCallback();
@@ -94,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+
     }
 
     @Override
@@ -118,6 +118,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         callbackManager.onActivityResult(requestCode, resultCode, data);
         // GOOGLE
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+    }
+
+    @Override
+    public void segueToMainApp(){
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
