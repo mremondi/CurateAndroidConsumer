@@ -3,6 +3,9 @@ package curatetechnologies.com.curate.presentation.ui.views.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,8 @@ import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantContract;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantPresenter;
+import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantMenusAdapter;
+import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.RestaurantRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
@@ -34,6 +39,8 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
 
     @BindView(R.id.fragment_restaurant_logo)
     ImageView ivRestaurantLogo;
+    @BindView(R.id.fragment_restaurant_menu_recyclerview)
+    RecyclerView menuRecyclerView;
 
     @Nullable
     @Override
@@ -51,6 +58,8 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
                 new RestaurantRepository());
 
         mRestaurantPresenter.getRestaurantById(restaurantId);
+        menuRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
         return v;
     }
 
@@ -62,6 +71,27 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     @Override
     public void displayRestaurant(RestaurantModel restaurant) {
         Glide.with(this).load(restaurant.getLogoURL()).into(ivRestaurantLogo);
+        Log.d("MENU 0", restaurant.getMenus().get(0).getName());
+
+        // set up recyclerview
+        RecyclerViewClickListener listener = new RecyclerViewClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                // TODO: SWITCH THIS BACK TO JUST PASS THE WHOLE ITEM
+//                Integer itemId = items.get(position).getId();
+//                Fragment itemFragment = new ItemFragment();
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(ItemFragment.ITEM_ID, itemId);
+//                itemFragment.setArguments(bundle);
+//
+//                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+//                FragmentTransaction transaction = fm.beginTransaction();
+//                transaction.replace(R.id.content_frame, itemFragment);
+//                transaction.commit();
+            }
+        };
+        menuRecyclerView.setAdapter(new RestaurantMenusAdapter(restaurant.getMenus(), listener));
 
     }
 

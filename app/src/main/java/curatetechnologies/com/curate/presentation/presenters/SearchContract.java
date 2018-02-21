@@ -19,5 +19,5 @@ public interface SearchContract {
     }
 
     void searchItems(String query, Location location, Integer userId, Float radius);
-    void searchRestaurants(String query);
+    void searchRestaurants(String query, Location location, Integer userId, Float radius);
 }

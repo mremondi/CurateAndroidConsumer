@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.storage;
 
+import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,13 +19,19 @@ import retrofit2.Response;
 
 public class RestaurantRepository implements RestaurantModelRepository {
     @Override
-    public List<RestaurantModel> searchRestaurants(String query) {
+    public List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles) {
         final List<RestaurantModel> restaurants = new ArrayList<>();
 
         // make network call
         RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
         try {
-            Response<List<CurateAPIRestaurant>> response = restaurantService.searchRestaurants(query).execute();
+            Response<List<CurateAPIRestaurant>> response = restaurantService
+                    .searchRestaurants(query,
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            userId,
+                            radiusMiles)
+                    .execute();
             Log.d("BODY", response.body().toString());
             for (CurateAPIRestaurant restaurant: response.body()){
                 restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));

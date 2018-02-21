@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.storage;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
@@ -10,6 +12,6 @@ import curatetechnologies.com.curate.domain.model.RestaurantModel;
 
 public interface RestaurantModelRepository {
 
-    List<RestaurantModel> searchRestaurants(String query);
+    List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles);
     RestaurantModel getRestaurantById(Integer restaurantId);
 }

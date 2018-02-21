@@ -108,7 +108,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                         mSearchPresenter.searchItems(query, location, userId, radius);
                         break;
                     case RESTAURANT_SEARCH:
-                        mSearchPresenter.searchRestaurants(query);
+                        mSearchPresenter.searchRestaurants(query, location, userId, radius);
                 }
 
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

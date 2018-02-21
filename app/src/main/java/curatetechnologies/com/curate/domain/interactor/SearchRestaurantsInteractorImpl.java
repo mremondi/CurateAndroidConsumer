@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.domain.interactor;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -19,16 +21,25 @@ public class SearchRestaurantsInteractorImpl extends AbstractInteractor implemen
     private RestaurantModelRepository mRestaurantModelRepository;
 
     private String mQuery;
+    private Location mLocation;
+    private Integer mUserId;
+    private Float mRadius;
 
     public SearchRestaurantsInteractorImpl(Executor threadExecutor,
-                                     MainThread mainThread,
-                                     Callback callback,
-                                     RestaurantModelRepository restaurantModelRepository,
-                                     String query) {
+                                           MainThread mainThread,
+                                           Callback callback,
+                                           RestaurantModelRepository restaurantModelRepository,
+                                           String query,
+                                           Location location,
+                                           Integer userId,
+                                           Float radius) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mRestaurantModelRepository = restaurantModelRepository;
         mQuery = query;
+        mLocation = location;
+        mUserId = userId;
+        mRadius = radius;
     }
 
     private void notifyError() {
@@ -54,7 +65,8 @@ public class SearchRestaurantsInteractorImpl extends AbstractInteractor implemen
     public void run() {
 
         // retrieve the message
-        final List<RestaurantModel> restaurants = mRestaurantModelRepository.searchRestaurants(mQuery);
+        final List<RestaurantModel> restaurants = mRestaurantModelRepository
+                .searchRestaurants(mQuery, mLocation, mUserId, mRadius);
 
         // check if we have failed to retrieve our message
         if (restaurants == null || restaurants.size() == 0) {
