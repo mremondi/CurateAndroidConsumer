@@ -34,6 +34,7 @@ import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
+import curatetechnologies.com.curate.storage.LocationRepository;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
+                            LocationRepository.getInstance(getApplicationContext()).setLastLocation(mLastLocation);
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar("No location detected.");

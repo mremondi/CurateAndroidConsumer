@@ -3,6 +3,8 @@ package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
+import curatetechnologies.com.curate.config.Constants;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
@@ -32,7 +35,9 @@ import curatetechnologies.com.curate.presentation.ui.adapters.ItemSearchAdapter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantSearchAdapter;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.ItemRepository;
+import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.RestaurantRepository;
+import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 
@@ -94,10 +99,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Location location = getLocation();
+                Integer userId = getUserId();
+                Float radius = getRadius();
                 // Make request
                 switch (searchType) {
                     case ITEM_SEARCH:
-                        mSearchPresenter.searchItems(query);
+                        mSearchPresenter.searchItems(query, location, userId, radius);
                         break;
                     case RESTAURANT_SEARCH:
                         mSearchPresenter.searchRestaurants(query);
@@ -188,4 +196,17 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     }
 
     // -- END: SearchPresenter.View methods
+
+    private Integer getUserId(){
+        UserRepository userRepository = UserRepository.getInstance(getContext());
+        return userRepository.getCurrentUser().getId();
+    }
+
+    private Location getLocation(){
+        return LocationRepository.getInstance(getContext()).getLastLocation();
+    }
+
+    private Float getRadius(){
+        return LocationRepository.getInstance(getContext()).getRadius();
+    }
 }

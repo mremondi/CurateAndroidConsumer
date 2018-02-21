@@ -1,9 +1,13 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
+import curatetechnologies.com.curate.domain.interactor.GetUserInteractor;
+import curatetechnologies.com.curate.domain.interactor.GetUserInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SearchItemsInteractor;
 import curatetechnologies.com.curate.domain.interactor.SearchItemsInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SearchRestaurantsInteractor;
@@ -34,13 +38,16 @@ public class SearchPresenter extends AbstractPresenter implements SearchContract
 
     // -- BEGIN: SearchContract methods
     @Override
-    public void searchItems(String query) {
+    public void searchItems(String query, Location location, Integer userId, Float radius) {
         SearchItemsInteractor searchItemsInteractor = new SearchItemsInteractorImpl(
                 mExecutor,
                 mMainThread,
                 this,
                 mItemRepository,
-                query
+                query,
+                location,
+                userId,
+                radius
         );
         searchItemsInteractor.execute();
     }

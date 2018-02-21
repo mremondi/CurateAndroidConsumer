@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.storage;
 
+import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -15,13 +16,15 @@ import retrofit2.Response;
 public class ItemRepository implements ItemModelRepository {
 
     @Override
-    public List<ItemModel> searchItems(String query) {
+    public List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius) {
         final List<ItemModel> items = new ArrayList<>();
 
         // make network call
         ItemService itemService = CurateClient.getService(ItemService.class);
         try {
-            Response<List<CurateAPIItem>> response = itemService.searchItems(query).execute();
+            Response<List<CurateAPIItem>> response = itemService
+                    .searchItems(query, userId, location.getLatitude(), location.getLongitude(), radius)
+                    .execute();
             for (CurateAPIItem item: response.body()){
                 items.add(ItemConverter.convertCurateItemToItemModel(item));
             }

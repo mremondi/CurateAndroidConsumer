@@ -1,5 +1,11 @@
 package curatetechnologies.com.curate.domain.interactor;
 
+import android.location.Location;
+import android.location.LocationManager;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -17,16 +23,25 @@ public class SearchItemsInteractorImpl extends AbstractInteractor implements Sea
     private ItemModelRepository mItemModelRepository;
 
     private String mQuery;
+    private Location mLocation;
+    private Integer mUserId;
+    private Float mRadius;
 
     public SearchItemsInteractorImpl(Executor threadExecutor,
                                      MainThread mainThread,
                                      Callback callback,
                                      ItemModelRepository itemModelRepository,
-                                     String query) {
+                                     String query,
+                                     Location location,
+                                     Integer userId,
+                                     Float radius) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mItemModelRepository = itemModelRepository;
         mQuery = query;
+        mLocation = location;
+        mUserId = userId;
+        mRadius = radius;
     }
 
     private void notifyError() {
@@ -50,9 +65,7 @@ public class SearchItemsInteractorImpl extends AbstractInteractor implements Sea
 
     @Override
     public void run() {
-
-        // retrieve the message
-        final List<ItemModel> items = mItemModelRepository.searchItems(mQuery);
+    final List<ItemModel> items = mItemModelRepository.searchItems(mQuery, mLocation, mUserId, mRadius);
 
         // check if we have failed to retrieve our message
         if (items == null || items.size() == 0) {

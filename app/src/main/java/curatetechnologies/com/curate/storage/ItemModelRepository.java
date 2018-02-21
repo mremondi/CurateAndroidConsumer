@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.storage;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
@@ -10,6 +12,6 @@ import curatetechnologies.com.curate.domain.model.ItemModel;
 
 public interface ItemModelRepository {
 
-    List<ItemModel> searchItems(String query);
+    List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius);
     ItemModel getItemById(Integer itemId);
 }

@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import curatetechnologies.com.curate.config.Constants;
 import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.CurateClient;
@@ -33,7 +34,7 @@ public class UserRepository implements UserModelRepository {
 
     private static UserRepository INSTANCE = null;
 
-    Context appContext;
+    private Context appContext;
 
     private UserRepository(Context appContext){
         this.appContext = appContext;
@@ -81,19 +82,17 @@ public class UserRepository implements UserModelRepository {
     }
 
     private Boolean cacheUser(UserModel userModel){
-        SharedPreferences  prefs = appContext.getSharedPreferences("CURATE", MODE_PRIVATE);
+        SharedPreferences  prefs = appContext.getSharedPreferences(Constants.CURATE_SHARED_PREFERENCE_KEY, MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(userModel);
-        prefsEditor.putString("User", json);
+        prefsEditor.putString(Constants.USER_SHARED_PREFERENCE_KEY, json);
         prefsEditor.apply();
         return true;
     }
 
     @Override
     public Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences){
-        // TODO: get the NETWORK call working!
-        Log.d("SAVE user", "preferences");
         ArrayList<Integer> tagIds = new ArrayList<>();
         for (TagTypeModel preference: preferences){
             tagIds.add(preference.getId());
@@ -113,9 +112,9 @@ public class UserRepository implements UserModelRepository {
     }
 
     public UserModel getCurrentUser(){
-        SharedPreferences  prefs = appContext.getSharedPreferences("CURATE", MODE_PRIVATE);
+        SharedPreferences  prefs = appContext.getSharedPreferences(Constants.CURATE_SHARED_PREFERENCE_KEY, MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = prefs.getString("User", "");
+        String json = prefs.getString(Constants.USER_SHARED_PREFERENCE_KEY, "");
         UserModel user = gson.fromJson(json, UserModel.class);
         return user;
     }

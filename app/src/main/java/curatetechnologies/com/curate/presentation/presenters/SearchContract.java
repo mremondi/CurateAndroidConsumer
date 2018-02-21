@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
@@ -16,6 +18,6 @@ public interface SearchContract {
         void displayRestaurants(List<RestaurantModel> restaurants);
     }
 
-    void searchItems(String query);
+    void searchItems(String query, Location location, Integer userId, Float radius);
     void searchRestaurants(String query);
 }
