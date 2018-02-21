@@ -12,7 +12,7 @@
         android:layout_marginBottom="1dp"
         android:padding="2dp"
         android:clickable="true"
-        android:background="@drawable/item_info_row_background">
+        android:background="@drawable/white_view_background">
         <ImageView
             android:id="@+id/fragment_item_item_info_restaurant_icon"
             android:layout_width="20dp"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/lightGrayText"
+                android:textColor="@color/lightGray"
                 android:text="26 Everett Ave, Winchester, MA 01890"/>
         </LinearLayout>
     </RelativeLayout>
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:background="@drawable/item_info_row_background"
+        android:background="@drawable/white_view_background"
         android:layout_marginBottom="1dp"
         android:padding="2dp">
         <ImageView
@@ -86,7 +86,7 @@
         android:id="@+id/fragment_item_tag_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_info_row_background"
+        android:background="@drawable/white_view_background"
         android:clickable="true"
         android:layout_marginBottom="1dp"
         android:padding="2dp">

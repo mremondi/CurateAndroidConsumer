@@ -11,4 +11,5 @@ import curatetechnologies.com.curate.domain.model.RestaurantModel;
 public interface RestaurantModelRepository {
 
     List<RestaurantModel> searchRestaurants(String query);
+    RestaurantModel getRestaurantById(Integer restaurantId);
 }

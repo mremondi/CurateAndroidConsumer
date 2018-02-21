@@ -19,10 +19,10 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract, Ge
     private ItemModelRepository mItemRepository;
 
     public ItemPresenter(Executor executor, MainThread mainThread,
-                               View view, ItemModelRepository messageRepository) {
+                               View view, ItemModelRepository itemModelRepository) {
         super(executor, mainThread);
         mView = view;
-        mItemRepository = messageRepository;
+        mItemRepository = itemModelRepository;
     }
 
     // -- BEGIN: ItemContract methods

@@ -14,12 +14,14 @@ public class ItemModel{
     private String price;
     private String rating;
     private String restaurantName;
+    private Integer restaurantId;
     private String menuName;
+    private Integer menuId;
     private String menuSectionName;
 
     public ItemModel(Integer id, String name, String description, String imageURL, String distance_in_mi,
                      String price, String rating, String restaurantName, String menuName,
-                     String menuSectionName){
+                     String menuSectionName, Integer restaurantId, Integer menuId){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,6 +32,8 @@ public class ItemModel{
         this.restaurantName = restaurantName;
         this.menuName = menuName;
         this.menuSectionName = menuSectionName;
+        this.restaurantId = restaurantId;
+        this.menuId = menuId;
     }
 
     public String getName() {
@@ -110,5 +114,21 @@ public class ItemModel{
 
     public void setMenuSectionName(String menuSectionName) {
         this.menuSectionName = menuSectionName;
+    }
+
+    public Integer getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Integer restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public Integer getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 }

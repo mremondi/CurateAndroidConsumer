@@ -14,13 +14,16 @@ import retrofit2.http.Query;
 
 public interface RestaurantService {
 
-    /* @param {string} nameLike - REQUIRED */
-    /* @param {string} userId - OPTIONAL */
-    /* @param {int} lat - OPTIONAL */
-    /* @param {int} lon - OPTIONAL */
-    /* @param {string} filter - OPTIONAL */
-    /* @param {int} radiusMiles - OPTIONAL (REQUIRES lat/lon)*/
+    /* @param {int} restaurantId - OPTIONAL */
+    /* @param {int} userId - OPTIONAL */
+    /* @param {string} nameLike - OPTIONAL */
+    /* @param {int} limit - OPTIONAL */
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @GET("restaurants")
     Call<List<CurateAPIRestaurant>> searchRestaurants(@Query("nameLike") String query);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @GET("restaurants")
+    Call<List<CurateAPIRestaurant>> getRestaurantById(@Query("restaurantId") Integer restaurantId);
+
 }

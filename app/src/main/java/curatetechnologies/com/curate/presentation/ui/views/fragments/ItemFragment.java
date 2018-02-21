@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,8 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     private ItemPresenter mItemPresenter;
 
+    private ItemModel mItem;
+
     Unbinder unbinder;
 
     @BindView(R.id.fragment_item_title)
@@ -68,6 +71,16 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     @OnClick(R.id.fragment_item_restaurant_row) void onRestaurantRowClick(View view){
         Log.d("CLICKED", "RESTAURANT ROW");
+        Fragment restaurantFragment = new RestaurantFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(RestaurantFragment.RESTAURANT_ID, mItem.getRestaurantId());
+        restaurantFragment.setArguments(bundle);
+
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.content_frame, restaurantFragment);
+        transaction.commit();
     }
 
     @OnClick(R.id.fragment_item_menu_row) void onMenuRowClick(){
@@ -120,6 +133,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     // -- BEGIN ItemContract.View methods
     @Override
     public void displayItem(ItemModel item) {
+        mItem = item;
         tvItemTitle.setText(item.getName() + " - " + item.getRestaurantName());
         tvItemName.setText(item.getName());
         if (item.getImageURL() != null){

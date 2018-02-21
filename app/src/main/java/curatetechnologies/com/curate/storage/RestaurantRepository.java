@@ -34,4 +34,19 @@ public class RestaurantRepository implements RestaurantModelRepository {
         }
         return restaurants;
     }
+
+    @Override
+    public RestaurantModel getRestaurantById(Integer restaurantId) {
+        final RestaurantModel restaurant;
+        RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
+        try {
+            Response<List<CurateAPIRestaurant>> response = restaurantService.getRestaurantById(restaurantId).execute();
+            Log.d("BODY", response.body().toString());
+            restaurant = RestaurantConverter.convertCurateRestaurantToRestaurantModel(response.body().get(0));
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+            return null;
+        }
+        return restaurant;
+    }
 }

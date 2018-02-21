@@ -174,22 +174,22 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     }
 
     @Override
-    public void displayRestaurants(List<RestaurantModel> restaurants) {
+    public void displayRestaurants(final List<RestaurantModel> restaurants) {
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-                // TODO: SWITCH THIS BACK TO JUST PASS THE WHOLE ITEM
-//                Integer itemId = items.get(position).getId();
-//                Fragment itemFragment = new ItemFragment();
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(ItemFragment.ITEM_ID, itemId);
-//                itemFragment.setArguments(bundle);
-//
-//                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-//                FragmentTransaction transaction = fm.beginTransaction();
-//                transaction.replace(R.id.content_frame, itemFragment);
-//                transaction.commit();
+                // TODO: SWITCH THIS BACK TO JUST PASS THE WHOLE Restaurant
+                Integer restaurantId = restaurants.get(position).getId();
+                Fragment restaurantFragment = new RestaurantFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt(RestaurantFragment.RESTAURANT_ID, restaurantId);
+                restaurantFragment.setArguments(bundle);
+
+                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content_frame, restaurantFragment);
+                transaction.commit();
             }
         };
         searchResults.setAdapter(new RestaurantSearchAdapter(restaurants, listener));
