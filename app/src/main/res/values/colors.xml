@@ -3,9 +3,13 @@
     <color name="colorPrimary">#2D353E</color>
     <color name="colorPrimaryDark">#040F18</color>
     <color name="colorAccent">#ED2026</color>
+    <color name="textDark">#2E2E2E</color>
     <color name="white">#FFFFFF</color>
     <color name="distanceBlue">#76BEFF</color>
     <color name="buttonActiveBlue">#76BEFF</color>
     <color name="buttonInactiveBlue">#ADD6FF</color>
     <color name="selectedGreen">#fa63de5d</color>
+    <color name="lightGrayText">#999999</color>
+    <color name="greyBackground">#F2F2F2</color>
+    <color name="darkGreyBackgroundActive">#e4e4e4</color>
 </resources>

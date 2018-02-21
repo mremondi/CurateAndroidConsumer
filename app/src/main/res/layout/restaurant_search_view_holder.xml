@@ -10,10 +10,9 @@
 
         <ImageView
             android:id="@+id/restaurant_search_view_holder_restaurant_logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="8dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"/>
@@ -34,13 +33,34 @@
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/restaurant_search_view_holder_cuisine_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/lightGrayText"
+                android:text="Mexican"/>
+
+            <TextView
                 android:id="@+id/restaurant_search_view_holder_item_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:textColor="@color/distanceBlue"/>
+                android:textColor="@color/distanceBlue"
+                android:text="0.0mi"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_search_view_holder_item_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:textStyle="normal"
+            android:text="1.0"/>
 
 
     </RelativeLayout>

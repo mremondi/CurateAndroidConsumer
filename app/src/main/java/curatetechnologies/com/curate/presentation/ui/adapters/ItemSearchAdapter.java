@@ -85,8 +85,6 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
         public void bindData(ItemModel item){
             if (item.getImageURL() != null){
                 Glide.with(view).load(item.getImageURL()).into(itemImage);
-            } else {
-
             }
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());

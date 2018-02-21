@@ -2,12 +2,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="curatetechnologies.com.curate.presentation.ui.views.fragments.ItemFragment">
+    tools:context="curatetechnologies.com.curate.presentation.ui.views.fragments.ItemFragment"
+    android:background="@color/greyBackground">
 
-    <TextView
-        android:id="@+id/fragment_item_item_name"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_item_toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:background="@color/white">
+        <RelativeLayout
+            android:id="@+id/search_bar_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/fragment_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"
+                android:layout_centerInParent="true" />
+            <Button
+                android:id="@+id/fragment_item_cart_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_shopping_cart_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/fragment_item_item_info_primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_item_toolbar"
+        android:layout_marginTop="20dp"
+        android:background="@color/white">
+        
+        <ImageView
+            android:id="@+id/fragment_item_photo_main"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="20dp"
+            android:background="@color/greyBackground" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/fragment_item_photo_main"
+            android:layout_toEndOf="@+id/fragment_item_photo_main"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/fragment_item_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textColor="@color/textDark"/>
+            <TextView
+                android:id="@+id/fragment_item_item_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/lightGrayText"
+                android:lines="3"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/fragment_item_item_info_secondary"
+        android:layout_below="@+id/fragment_item_item_info_primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"/>
+
 
 </RelativeLayout>

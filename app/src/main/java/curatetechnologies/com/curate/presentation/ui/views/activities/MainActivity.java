@@ -17,19 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
@@ -80,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_search);
 
         Fragment searchFragment = new SearchFragment();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
