@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,6 +58,13 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     TextView tvMenuName;
     @BindView(R.id.fragment_item_item_info_tag_names)
     TextView tvTags;
+
+    @BindView(R.id.fragment_item_item_price)
+    TextView tvItemPrice;
+
+    @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
+        Log.d("CLICKED", "ADD TO CART");
+    }
 
     @OnClick(R.id.fragment_item_restaurant_row) void onRestaurantRowClick(View view){
         Log.d("CLICKED", "RESTAURANT ROW");
@@ -122,6 +130,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         tvItemDescription.setText(item.getDescription());
         tvRestaurantName.setText(item.getRestaurantName());
         tvMenuName.setText(item.getMenuName() + " - " + item.getMenuSectionName());
+        tvItemPrice.setText(item.getPrice());
     }
     // -- END ItemContract.View methods
 }
