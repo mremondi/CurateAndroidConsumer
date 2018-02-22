@@ -72,7 +72,7 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
     @Override
     public void displayPosts(List<PostModel> posts) {
-        feedRecyclerView.setAdapter(new FeedAdapter(posts));
+        feedRecyclerView.setAdapter(new FeedAdapter(posts, getContext()));
     }
 
     @Override

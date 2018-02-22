@@ -4,4 +4,22 @@
     android:layout_height="100dp"
     android:layout_margin="6dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/fragment_rating_post_top"
+            layout="@layout/fragment_feed_post_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp" />
+
+        <include layout="@layout/fragment_feed_post_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_rating_post_top" />
+    </RelativeLayout>
+
+
 </android.support.v7.widget.CardView>

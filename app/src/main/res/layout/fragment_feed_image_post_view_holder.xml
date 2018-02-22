@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="500dp"
     android:layout_margin="6dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/fragment_image_post_top"
+            layout="@layout/fragment_feed_post_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp" />
+
+        <ImageView
+            android:id="@+id/fragment_image_post_item_image"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:scaleType="center"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/fragment_image_post_top"/>
+
+        <include layout="@layout/fragment_feed_post_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/fragment_feed_image_post_description"/>
+
+        <TextView
+            android:id="@+id/fragment_feed_image_post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:lines="2"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
 
 </android.support.v7.widget.CardView>
