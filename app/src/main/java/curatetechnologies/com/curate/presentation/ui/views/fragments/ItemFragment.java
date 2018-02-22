@@ -38,12 +38,12 @@ import curatetechnologies.com.curate.threading.MainThreadImpl;
 public class ItemFragment extends Fragment implements ItemContract.View {
 
     public static final String ITEM_ID = "itemId";
+    Unbinder unbinder;
 
     private ItemPresenter mItemPresenter;
 
     private ItemModel mItem;
 
-    Unbinder unbinder;
 
     @BindView(R.id.fragment_item_title)
     TextView tvItemTitle;

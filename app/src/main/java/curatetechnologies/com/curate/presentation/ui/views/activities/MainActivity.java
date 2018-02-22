@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.FeedFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 import curatetechnologies.com.curate.storage.LocationRepository;
 
@@ -43,10 +44,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_feed:
+                    Fragment feedFragment = new FeedFragment();
+                    transaction.replace(R.id.content_frame, feedFragment);
+                    transaction.commit();
                     return true;
                 case R.id.navigation_search:
+                    Fragment searchFragment = new SearchFragment();
+                    transaction.replace(R.id.content_frame, searchFragment);
+                    transaction.commit();
                     return true;
                 case R.id.navigation_user_activity:
                     return true;
