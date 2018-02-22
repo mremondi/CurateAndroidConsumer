@@ -6,8 +6,8 @@
     <color name="textDark">#2E2E2E</color>
     <color name="white">#FFFFFF</color>
     <color name="distanceBlue">#76BEFF</color>
-    <color name="buttonActiveBlue">#76BEFF</color>
-    <color name="buttonInactiveBlue">#ADD6FF</color>
+    <color name="activeBlue">#76BEFF</color>
+    <color name="inactiveBlue">#ADD6FF</color>
     <color name="selectedGreen">#fa63de5d</color>
     <color name="lightGray">#999999</color>
     <color name="greyBackground">#F2F2F2</color>

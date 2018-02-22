@@ -3,7 +3,6 @@ package curatetechnologies.com.curate.presentation.ui.views.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -31,10 +30,10 @@ public class LoginWithEmailActivity extends AppCompatActivity implements LoginWi
     Button btnLogin;
     @OnTextChanged(R.id.connect_with_email_et_password) void onPasswordChanged(){
         if(etPassword.getText().length() > 6){
-            btnLogin.setBackgroundColor(getResources().getColor(R.color.buttonActiveBlue));
+            btnLogin.setBackgroundColor(getResources().getColor(R.color.activeBlue));
             btnLogin.setClickable(true);
         } else if (etPassword.getText().length() < 6){
-            btnLogin.setBackgroundColor(getResources().getColor(R.color.buttonInactiveBlue));
+            btnLogin.setBackgroundColor(getResources().getColor(R.color.inactiveBlue));
             btnLogin.setClickable(false);
         }
     }

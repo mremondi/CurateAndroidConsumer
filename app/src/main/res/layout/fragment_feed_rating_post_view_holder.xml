@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_margin="6dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rating_post_view_holder_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/rating_post_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="24sp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/textDark"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/rating_post_restaurant_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/rating_post_item_name"
+                android:textSize="20sp"
+                android:textColor="@color/activeBlue"
+                android:textAlignment="center" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rating_post_view_holder_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rating_post_view_holder_top">
+
+            <ImageView
+                android:id="@+id/rating_post_user_picture"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@+id/rating_post_user_picture"
+                android:layout_toEndOf="@id/rating_post_user_picture"
+                android:layout_centerVertical="true">
+                <TextView
+                    android:id="@+id/rating_post_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/textDark"/>
+
+                <TextView
+                    android:id="@+id/rating_post_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/lightGray"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/rating_post_liked_image"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/liked"/>
+
+                <TextView
+                    android:id="@+id/rating_post_liked_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/rating_post_liked_image"
+                    android:layout_toEndOf="@+id/rating_post_liked_image"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/lightGray"
+                    android:textSize="18sp"
+                    android:text="Liked"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</android.support.v7.widget.CardView>

@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
@@ -18,6 +21,7 @@ import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.presentation.presenters.FeedContract;
 import curatetechnologies.com.curate.presentation.presenters.FeedPresenter;
+import curatetechnologies.com.curate.presentation.ui.adapters.FeedAdapter;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.PostRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
@@ -30,6 +34,9 @@ public class FeedFragment extends Fragment implements FeedContract.View {
     Unbinder unbinder;
     private FeedContract mFeedPresenter;
 
+    @BindView(R.id.fragment_feed_recycler_view)
+    RecyclerView feedRecyclerView;
+
     // -- BEGIN Fragment methods
     @Nullable
     @Override
@@ -37,6 +44,8 @@ public class FeedFragment extends Fragment implements FeedContract.View {
         View v = inflater.inflate(R.layout.fragment_feed, container, false);
 
         unbinder = ButterKnife.bind(this, v);
+        feedRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
 
         mFeedPresenter = new FeedPresenter(
                 ThreadExecutor.getInstance(),
@@ -63,7 +72,7 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
     @Override
     public void displayPosts(List<PostModel> posts) {
-        Log.d("POST 0", posts.get(0).getItemName());
+        feedRecyclerView.setAdapter(new FeedAdapter(posts));
     }
 
     @Override

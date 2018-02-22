@@ -84,6 +84,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
         unbinder = ButterKnife.bind(this, v);
+        searchResults.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         mSearchPresenter = new SearchPresenter(
                 ThreadExecutor.getInstance(),
@@ -122,7 +123,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                 return false;
             }
         });
-        searchResults.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         return v;
 
     }
