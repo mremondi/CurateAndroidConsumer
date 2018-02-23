@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         finish();
     }
     @OnClick(R.id.btn_login_skip) void btnLoginSkipClick(){
-        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }

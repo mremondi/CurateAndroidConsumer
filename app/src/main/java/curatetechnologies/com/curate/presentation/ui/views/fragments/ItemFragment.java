@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.util.ArrayList;
 
@@ -31,8 +33,11 @@ import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
+import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 
 public class ItemFragment extends Fragment implements ItemContract.View {
@@ -70,7 +75,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     }
 
     @OnClick(R.id.fragment_item_restaurant_row) void onRestaurantRowClick(View view){
-        Log.d("CLICKED", "RESTAURANT ROW");
         Fragment restaurantFragment = new RestaurantFragment();
 
         Bundle bundle = new Bundle();
@@ -134,11 +138,14 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @Override
     public void displayItem(ItemModel item) {
         mItem = item;
-        tvItemTitle.setText(item.getName() + " - " + item.getRestaurantName());
+        tvItemTitle.setText(item.getRestaurantName());
         tvItemName.setText(item.getName());
         if (item.getImageURL() != null){
             Glide.with(this)
                     .load(item.getImageURL())
+                    .apply(bitmapTransform(new MultiTransformation(
+                            new CenterCrop(), new RoundedCornerTransformation(45, 0,
+                            RoundedCornerTransformation.CornerType.ALL))))
                     .into(ivItemPhotoMain);
         }
         tvItemDescription.setText(item.getDescription());

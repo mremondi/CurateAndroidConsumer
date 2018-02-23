@@ -199,7 +199,11 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     private Integer getUserId(){
         UserRepository userRepository = UserRepository.getInstance(getContext());
-        return userRepository.getCurrentUser().getId();
+        if (userRepository.getCurrentUser() != null){
+            return userRepository.getCurrentUser().getId();
+        } else {
+            return null;
+        }
     }
 
     private Location getLocation(){

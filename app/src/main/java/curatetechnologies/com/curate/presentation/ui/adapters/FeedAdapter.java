@@ -16,6 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+import static com.bumptech.glide.request.RequestOptions.circleCropTransform;
+import static com.bumptech.glide.request.RequestOptions.overrideOf;
 
 import java.util.List;
 
@@ -26,6 +33,7 @@ import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.ItemFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment;
+import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 
 /**
  * Created by mremondi on 2/22/18.
@@ -125,19 +133,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         public void bindData(PostModel post, Context context){
             super.bindData(post, context);
-            if (post.getUserPicture() != null){
-                Glide.with(view).load(post.getUserPicture()).into(ivUserPicture);
-            }
-            tvItemName.setText(post.getItemName());
-            tvRestaurantName.setText(post.getRestaurantName());
-            tvUsername.setText(post.getUsername());
-            tvTime.setText(post.getTime());
-            String likeDislike = post.getRating() ? "Liked": "Disliked";
-            tvLiked.setText(likeDislike);
-            Drawable likeDislikeImage = post.getRating() ?
-                    view.getResources().getDrawable( R.drawable.liked) :
-                    view.getResources().getDrawable(R.drawable.disliked);
-            ivLiked.setImageDrawable(likeDislikeImage);
         }
     }
 
@@ -154,26 +149,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         public void bindData(PostModel post, Context context){
             super.bindData(post, context);
-            if (post.getUserPicture() != null){
-                Glide.with(view).load(post.getUserPicture()).into(ivUserPicture);
-            } else {
-                ivUserPicture.setImageDrawable(null);
-            }
             if (post.getImageURL() != null){
-                Glide.with(view).load(post.getImageURL()).into(ivItemImage);
+                Glide.with(view)
+                        .load(post.getImageURL())
+                        .apply(bitmapTransform(new MultiTransformation(
+                                new CenterCrop(), new RoundedCornerTransformation(45, 0,
+                                RoundedCornerTransformation.CornerType.ALL))))
+                        .into(ivItemImage);
             } else{
                 ivItemImage.setImageDrawable(null);
             }
-            tvItemName.setText(post.getItemName());
-            tvRestaurantName.setText(post.getRestaurantName());
-            tvUsername.setText(post.getUsername());
-            tvTime.setText(post.getTime());
-            String likeDislike = post.getRating() ? "Liked": "Disliked";
-            tvLiked.setText(likeDislike);
-            Drawable likeDislikeImage = post.getRating() ?
-                    view.getResources().getDrawable( R.drawable.liked) :
-                    view.getResources().getDrawable(R.drawable.disliked);
-            ivLiked.setImageDrawable(likeDislikeImage);
             tvDescription.setText(post.getDescription());
         }
     }
@@ -214,6 +199,24 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
 
         public void bindData(final PostModel post, final Context context){
+            if (post.getUserPicture() != null){
+                Glide.with(view)
+                        .load(post.getUserPicture())
+                        .apply(circleCropTransform())
+                        .into(ivUserPicture);
+            } else {
+                ivUserPicture.setImageDrawable(null);
+            }
+            tvItemName.setText(post.getItemName());
+            tvRestaurantName.setText(post.getRestaurantName());
+            tvUsername.setText(post.getUsername());
+            tvTime.setText(post.getTime());
+            String likeDislike = post.getRating() ? "Liked": "Disliked";
+            tvLiked.setText(likeDislike);
+            Drawable likeDislikeImage = post.getRating() ?
+                    view.getResources().getDrawable( R.drawable.liked) :
+                    view.getResources().getDrawable(R.drawable.disliked);
+            ivLiked.setImageDrawable(likeDislikeImage);
             tvItemName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -19,7 +19,6 @@
             android:id="@+id/fragment_image_post_item_image"
             android:layout_width="350dp"
             android:layout_height="300dp"
-            android:scaleType="center"
             android:layout_centerInParent="true"
             android:layout_below="@id/fragment_image_post_top"/>
 

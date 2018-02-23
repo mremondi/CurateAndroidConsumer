@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
+import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by mremondi on 2/12/18.
@@ -77,7 +82,12 @@ public class RestaurantSearchAdapter extends RecyclerView.Adapter<RestaurantSear
 
         public void bindData(RestaurantModel restaurant){
             if (restaurant.getLogoURL() != null){
-                Glide.with(view).load(restaurant.getLogoURL()).into(restaurantLogo);
+                Glide.with(view)
+                        .load(restaurant.getLogoURL())
+                        .apply(bitmapTransform(new MultiTransformation(
+                                new CenterCrop(), new RoundedCornerTransformation(45, 0,
+                                RoundedCornerTransformation.CornerType.ALL))))
+                        .into(restaurantLogo);
             } else {
 
             }

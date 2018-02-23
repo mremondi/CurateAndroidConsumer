@@ -42,17 +42,14 @@ public class PostConverter {
         long diffDays = diff / (24 * 60 * 60 * 1000);
         if (diffMinutes > 60) {
             if (diffHours > 24) {
-                Log.d("DIFF DAYS", String.valueOf(diffDays) + "d");
                 return String.valueOf(diffDays) + "d";
             } else {
-                Log.d("DIFF HOURS", String.valueOf(diffDays) + "h");
                 return String.valueOf(diffHours) + "h";
             }
         } else {
             if (diffMinutes < 1){
                 return "Now";
             } else {
-                Log.d("DIFF MINS", String.valueOf(diffDays) + "m");
                 return String.valueOf(diffMinutes) + "m";
             }
         }

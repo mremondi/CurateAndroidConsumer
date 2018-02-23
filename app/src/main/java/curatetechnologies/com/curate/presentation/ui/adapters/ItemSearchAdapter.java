@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.util.List;
 
@@ -17,6 +19,9 @@ import butterknife.ButterKnife;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
+import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by mremondi on 2/9/18.
@@ -84,7 +89,12 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
 
         public void bindData(ItemModel item){
             if (item.getImageURL() != null){
-                Glide.with(view).load(item.getImageURL()).into(itemImage);
+                Glide.with(view)
+                        .load(item.getImageURL())
+                        .apply(bitmapTransform(new MultiTransformation(
+                                new CenterCrop(), new RoundedCornerTransformation(45, 0,
+                                RoundedCornerTransformation.CornerType.ALL))))
+                        .into(itemImage);
             }
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
