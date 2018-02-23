@@ -82,13 +82,26 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         restaurantFragment.setArguments(bundle);
 
         android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, restaurantFragment);
-        transaction.commit();
+        fm.beginTransaction()
+                .add(restaurantFragment, "RESTAURANT")
+                .addToBackStack("RESTAURANT")
+                .replace(R.id.content_frame, restaurantFragment)
+                .commit();
+
     }
 
     @OnClick(R.id.fragment_item_menu_row) void onMenuRowClick(){
-        Log.d("CLICKED", "Menu ROW");
+        Fragment menuFragment = new MenuFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(MenuFragment.MENU_ID, mItem.getMenuId());
+        menuFragment.setArguments(bundle);
+
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.beginTransaction().add(menuFragment, "MENU")
+                .addToBackStack("MENU")
+                .replace(R.id.content_frame, menuFragment)
+                .commit();
     }
 
     // -- BEGIN Fragment methods
@@ -139,6 +152,8 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     public void displayItem(ItemModel item) {
         mItem = item;
         tvItemTitle.setText(item.getRestaurantName());
+
+
         tvItemName.setText(item.getName());
         if (item.getImageURL() != null){
             Glide.with(this)

@@ -228,9 +228,12 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     itemFragment.setArguments(bundle);
 
                     android.support.v4.app.FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.content_frame, itemFragment);
-                    transaction.commit();
+                    fm.beginTransaction()
+                            .add(itemFragment, "ITEM")
+                            .addToBackStack("ITEM")
+                            .replace(R.id.content_frame, itemFragment)
+                            .commit();
+
                 }
             });
             tvRestaurantName.setOnClickListener(new View.OnClickListener() {
@@ -244,9 +247,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     restaurantFragment.setArguments(bundle);
 
                     android.support.v4.app.FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.content_frame, restaurantFragment);
-                    transaction.commit();
+                    fm.beginTransaction()
+                            .add(restaurantFragment, "RESTAURANT")
+                            .addToBackStack("RESTAURANT")
+                            .replace(R.id.content_frame, restaurantFragment)
+                            .commit();
                 }
             });
         }

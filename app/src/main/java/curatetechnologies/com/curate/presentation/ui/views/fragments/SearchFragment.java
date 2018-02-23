@@ -156,7 +156,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-                // TODO: SWITCH THIS BACK TO JUST PASS THE WHOLE ITEM
                 Integer itemId = items.get(position).getId();
                 Fragment itemFragment = new ItemFragment();
 
@@ -165,9 +164,11 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                 itemFragment.setArguments(bundle);
 
                 android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.content_frame, itemFragment);
-                transaction.commit();
+                fm.beginTransaction()
+                        .add(itemFragment, "ITEM")
+                        .addToBackStack("ITEM")
+                        .replace(R.id.content_frame, itemFragment)
+                        .commit();
             }
         };
         searchResults.setAdapter(new ItemSearchAdapter(items, listener));
@@ -187,9 +188,11 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                 restaurantFragment.setArguments(bundle);
 
                 android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.content_frame, restaurantFragment);
-                transaction.commit();
+                fm.beginTransaction()
+                    .add(restaurantFragment, "RESTAURANT")
+                        .addToBackStack("RESTAURANT")
+                        .replace(R.id.content_frame, restaurantFragment)
+                        .commit();
             }
         };
         searchResults.setAdapter(new RestaurantSearchAdapter(restaurants, listener));

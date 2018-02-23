@@ -72,7 +72,6 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     @Override
     public void displayRestaurant(final RestaurantModel restaurant) {
         Glide.with(this).load(restaurant.getLogoURL()).into(ivRestaurantLogo);
-        Log.d("MENU 0", restaurant.getMenus().get(0).getName());
 
         // set up recyclerview
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
@@ -86,9 +85,11 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
                 menuFragment.setArguments(bundle);
 
                 android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.content_frame, menuFragment);
-                transaction.commit();
+                fm.beginTransaction()
+                        .add(menuFragment, "MENU")
+                        .addToBackStack("MENU")
+                        .replace(R.id.content_frame, menuFragment)
+                        .commit();
             }
         };
         menuRecyclerView.setAdapter(new RestaurantMenusAdapter(restaurant.getMenus(), listener));

@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate.presentation.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,10 +22,6 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-
-/**
- * Created by mremondi on 2/23/18.
- */
 
 public class MenuSection extends StatelessSection {
     private SectionedRecyclerViewAdapter mSectionAdapter;
@@ -70,7 +67,9 @@ public class MenuSection extends StatelessSection {
                 headerViewHolder.ivHeaderExpanded.setImageResource(
                         expanded ?  R.drawable.ic_expanded_black_24dp : R.drawable.ic_expand_black_24dp
                 );
-                mSectionAdapter.notifyDataSetChanged();
+                if (mMenuSection.getItems().get(0).getName() != null) {
+                    mSectionAdapter.notifyDataSetChanged();
+                }
             }
         });
         return headerViewHolder;

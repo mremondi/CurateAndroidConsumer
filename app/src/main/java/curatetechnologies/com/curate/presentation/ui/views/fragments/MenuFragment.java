@@ -91,9 +91,11 @@ public class MenuFragment extends Fragment implements MenuContract.View {
                     itemFragment.setArguments(bundle);
 
                     android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.content_frame, itemFragment);
-                    transaction.commit();
+                    fm.beginTransaction()
+                            .add(itemFragment, "ITEM")
+                            .addToBackStack("ITEM")
+                            .replace(R.id.content_frame, itemFragment)
+                            .commit();
                 }
             };
             sectionAdapter.addSection(new MenuSection(menuSection, sectionAdapter, listener));
