@@ -3,6 +3,7 @@ package curatetechnologies.com.curate.presentation.ui.views.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -69,7 +70,7 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     }
 
     @Override
-    public void displayRestaurant(RestaurantModel restaurant) {
+    public void displayRestaurant(final RestaurantModel restaurant) {
         Glide.with(this).load(restaurant.getLogoURL()).into(ivRestaurantLogo);
         Log.d("MENU 0", restaurant.getMenus().get(0).getName());
 
@@ -77,18 +78,17 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-                // TODO: SWITCH THIS BACK TO JUST PASS THE WHOLE ITEM
-//                Integer itemId = items.get(position).getId();
-//                Fragment itemFragment = new ItemFragment();
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(ItemFragment.ITEM_ID, itemId);
-//                itemFragment.setArguments(bundle);
-//
-//                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-//                FragmentTransaction transaction = fm.beginTransaction();
-//                transaction.replace(R.id.content_frame, itemFragment);
-//                transaction.commit();
+                Integer menuId = restaurant.getMenus().get(position).getId();
+                Fragment menuFragment = new MenuFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt(MenuFragment.MENU_ID, menuId);
+                menuFragment.setArguments(bundle);
+
+                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content_frame, menuFragment);
+                transaction.commit();
             }
         };
         menuRecyclerView.setAdapter(new RestaurantMenusAdapter(restaurant.getMenus(), listener));

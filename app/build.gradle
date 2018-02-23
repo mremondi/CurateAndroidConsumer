@@ -47,4 +47,6 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.0-alpha2'
 
     compile 'com.google.android.gms:play-services-location:11.8.0'
+
+    compile 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.1.3'
 }
