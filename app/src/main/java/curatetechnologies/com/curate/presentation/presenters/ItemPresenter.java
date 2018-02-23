@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.location.Location;
 import android.util.Log;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -27,14 +28,15 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract, Ge
 
     // -- BEGIN: ItemContract methods
     @Override
-    public void getItemById(Integer itemId) {
+    public void getItemById(Integer itemId, Location location) {
         Log.d("getItemById", "presenter");
         GetItemByIdInteractor itemInteractor = new GetItemByIdInteractorImpl(
                 mExecutor,
                 mMainThread,
                 this,
                 mItemRepository,
-                itemId
+                itemId,
+                location
         );
         itemInteractor.execute();
     }

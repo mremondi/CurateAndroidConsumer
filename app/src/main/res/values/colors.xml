@@ -12,4 +12,5 @@
     <color name="lightGray">#999999</color>
     <color name="greyBackground">#F2F2F2</color>
     <color name="darkGreyBackgroundActive">#e4e4e4</color>
+    <color name="lightBlueGray">#B8B7C3</color>
 </resources>

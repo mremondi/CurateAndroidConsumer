@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +36,7 @@ import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
 import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 import curatetechnologies.com.curate.storage.ItemRepository;
+import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -66,6 +68,8 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     TextView tvMenuName;
     @BindView(R.id.fragment_item_item_info_tag_names)
     TextView tvTags;
+    @BindView(R.id.fragment_item_item_info_distance)
+    TextView tvDistance;
 
     @BindView(R.id.fragment_item_item_price)
     TextView tvItemPrice;
@@ -120,7 +124,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 this,
                 new ItemRepository());
 
-        mItemPresenter.getItemById(itemId);
+        mItemPresenter.getItemById(itemId, getLocation());
         return v;
     }
 
@@ -165,8 +169,13 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         }
         tvItemDescription.setText(item.getDescription());
         tvRestaurantName.setText(item.getRestaurantName());
+        tvDistance.setText(item.getDistance_in_mi());
         tvMenuName.setText(item.getMenuName() + " - " + item.getMenuSectionName());
         tvItemPrice.setText(item.getPrice());
     }
     // -- END ItemContract.View methods
+
+    private Location getLocation(){
+        return LocationRepository.getInstance(getContext()).getLastLocation();
+    }
 }

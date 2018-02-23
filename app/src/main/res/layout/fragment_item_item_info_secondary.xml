@@ -35,16 +35,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:textColor="@color/textDark"
-                android:text="Mike's Restaurant"/>
+                android:textColor="@color/textDark"/>
             <TextView
                 android:id="@+id/fragment_item_item_info_restaurant_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/lightGray"
-                android:text="26 Everett Ave, Winchester, MA 01890"/>
+                android:textColor="@color/lightGray"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/fragment_item_item_info_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="16sp"
+            android:textColor="@color/textDark" />
     </RelativeLayout>
 
     <RelativeLayout

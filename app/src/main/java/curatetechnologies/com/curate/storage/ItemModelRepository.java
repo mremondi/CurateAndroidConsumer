@@ -13,5 +13,5 @@ import curatetechnologies.com.curate.domain.model.ItemModel;
 public interface ItemModelRepository {
 
     List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius);
-    ItemModel getItemById(Integer itemId);
+    ItemModel getItemById(Integer itemId, Location location);
 }

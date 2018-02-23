@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.domain.interactor;
 
+import android.location.Location;
 import android.util.Log;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -17,16 +18,19 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor implements Get
     private ItemModelRepository mItemModelRepository;
 
     private Integer mItemId;
+    private Location mLocation;
 
     public GetItemByIdInteractorImpl(Executor threadExecutor,
                                      MainThread mainThread,
                                      Callback callback,
                                      ItemModelRepository itemModelRepository,
-                                     Integer itemId) {
+                                     Integer itemId,
+                                     Location location) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mItemModelRepository = itemModelRepository;
         mItemId = itemId;
+        mLocation = location;
     }
 
     private void notifyError() {
@@ -56,7 +60,7 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor implements Get
         // retrieve the message
         Log.d("getItemById", "interactor impl");
 
-        final ItemModel item = mItemModelRepository.getItemById(mItemId);
+        final ItemModel item = mItemModelRepository.getItemById(mItemId, mLocation);
 
         // check if we have failed to retrieve our message
         if (item == null) {

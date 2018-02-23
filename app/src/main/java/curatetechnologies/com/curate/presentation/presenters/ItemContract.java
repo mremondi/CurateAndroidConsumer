@@ -4,6 +4,8 @@ package curatetechnologies.com.curate.presentation.presenters;
  * Created by mremondi on 2/10/18.
  */
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
@@ -18,5 +20,5 @@ public interface ItemContract {
         void displayItem(ItemModel item);
     }
 
-    void getItemById(Integer itemId);
+    void getItemById(Integer itemId, Location location);
 }

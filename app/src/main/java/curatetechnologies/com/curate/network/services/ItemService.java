@@ -33,6 +33,8 @@ public interface ItemService {
     /* @param {int} radiusMiles - OPTIONAL (REQUIRES lat/lon) */
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @GET("items")
-    Call<List<CurateAPIItem>> getItemById(@Query("itemId") Integer itemId);
+    Call<List<CurateAPIItem>> getItemById(@Query("itemId") Integer itemId,
+                                          @Query("lat") Double lat,
+                                          @Query("lon") Double lon);
 
 }
