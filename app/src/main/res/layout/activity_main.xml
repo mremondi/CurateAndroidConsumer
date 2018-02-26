@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.MainActivity">
 
-
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"

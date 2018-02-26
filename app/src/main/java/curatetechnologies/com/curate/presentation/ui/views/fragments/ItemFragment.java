@@ -2,6 +2,7 @@ package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,11 +51,20 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     public static final String ITEM_ID = "itemId";
     Unbinder unbinder;
 
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+    @BindView(R.id.fragment_item_progress_bar)
+    ProgressBar progressBar;
+
     private ItemPresenter mItemPresenter;
 
     private ItemModel mItem;
 
 
+    @BindView(R.id.fragment_item_item_info_primary)
+    RelativeLayout itemPrimaryInfo;
+    @BindView(R.id.item_info_secondary)
+    LinearLayout itemInfoSecondary;
     @BindView(R.id.fragment_item_title)
     TextView tvItemTitle;
     @BindView(R.id.fragment_item_photo_main)
@@ -137,12 +150,17 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     // -- BEGIN BaseView methods
     @Override
     public void showProgress() {
-        Log.d("SHOW PROGRESS", "Retrieving...");
+        itemInfoSecondary.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
     }
 
     @Override
     public void hideProgress() {
-        Toast.makeText(this.getActivity(), "Retrieved!", Toast.LENGTH_LONG).show();
+        progressBar.setVisibility(View.GONE);
+        itemInfoSecondary.setVisibility(View.VISIBLE);
+
+
     }
 
     @Override

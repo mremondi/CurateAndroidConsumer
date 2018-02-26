@@ -24,7 +24,7 @@ public class RestaurantPresenter extends AbstractPresenter implements Restaurant
     // -- BEGIN: RestaurantContract methods
     @Override
     public void getRestaurantById(Integer restaurantId) {
-        Log.d("getItemById", "presenter");
+        mView.showProgress();
         GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
                 mExecutor,
                 mMainThread,
@@ -36,6 +36,8 @@ public class RestaurantPresenter extends AbstractPresenter implements Restaurant
     }
     // -- END: RestaurantContract methods
 
+
+
     public void onError(String message) {
         mView.showError(message);
     }
@@ -43,7 +45,6 @@ public class RestaurantPresenter extends AbstractPresenter implements Restaurant
     // -- BEGIN: GetRestaurantByIdInteractor.Callback methods
     @Override
     public void onRestaurantRetrieved(RestaurantModel restaurant) {
-        Log.d("get item by id", "presenter callback");
         mView.hideProgress();
         mView.displayRestaurant(restaurant);
     }

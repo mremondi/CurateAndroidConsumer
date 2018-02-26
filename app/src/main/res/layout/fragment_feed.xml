@@ -37,6 +37,13 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
+    <ProgressBar
+        android:id="@+id/fragment_feed_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

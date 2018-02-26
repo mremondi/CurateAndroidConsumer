@@ -39,6 +39,7 @@ public class SearchPresenter extends AbstractPresenter implements SearchContract
     // -- BEGIN: SearchContract methods
     @Override
     public void searchItems(String query, Location location, Integer userId, Float radius) {
+        mView.showProgress();
         SearchItemsInteractor searchItemsInteractor = new SearchItemsInteractorImpl(
                 mExecutor,
                 mMainThread,
@@ -54,6 +55,7 @@ public class SearchPresenter extends AbstractPresenter implements SearchContract
 
     @Override
     public void searchRestaurants(String query, Location location, Integer userId, Float radius) {
+        mView.showProgress();
         SearchRestaurantsInteractorImpl searchRestaurantsInteractor = new SearchRestaurantsInteractorImpl(
                 mExecutor,
                 mMainThread,

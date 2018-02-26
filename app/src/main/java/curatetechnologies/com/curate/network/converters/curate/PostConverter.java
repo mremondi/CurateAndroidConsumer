@@ -27,7 +27,6 @@ public class PostConverter {
     }
 
     private static String calculateHowLongAgoPosted(String dateString){
-        Log.d("DATE STRING", dateString);
         Date d = stringToDate(dateString, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         Calendar now = Calendar.getInstance();

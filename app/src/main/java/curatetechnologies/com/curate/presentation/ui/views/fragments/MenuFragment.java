@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -36,6 +38,11 @@ public class MenuFragment extends Fragment implements MenuContract.View {
 
     public static final String MENU_ID = "menuId";
     Unbinder unbinder;
+
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+    @BindView(R.id.fragment_menu_progress_bar)
+    ProgressBar progressBar;
 
     private MenuContract mMenuPresenter;
 
@@ -107,12 +114,13 @@ public class MenuFragment extends Fragment implements MenuContract.View {
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract, Ge
     // -- BEGIN: ItemContract methods
     @Override
     public void getItemById(Integer itemId, Location location) {
-        Log.d("getItemById", "presenter");
+        mView.showProgress();
         GetItemByIdInteractor itemInteractor = new GetItemByIdInteractorImpl(
                 mExecutor,
                 mMainThread,
@@ -49,7 +49,6 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract, Ge
     // -- BEGIN: GetItemByIdInteractor.Callback methods
     @Override
     public void onGetItemByIdRetrieved(ItemModel item) {
-        Log.d("get item by id", "presenter callback");
         mView.hideProgress();
         mView.displayItem(item);
     }

@@ -32,6 +32,7 @@ public class FeedPresenter extends AbstractPresenter implements FeedContract, Ge
     // -- BEGIN: FeedContract methods
     @Override
     public void getPostsByLocation(Integer limit, Location location, Float radius) {
+        mView.showProgress();
         GetPostsByLocationInteractor getPostsInteractor = new GetPostsByLocationInteractorImpl(
                 mExecutor,
                 mMainThread,

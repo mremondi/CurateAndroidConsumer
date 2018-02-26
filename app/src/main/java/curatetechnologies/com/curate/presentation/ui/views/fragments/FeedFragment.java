@@ -2,6 +2,7 @@ package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -33,6 +35,11 @@ import curatetechnologies.com.curate.threading.MainThreadImpl;
 public class FeedFragment extends Fragment implements FeedContract.View {
     Unbinder unbinder;
     private FeedContract mFeedPresenter;
+
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+    @BindView(R.id.fragment_feed_progress_bar)
+    ProgressBar progressBar;
 
     @BindView(R.id.fragment_feed_recycler_view)
     RecyclerView feedRecyclerView;
@@ -77,12 +84,14 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
     @Override
     public void showProgress() {
-
+        // Start the lengthy operation in a background thread
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

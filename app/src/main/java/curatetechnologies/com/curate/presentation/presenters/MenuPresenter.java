@@ -28,6 +28,7 @@ public class MenuPresenter extends AbstractPresenter implements MenuContract, Ge
     // -- BEGIN: ItemContract methods
     @Override
     public void getMenuById(Integer menuId) {
+        mView.showProgress();
         GetMenuByIdInteractor menuInteractor = new GetMenuByIdInteractorImpl(
                 mExecutor,
                 mMainThread,

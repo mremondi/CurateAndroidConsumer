@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +50,11 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         ITEM_SEARCH,
         RESTAURANT_SEARCH
     }
+
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+    @BindView(R.id.fragment_search_progress_bar)
+    ProgressBar progressBar;
 
     private SearchContract mSearchPresenter;
 
@@ -136,12 +144,14 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     // -- BEGIN: BaseView methods
     @Override
     public void showProgress() {
-        Log.d("SHOW PROGRESS", "Retrieving...");
+        // Start the lengthy operation in a background thread
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
     }
 
     @Override
     public void hideProgress() {
-        Log.d("HIDE PROGRESS", "Retrieved!");
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

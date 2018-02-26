@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 
@@ -34,6 +36,11 @@ import curatetechnologies.com.curate.threading.MainThreadImpl;
 public class RestaurantFragment extends Fragment implements RestaurantContract.View {
 
     public static final String RESTAURANT_ID = "itemId";
+
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+    @BindView(R.id.fragment_restaurant_progress_bar)
+    ProgressBar progressBar;
 
     private RestaurantPresenter mRestaurantPresenter;
     Unbinder unbinder;
@@ -98,12 +105,13 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
