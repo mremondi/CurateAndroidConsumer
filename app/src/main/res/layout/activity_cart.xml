@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stripe="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/greyBackground">
+
+
+        <ImageView
+            android:id="@+id/activity_cart_restaurant_logo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"/>
+
+        <RelativeLayout
+            android:id="@+id/activity_cart_payment_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_cart_restaurant_logo"
+            android:layout_marginBottom="1dp"
+            android:padding="20dp"
+            android:background="@color/white"
+            >
+
+            <TextView
+                android:id="@+id/activity_cart_payment_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/textDark"
+                android:text="PAYMENT"/>
+
+            <TextView
+                android:id="@+id/activity_cart_payment_session_data"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="16dp"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/activity_cart_select_payment_button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/activity_cart_payment_label"
+                android:textColor="@color/white"
+                android:text="Select Payment"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_cart_recycler_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_cart_payment_row">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_cart_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_cart_subtotal_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_cart_recycler_view_container"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="SUBTOTAL" />
+
+            <TextView
+                android:id="@+id/activity_cart_subtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_cart_tax_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_cart_subtotal_row"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="TAX" />
+
+            <TextView
+                android:id="@+id/activity_cart_tax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_cart_total_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_cart_tax_row"
+            android:background="@color/white"
+            android:layout_marginBottom="1dp"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/textDark"
+                android:text="TOTAL" />
+
+            <TextView
+                android:id="@+id/activity_cart_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/textDark"
+                />
+
+        </RelativeLayout>
+        
+        <Button
+            android:id="@+id/activity_cart_complete_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/activity_cart_total_row"
+            android:background="@color/inactiveBlue"
+            android:textColor="@color/white"
+            android:text="Complete Purchase" />
+
+    </RelativeLayout>
+
+</ScrollView>

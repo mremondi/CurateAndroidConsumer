@@ -23,7 +23,7 @@ public class ItemConverter {
         }
         ItemModel itemModel = new ItemModel(apiItem.getItemID(), apiItem.getItemName(), apiItem.getItemDescription(),
                 apiItem.getItemImageURL(), String.format("%.2f", apiItem.getDistanceInMiles()) + "mi",
-                "$" + String.format(Locale.US, "%.2f", apiItem.getItemPrice()),
+                "$" + String.format(Locale.US, "%.2f", apiItem.getItemPrice()), apiItem.getItemPrice(),
                rating, apiItem.getRestaurantName(), apiItem.getMenuName(), apiItem.getMenuSectionName(),
                 apiItem.getRestaurantID(), apiItem.getMenuID());
         return itemModel;

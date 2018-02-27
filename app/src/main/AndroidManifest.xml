@@ -3,7 +3,7 @@
     package="curatetechnologies.com.curate">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -48,7 +48,9 @@
         <activity
             android:name=".presentation.ui.views.activities.LoginWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
-        <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity"></activity>
+        <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity" />
+        <activity android:name=".presentation.ui.views.activities.CartActivity" />
+        <activity android:name=".presentation.ui.views.activities.GetCardActivity"></activity>
     </application>
 
 </manifest>

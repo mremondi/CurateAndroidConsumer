@@ -12,6 +12,7 @@ public class ItemModel{
     private String imageURL;
     private String distance_in_mi;
     private String price;
+    private Double numericPrice;
     private String rating;
     private String restaurantName;
     private Integer restaurantId;
@@ -20,7 +21,7 @@ public class ItemModel{
     private String menuSectionName;
 
     public ItemModel(Integer id, String name, String description, String imageURL, String distance_in_mi,
-                     String price, String rating, String restaurantName, String menuName,
+                     String price, Double numericPrice, String rating, String restaurantName, String menuName,
                      String menuSectionName, Integer restaurantId, Integer menuId){
         this.id = id;
         this.name = name;
@@ -28,6 +29,7 @@ public class ItemModel{
         this.imageURL = imageURL;
         this.distance_in_mi = distance_in_mi;
         this.price = price;
+        this.numericPrice = numericPrice;
         this.rating = rating;
         this.restaurantName = restaurantName;
         this.menuName = menuName;
@@ -130,5 +132,13 @@ public class ItemModel{
 
     public void setMenuId(Integer menuId) {
         this.menuId = menuId;
+    }
+
+    public Double getNumericPrice(){
+        return this.numericPrice;
+    }
+
+    public void setNumericPrice(Double numericPrice){
+        this.numericPrice = numericPrice;
     }
 }

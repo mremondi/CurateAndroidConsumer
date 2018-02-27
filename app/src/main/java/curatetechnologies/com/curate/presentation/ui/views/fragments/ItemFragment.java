@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,8 +37,10 @@ import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
+import curatetechnologies.com.curate.presentation.ui.views.activities.CartActivity;
 import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
@@ -87,8 +90,13 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @BindView(R.id.fragment_item_item_price)
     TextView tvItemPrice;
 
+    @OnClick(R.id.fragment_item_cart_button) void goToCartClick(){
+        Intent i = new Intent(getContext(), CartActivity.class);
+        startActivity(i);
+    }
+
     @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
-        Log.d("CLICKED", "ADD TO CART");
+        CartManager.getInstance().addItemToCart(mItem);
     }
 
     @OnClick(R.id.fragment_item_restaurant_row) void onRestaurantRowClick(View view){

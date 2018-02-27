@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="16dp"
+    android:layout_marginBottom="1dp">
+
+    <TextView
+        android:id="@+id/cart_item_view_holder_item_name"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="18sp"
+        android:textColor="@color/textDark"
+        android:lines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/cart_item_view_holder_item_description"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cart_item_view_holder_item_name"
+        android:textSize="16sp"
+        android:textColor="@color/lightGray"
+        android:lines="2"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/cart_item_view_holder_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/cart_item_view_holder_remove_button"
+        android:layout_toStartOf="@+id/cart_item_view_holder_remove_button"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:textColor="@color/textDark"/>
+
+    <Button
+        android:id="@+id/cart_item_view_holder_remove_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/ic_x_black_24dp"
+        android:backgroundTint="@color/lightGray"/>
+
+</RelativeLayout>

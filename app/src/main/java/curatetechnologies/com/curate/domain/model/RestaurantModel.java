@@ -12,14 +12,16 @@ public class RestaurantModel {
     private String logoURL;
     private String distance_in_mi;
     private List<MenuModel> menus;
+    private Double mealTaxRate;
 
     public RestaurantModel(Integer id, String name, String logoURL, String distance_in_mi,
-                           List<MenuModel> menus) {
+                           List<MenuModel> menus, Double mealTaxRate) {
         this.id = id;
         this.name = name;
         this.logoURL = logoURL;
         this.distance_in_mi = distance_in_mi;
         this.menus = menus;
+        this.mealTaxRate = mealTaxRate;
     }
 
     public Integer getId() {
@@ -60,5 +62,13 @@ public class RestaurantModel {
 
     public void setMenus(List<MenuModel> menus) {
         this.menus = menus;
+    }
+
+    public Double getMealTaxRate() {
+        return mealTaxRate;
+    }
+
+    public void setMealTaxRate(Double mealTaxRate) {
+        this.mealTaxRate = mealTaxRate;
     }
 }

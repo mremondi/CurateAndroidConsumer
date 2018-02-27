@@ -22,6 +22,6 @@ public class RestaurantConverter {
         }
         return new RestaurantModel(apiRestaurant.getRestaurantID(), apiRestaurant.getRestaurantName(),
                 apiRestaurant.getRestaurantLogoURL(), "0.0mi",
-                menus);
+                menus, apiRestaurant.getRestaurantMealTaxRate());
     }
 }
