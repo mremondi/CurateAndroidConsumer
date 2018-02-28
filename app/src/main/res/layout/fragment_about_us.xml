@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/fragment_about_us_title"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/big_round_curate_logo"/>
+
+    <TextView
+        android:id="@+id/fragment_about_us_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/textDark"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:text="Curate Technologies, Inc."/>
+
+    <TextView
+        android:id="@+id/fragment_about_us_version_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_about_us_title"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/textDark"
+        android:textSize="22sp"
+        android:text="v1.0"/>
+    
+    <Button
+        android:id="@+id/fragment_about_us_terms_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_about_us_version_number"
+        android:layout_margin="16dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/greyBackground"
+        android:textColor="@color/colorAccent"
+        android:text="Terms and Condtions"/>
+
+    <Button
+        android:id="@+id/fragment_about_us_privacy_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_about_us_terms_button"
+        android:layout_centerHorizontal="true"
+        android:background="@color/greyBackground"
+        android:textColor="@color/colorAccent"
+        android:text="Privacy Policy"/>
+
+</RelativeLayout>

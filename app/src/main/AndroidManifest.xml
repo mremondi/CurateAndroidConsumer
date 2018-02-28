@@ -16,6 +16,12 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <!-- TODO: THIS IS ONLY THE STAGING PLACE PICKER KEY. FIGURE OUT HOW TO DO THIS WITH PROD -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCYhR42bQUapg3wVaXkATFq-e4hi6RlKPY"/>
+
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

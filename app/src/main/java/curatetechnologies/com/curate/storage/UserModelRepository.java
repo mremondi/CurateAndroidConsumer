@@ -18,5 +18,6 @@ public interface UserModelRepository {
     Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences);
     UserModel getCurrentUser();
     Boolean checkUsernameAvailable(String username);
+    void signOutUser();
 
 }

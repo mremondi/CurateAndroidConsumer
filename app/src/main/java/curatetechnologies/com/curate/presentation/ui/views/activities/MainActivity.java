@@ -33,6 +33,7 @@ import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.FeedFragment;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.MoreFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.ProfileFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 import curatetechnologies.com.curate.storage.LocationRepository;
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
                     transaction.commit();
                     return true;
                 case R.id.navigation_more:
+                    Fragment moreFragment = new MoreFragment();
+                    transaction.replace(R.id.content_frame, moreFragment);
+                    transaction.commit();
                     return true;
             }
             return false;

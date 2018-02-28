@@ -5,9 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.stripe.android.CustomerSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,5 +136,24 @@ public class UserRepository implements UserModelRepository {
             available = false;
         }
         return available;
+    }
+
+    @Override
+    public void signOutUser() {
+        // if signed in with facebook
+        LoginManager.getInstance().logOut();
+        // if signed in with google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignIn.getClient(appContext, gso).signOut();
+        // if signed in with curate
+        // clear shared preferences
+        SharedPreferences preferences = appContext.getSharedPreferences(Constants.CURATE_SHARED_PREFERENCE_KEY,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+        // clear stripe customer session
+        CustomerSession.endCustomerSession();
     }
 }
