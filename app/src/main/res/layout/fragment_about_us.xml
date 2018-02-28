@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyBackground">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_more_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <RelativeLayout
+            android:id="@+id/search_bar_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"
+                android:layout_centerInParent="true"
+                android:text="About Curate"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <ImageView
         android:layout_width="200dp"
@@ -14,9 +38,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/textDark"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:textAlignment="center"
         android:text="Curate Technologies, Inc."/>
 
     <TextView
@@ -26,6 +52,7 @@
         android:layout_below="@+id/fragment_about_us_title"
         android:layout_centerHorizontal="true"
         android:textColor="@color/textDark"
+        android:textAlignment="center"
         android:textSize="22sp"
         android:text="v1.0"/>
     
@@ -36,7 +63,7 @@
         android:layout_below="@+id/fragment_about_us_version_number"
         android:layout_margin="16dp"
         android:layout_centerHorizontal="true"
-        android:background="@color/greyBackground"
+        android:background="@color/white"
         android:textColor="@color/colorAccent"
         android:text="Terms and Condtions"/>
 
@@ -46,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_about_us_terms_button"
         android:layout_centerHorizontal="true"
-        android:background="@color/greyBackground"
+        android:background="@color/white"
         android:textColor="@color/colorAccent"
         android:text="Privacy Policy"/>
 

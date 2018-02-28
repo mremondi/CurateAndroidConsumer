@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,22 @@ public class SettingsFragment extends Fragment {
     Unbinder unbinder;
 
     @OnClick(R.id.fragment_settings_sign_out_row) void onSettingsClick(){
-        signOutUser();
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle("Sign Out");
+        alertDialog.setMessage("Are you sure you would like to sign out?");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Sign Out",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        signOutUser();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     @OnClick(R.id.fragment_settings_location_settings_row) void onAcknowledgementsClick(){

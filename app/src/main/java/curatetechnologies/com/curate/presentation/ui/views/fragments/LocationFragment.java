@@ -52,6 +52,14 @@ public class LocationFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getActivity()
+                        .getFragmentManager()
+                        .findFragmentById(R.id.fragment_location_place_autocomplete_fragment);
+        if (autocompleteFragment != null)
+            getActivity()
+                    .getFragmentManager().beginTransaction().remove(autocompleteFragment).commit();
         unbinder.unbind();
         cacheRadius();
     }
@@ -78,6 +86,8 @@ public class LocationFragment extends Fragment {
     }
 
     private void setUpRadiusSeekBar(){
+        radiusSeekBar.setProgress((int)Math.round(getCachedRadius()*2));
+        radiusTextView.setText(String.valueOf(getCachedRadius()) + "mi");
         radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -104,6 +114,10 @@ public class LocationFragment extends Fragment {
 
     private void cacheRadius(){
         LocationRepository.getInstance(getContext()).setRadius((float) mRadius);
+    }
+
+    private double getCachedRadius(){
+        return LocationRepository.getInstance(getContext()).getRadius();
     }
 
     private void detectCurrentLocation(){
