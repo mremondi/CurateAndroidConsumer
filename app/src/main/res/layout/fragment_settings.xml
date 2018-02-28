@@ -34,31 +34,13 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/fragment_settings_sign_out_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="1dp"
-            android:padding="20dp"
-            android:background="@color/white">
-
-            <TextView
-                android:id="@+id/fragment_settings_sign_out_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Sign Out"/>
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/fragment_settings_location_settings_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="20dp"
             android:layout_marginBottom="1dp"
-            android:background="@color/white">
+            android:background="@drawable/white_view_background">
 
             <TextView
                 android:id="@+id/fragment_settings_location_settings_text"
@@ -76,7 +58,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="1dp"
             android:padding="20dp"
-            android:background="@color/white">
+            android:background="@drawable/white_view_background">
 
             <TextView
                 android:id="@+id/fragment_more_about_us_text"
@@ -84,6 +66,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Contact Us"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_settings_sign_out_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:padding="20dp"
+            android:background="@drawable/white_view_background">
+
+            <TextView
+                android:id="@+id/fragment_settings_sign_out_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Sign Out"/>
+
         </LinearLayout>
 
     </LinearLayout>
