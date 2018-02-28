@@ -38,4 +38,23 @@ public class PostRepository implements PostModelRepository {
         }
         return posts;
     }
+
+    @Override
+    public List<PostModel> getPostsByUserId(Integer limit, Integer userId) {
+        final List<PostModel> posts = new ArrayList<>();
+
+        // make network call
+        PostService postService = CurateClient.getService(PostService.class);
+        try {
+            Response<List<CurateAPIPost>> response = postService
+                    .getPostsByUserId(limit, userId)
+                    .execute();
+            for (CurateAPIPost post: response.body()){
+                posts.add(PostConverter.convertCuratePostToPostModel(post));
+            }
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+        }
+        return posts;
+    }
 }

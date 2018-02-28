@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +33,7 @@ import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.FeedFragment;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.ProfileFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.StripeRepository;
@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
                     transaction.commit();
                     return true;
                 case R.id.navigation_user_activity:
+                    Fragment profileFragment = new ProfileFragment();
+                    transaction.replace(R.id.content_frame, profileFragment);
+                    transaction.commit();
                     return true;
                 case R.id.navigation_more:
                     return true;
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        initializeStripe();
+        initializeStripeCustomer();
 
         mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         if (!checkPermissions()) {
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND
-    private void initializeStripe(){
+    private void initializeStripeCustomer(){
         PaymentConfiguration.init("pk_test_5mf0TR8Bf9NP6fXT3Mlg6DHv");
         CustomerSession.initCustomerSession(
                 new EphemeralKeyProvider() {

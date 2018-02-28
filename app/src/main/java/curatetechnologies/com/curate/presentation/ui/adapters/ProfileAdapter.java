@@ -17,10 +17,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-import static com.bumptech.glide.request.RequestOptions.circleCropTransform;
-import static com.bumptech.glide.request.RequestOptions.overrideOf;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,16 +27,19 @@ import curatetechnologies.com.curate.presentation.ui.views.fragments.ItemFragmen
 import curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment;
 import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+import static com.bumptech.glide.request.RequestOptions.circleCropTransform;
+
 /**
- * Created by mremondi on 2/22/18.
+ * Created by mremondi on 2/28/18.
  */
 
-public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
     List<PostModel> mPosts;
 
-    public FeedAdapter(List<PostModel> posts, Context context){
+    public ProfileAdapter(List<PostModel> posts, Context context) {
         mPosts = posts;
         mContext = context;
     }
@@ -61,7 +60,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         .inflate(R.layout.rating_post_view_holder,
                                 parent,
                                 false);
-                viewHolder = new RatingPostViewHolder(view);
+                viewHolder = new ProfileAdapter.RatingPostViewHolder(view);
                 break;
             case 1:
                 view = (CardView) LayoutInflater
@@ -69,7 +68,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         .inflate(R.layout.image_post_view_holder,
                                 parent,
                                 false);
-                viewHolder = new ImagePostViewHolder(view);
+                viewHolder = new ProfileAdapter.ImagePostViewHolder(view);
                 break;
             case 2:
                 view = (CardView) LayoutInflater
@@ -77,7 +76,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         .inflate(R.layout.order_post_view_holder,
                                 parent,
                                 false);
-                viewHolder = new OrderPostViewHolder(view);
+                viewHolder = new ProfileAdapter.OrderPostViewHolder(view);
         }
         return viewHolder;
     }
@@ -87,15 +86,15 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         int viewType = getItemViewType(position);
         switch (viewType) {
             case 0:
-                RatingPostViewHolder ratingPostViewHolder = (RatingPostViewHolder) holder;
+                ProfileAdapter.RatingPostViewHolder ratingPostViewHolder = (ProfileAdapter.RatingPostViewHolder) holder;
                 ratingPostViewHolder.bindData(mPosts.get(position), mContext);
                 break;
             case 1:
-                ImagePostViewHolder imagePostViewHolder = (ImagePostViewHolder) holder;
+                ProfileAdapter.ImagePostViewHolder imagePostViewHolder = (ProfileAdapter.ImagePostViewHolder) holder;
                 imagePostViewHolder.bindData(mPosts.get(position), mContext);
                 break;
             case 2:
-                OrderPostViewHolder orderPostViewHolder = (OrderPostViewHolder) holder;
+                ProfileAdapter.OrderPostViewHolder orderPostViewHolder = (ProfileAdapter.OrderPostViewHolder) holder;
                 orderPostViewHolder.bindData(mPosts.get(position), mContext);
                 break;
         }
@@ -104,9 +103,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int position) {
         String postType = mPosts.get(position).getPostType();
-        if (postType.equals("Rating")){
+        if (postType.equals("Rating")) {
             return 0;
-        } else if (postType.equals("ImageRating")){
+        } else if (postType.equals("ImageRating")) {
             return 1;
         } else {
             return 2;
@@ -119,58 +118,58 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
 
-    public static class RatingPostViewHolder extends PostViewHolder {
+    public static class RatingPostViewHolder extends ProfileAdapter.PostViewHolder {
 
-        public RatingPostViewHolder(CardView postRow){
+        public RatingPostViewHolder(CardView postRow) {
             super(postRow);
             ButterKnife.bind(this, postRow);
             this.view = postRow;
         }
 
-        public void bindData(PostModel post, Context context){
+        public void bindData(PostModel post, Context context) {
             super.bindData(post, context);
         }
     }
 
-    public static class ImagePostViewHolder extends PostViewHolder {
+    public static class ImagePostViewHolder extends ProfileAdapter.PostViewHolder {
 
         @BindView(R.id.fragment_image_post_item_image)
         ImageView ivItemImage;
         @BindView(R.id.fragment_feed_image_post_description)
         TextView tvDescription;
 
-        public ImagePostViewHolder(CardView postRow){
+        public ImagePostViewHolder(CardView postRow) {
             super(postRow);
         }
 
-        public void bindData(PostModel post, Context context){
+        public void bindData(PostModel post, Context context) {
             super.bindData(post, context);
-            if (post.getImageURL() != null){
+            if (post.getImageURL() != null) {
                 Glide.with(view)
                         .load(post.getImageURL())
                         .apply(bitmapTransform(new MultiTransformation(
                                 new CenterCrop(), new RoundedCornerTransformation(45, 0,
                                 RoundedCornerTransformation.CornerType.ALL))))
                         .into(ivItemImage);
-            } else{
+            } else {
                 ivItemImage.setImageDrawable(null);
             }
             tvDescription.setText(post.getDescription());
         }
     }
 
-    public static class OrderPostViewHolder extends PostViewHolder {
+    public static class OrderPostViewHolder extends ProfileAdapter.PostViewHolder {
 
-        public OrderPostViewHolder(CardView postRow){
+        public OrderPostViewHolder(CardView postRow) {
             super(postRow);
         }
 
-        public void bindData(PostModel post, Context context){
+        public void bindData(PostModel post, Context context) {
             super.bindData(post, context);
         }
     }
 
-    static class PostViewHolder extends RecyclerView.ViewHolder{
+    static class PostViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.rating_post_item_name)
         TextView tvItemName;
         @BindView(R.id.rating_post_restaurant_name)
@@ -188,14 +187,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         CardView view;
 
-        public PostViewHolder(CardView postRow){
+        public PostViewHolder(CardView postRow) {
             super(postRow);
             ButterKnife.bind(this, postRow);
             this.view = postRow;
         }
 
-        public void bindData(final PostModel post, final Context context){
-            if (post.getUserPicture() != null){
+        public void bindData(final PostModel post, final Context context) {
+            if (post.getUserPicture() != null) {
                 Glide.with(view)
                         .load(post.getUserPicture())
                         .apply(circleCropTransform())
@@ -207,10 +206,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvRestaurantName.setText(post.getRestaurantName());
             tvUsername.setText(post.getUsername());
             tvTime.setText(post.getTime());
-            String likeDislike = post.getRating() ? "Liked": "Disliked";
+            String likeDislike = post.getRating() ? "Liked" : "Disliked";
             tvLiked.setText(likeDislike);
             Drawable likeDislikeImage = post.getRating() ?
-                    view.getResources().getDrawable( R.drawable.liked) :
+                    view.getResources().getDrawable(R.drawable.liked) :
                     view.getResources().getDrawable(R.drawable.disliked);
             ivLiked.setImageDrawable(likeDislikeImage);
             tvItemName.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +222,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     bundle.putInt(ItemFragment.ITEM_ID, itemId);
                     itemFragment.setArguments(bundle);
 
-                    android.support.v4.app.FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                    android.support.v4.app.FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                     fm.beginTransaction()
                             .add(itemFragment, "ITEM")
                             .addToBackStack("ITEM")
@@ -242,7 +241,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     bundle.putInt(RestaurantFragment.RESTAURANT_ID, restaurantId);
                     restaurantFragment.setArguments(bundle);
 
-                    android.support.v4.app.FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                    android.support.v4.app.FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                     fm.beginTransaction()
                             .add(restaurantFragment, "RESTAURANT")
                             .addToBackStack("RESTAURANT")

@@ -13,4 +13,6 @@ import curatetechnologies.com.curate.domain.model.PostModel;
 public interface PostModelRepository {
 
     List<PostModel> getPostsByLocation(Integer limit, Location location, Float radius);
+
+    List<PostModel> getPostsByUserId(Integer limit, Integer userId);
 }
