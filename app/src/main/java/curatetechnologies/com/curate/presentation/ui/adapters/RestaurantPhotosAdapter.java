@@ -28,14 +28,17 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
  * Created by mremondi on 3/1/18.
  */
 
-public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RestaurantPhotosAdapter.ViewHolder>{
+public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<PostModel> mPosts;
-    private RecyclerViewClickListener mListener;
+    private RecyclerViewClickListener mPostListener;
+    private RecyclerViewClickListener mAddPhotoListener;
 
-    public RestaurantPhotosAdapter(List<PostModel> posts, RecyclerViewClickListener listener){
+    public RestaurantPhotosAdapter(List<PostModel> posts, RecyclerViewClickListener postlistener,
+                                   RecyclerViewClickListener addPhotoListener){
         this.mPosts = posts;
-        this.mListener = listener;
+        this.mPostListener = postlistener;
+        this.mAddPhotoListener = addPhotoListener;
     }
 
     public void updateData(List<PostModel> newData) {
@@ -44,16 +47,36 @@ public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RestaurantPhot
     }
 
     @Override
-    public RestaurantPhotosAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_restaurant_photo_view_holder, parent, false);
-        RestaurantPhotosAdapter.ViewHolder vh = new RestaurantPhotosAdapter.ViewHolder(view, mListener);
-        return vh;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        RecyclerView.ViewHolder viewHolder = null;
+        switch (viewType) {
+            case 0:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.fragment_restaurant_photo_view_holder, parent, false);
+                viewHolder = new RestaurantPhotosAdapter.ImageViewHolder(view, mPostListener);
+                break;
+            case 1:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.fragment_restaurant_add_photo_view_holder, parent, false);
+                viewHolder = new RestaurantPhotosAdapter.AddImageViewHolder(view, mAddPhotoListener);
+                break;
+        }
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final RestaurantPhotosAdapter.ViewHolder holder, int position) {
-        String photoUrl = mPosts.get(position).getImageURL();
-        holder.bindData(photoUrl);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        int viewType = getItemViewType(position);
+        switch (viewType) {
+            case 0:
+                ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
+                imageViewHolder.bindData(mPosts.get(position).getImageURL());
+                break;
+            case 1:
+                break;
+        }
+
     }
 
     @Override
@@ -61,8 +84,16 @@ public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RestaurantPhot
         return mPosts.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (mPosts.get(position).getId() != null){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private RecyclerViewClickListener mListener;
 
@@ -71,7 +102,7 @@ public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RestaurantPhot
         @BindView(R.id.photo_view_holder_image_view)
         ImageView photoView;
 
-        public ViewHolder(View photoCell, RecyclerViewClickListener listener){
+        public ImageViewHolder(View photoCell, RecyclerViewClickListener listener){
             super(photoCell);
             this.mListener = listener;
             ButterKnife.bind(this, photoCell);
@@ -86,6 +117,32 @@ public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RestaurantPhot
                             new CenterCrop(), new RoundedCornerTransformation(45, 0,
                             RoundedCornerTransformation.CornerType.ALL))))
                     .into(photoView);
+        }
+
+        // -- BEGIN View.OnClickListener methods
+        @Override
+        public void onClick(View v) {
+            mListener.onClick(view, getAdapterPosition());
+        }
+        // -- END View.OnClickListener methods
+    }
+
+    public static class AddImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private RecyclerViewClickListener mListener;
+
+        View view;
+
+        public AddImageViewHolder(View addPhotoCell, RecyclerViewClickListener listener){
+            super(addPhotoCell);
+            this.mListener = listener;
+            ButterKnife.bind(this, addPhotoCell);
+            this.view = addPhotoCell;
+            addPhotoCell.setOnClickListener(this);
+        }
+
+        public void bindData(String photoUrl){
+
         }
 
         // -- BEGIN View.OnClickListener methods

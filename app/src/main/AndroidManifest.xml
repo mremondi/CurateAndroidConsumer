@@ -5,6 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +26,7 @@
         <!-- TODO: THIS IS ONLY THE STAGING PLACE PICKER KEY. FIGURE OUT HOW TO DO THIS WITH PROD -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCYhR42bQUapg3wVaXkATFq-e4hi6RlKPY"/>
-
+            android:value="AIzaSyCYhR42bQUapg3wVaXkATFq-e4hi6RlKPY" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -56,7 +62,8 @@
             android:theme="@style/LoginWithEmailTheme" />
         <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity" />
         <activity android:name=".presentation.ui.views.activities.CartActivity" />
-        <activity android:name=".presentation.ui.views.activities.GetCardActivity"></activity>
+        <activity android:name=".presentation.ui.views.activities.GetCardActivity" />
+        <activity android:name=".presentation.ui.views.activities.EditImageActivity"></activity>
     </application>
 
 </manifest>
