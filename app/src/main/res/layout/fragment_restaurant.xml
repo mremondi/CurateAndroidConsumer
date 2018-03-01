@@ -43,4 +43,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fragment_restaurant_menu_label"
         android:scrollbars="vertical"/>
+
+    <TextView
+        android:id="@+id/fragment_restaurant_photos_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textAlignment="center"
+        android:textColor="@color/lightGray"
+        android:layout_below="@id/fragment_restaurant_menu_recyclerview"
+        android:text="PHOTOS" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_restaurant_photos_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_restaurant_photos_label"
+        android:background="@color/white"
+        android:scrollbars="vertical"/>
+
+
 </RelativeLayout>

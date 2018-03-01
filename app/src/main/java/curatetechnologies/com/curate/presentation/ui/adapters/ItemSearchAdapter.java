@@ -69,7 +69,7 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
         ImageView itemImage;
         @BindView(R.id.item_search_view_holder_item_name)
         TextView itemName;
-        @BindView(R.id.item_search_view_holder_item_restaurant_name)
+        @BindView(R.id.item_search_view_holder_item_description)
         TextView itemDescription;
         @BindView(R.id.item_search_view_holder_item_distance)
         TextView itemDistance;

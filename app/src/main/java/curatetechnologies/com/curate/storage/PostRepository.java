@@ -57,4 +57,23 @@ public class PostRepository implements PostModelRepository {
         }
         return posts;
     }
+
+    @Override
+    public List<PostModel> getPostsByRestaurantId(Integer limit, Integer restaurantId, String postType) {
+        final List<PostModel> posts = new ArrayList<>();
+
+        // make network call
+        PostService postService = CurateClient.getService(PostService.class);
+        try {
+            Response<List<CurateAPIPost>> response = postService
+                    .getPostsByRestaurantId(limit, restaurantId, postType)
+                    .execute();
+            for (CurateAPIPost post: response.body()){
+                posts.add(PostConverter.convertCuratePostToPostModel(post));
+            }
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+        }
+        return posts;
+    }
 }

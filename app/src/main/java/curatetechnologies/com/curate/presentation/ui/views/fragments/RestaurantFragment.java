@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,16 +17,21 @@ import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
+import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantContract;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantMenusAdapter;
+import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantPhotosAdapter;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
+import curatetechnologies.com.curate.storage.PostRepository;
 import curatetechnologies.com.curate.storage.RestaurantRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
@@ -49,6 +55,8 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     ImageView ivRestaurantLogo;
     @BindView(R.id.fragment_restaurant_menu_recyclerview)
     RecyclerView menuRecyclerView;
+    @BindView(R.id.fragment_restaurant_photos_recyclerview)
+    RecyclerView photosRecyclerView;
 
     @Nullable
     @Override
@@ -63,10 +71,14 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                new RestaurantRepository());
+                new RestaurantRepository(),
+                new PostRepository());
 
         mRestaurantPresenter.getRestaurantById(restaurantId);
+        mRestaurantPresenter.getRestaurantPosts(20, restaurantId);
+
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        photosRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
 
         return v;
     }
@@ -101,6 +113,11 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         };
         menuRecyclerView.setAdapter(new RestaurantMenusAdapter(restaurant.getMenus(), listener));
 
+    }
+
+    @Override
+    public void displayRestaurantPosts(List<PostModel> posts) {
+        photosRecyclerView.setAdapter(new RestaurantPhotosAdapter(posts, null));
     }
 
     @Override

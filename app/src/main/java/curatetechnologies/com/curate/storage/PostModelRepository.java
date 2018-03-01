@@ -15,4 +15,6 @@ public interface PostModelRepository {
     List<PostModel> getPostsByLocation(Integer limit, Location location, Float radius);
 
     List<PostModel> getPostsByUserId(Integer limit, Integer userId);
+
+    List<PostModel> getPostsByRestaurantId(Integer limit, Integer restaurantId, String postType);
 }
