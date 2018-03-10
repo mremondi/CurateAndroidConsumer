@@ -86,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        initializeStripeCustomer();
-
         mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         if (!checkPermissions()) {
             requestPermissions();
@@ -106,21 +104,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.content_frame, searchFragment);
         transaction.commit();
 
-    }
-
-    // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND
-    private void initializeStripeCustomer(){
-        PaymentConfiguration.init("pk_test_5mf0TR8Bf9NP6fXT3Mlg6DHv");
-        CustomerSession.initCustomerSession(
-                new EphemeralKeyProvider() {
-                    @Override
-                    public void createEphemeralKey(@NonNull String apiVersion,
-                                                   @NonNull EphemeralKeyUpdateListener keyUpdateListener) {
-                        StripeRepository stripeRepository = new StripeRepository();
-                        String email = "mikeremondi@gmail.com"; //mUserModelRepository.getCurrentUser().getEmail();
-                        stripeRepository.createEphemeralKey(apiVersion, email, keyUpdateListener);
-                    }
-                });
     }
 
     /**

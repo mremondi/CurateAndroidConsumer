@@ -3,6 +3,7 @@ package curatetechnologies.com.curate.storage;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.facebook.login.LoginManager;
@@ -13,6 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.stripe.android.CustomerSession;
+import com.stripe.android.EphemeralKeyProvider;
+import com.stripe.android.EphemeralKeyUpdateListener;
+import com.stripe.android.PaymentConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +97,25 @@ public class UserRepository implements UserModelRepository {
         String json = gson.toJson(userModel);
         prefsEditor.putString(Constants.USER_SHARED_PREFERENCE_KEY, json);
         prefsEditor.apply();
+
+        initializeStripeCustomer(userModel.getEmail());
         return true;
+    }
+
+    // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND
+    private void initializeStripeCustomer(final String email){
+        PaymentConfiguration.init("pk_test_5mf0TR8Bf9NP6fXT3Mlg6DHv");
+        CustomerSession.initCustomerSession(
+                new EphemeralKeyProvider() {
+                    @Override
+                    public void createEphemeralKey(@NonNull String apiVersion,
+                                                   @NonNull EphemeralKeyUpdateListener keyUpdateListener) {
+                        StripeRepository stripeRepository = new StripeRepository();
+                        String token = stripeRepository.createEphemeralKey(apiVersion,
+                                email,
+                                keyUpdateListener);
+                    }
+                });
     }
 
     @Override

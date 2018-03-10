@@ -2,6 +2,7 @@ package curatetechnologies.com.curate.domain.interactor;
 
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -48,6 +49,7 @@ public class SearchItemsInteractorImpl extends AbstractInteractor implements Sea
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
+                Log.d("SEARCH ", "failed");
                 mCallback.onRetrievalFailed("Search Item Failed");
             }
         });

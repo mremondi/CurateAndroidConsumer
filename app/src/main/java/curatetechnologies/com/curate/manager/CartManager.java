@@ -61,6 +61,14 @@ public class CartManager {
         return orderItems;
     }
 
+    public ArrayList<Integer> getOrderItemIds(){
+        ArrayList<Integer> itemIds = new ArrayList<>();
+        for (ItemModel item : orderItems){
+            itemIds.add(item.getId());
+        }
+        return itemIds;
+    }
+
 
     public void clearCart(){
         this.orderItems.clear();

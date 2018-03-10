@@ -20,7 +20,6 @@ public class StripeEphemeralKeyProvider implements EphemeralKeyProvider {
     @Override
     public void createEphemeralKey(@NonNull String apiVersion,
                                    @NonNull EphemeralKeyUpdateListener keyUpdateListener) {
-
     }
 
 }

@@ -29,7 +29,7 @@ public class ItemRepository implements ItemModelRepository {
                 items.add(ItemConverter.convertCurateItemToItemModel(item));
             }
         } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
+            Log.d("FAILURE searching", e.getLocalizedMessage());
         }
         return items;
     }

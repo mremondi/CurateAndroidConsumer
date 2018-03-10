@@ -32,6 +32,7 @@ import com.stripe.android.model.SourceCardData;
 import com.stripe.android.model.Token;
 import com.stripe.android.view.CardInputWidget;
 
+import java.util.ArrayList;
 import java.util.Currency;
 
 import butterknife.BindView;
@@ -40,11 +41,14 @@ import butterknife.OnClick;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
+import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.CartContract;
 import curatetechnologies.com.curate.presentation.presenters.CartPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.CartItemsAdapter;
 import curatetechnologies.com.curate.storage.RestaurantRepository;
+import curatetechnologies.com.curate.storage.StripeRepository;
+import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 import static com.stripe.android.PayWithGoogleUtils.getPriceString;
@@ -77,6 +81,18 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
             @Override
             public void completePayment(@NonNull PaymentSessionData data, @NonNull PaymentResultListener listener) {
                 // TODO:
+                StripeRepository stripeRepository = new StripeRepository();
+
+                ArrayList<Integer> itemIds = CartManager.getInstance().getOrderItemIds();
+                String description = "ANDROID ORDER AT RESTAURANT ID: " + CartManager.getInstance().getRestaurantId();
+                UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
+                String email = user.getEmail();
+                String token = CustomerSession.getInstance().getCachedCustomer().getDefaultSource();
+                Integer restaurantId = CartManager.getInstance().getRestaurantId();
+                Log.d("TOKEN", token);
+                // stripe Id
+
+                stripeRepository.createCharge(itemIds, description, email, token, restaurantId );
             }
         });
     }
@@ -139,11 +155,17 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
             @Override
             public void onPaymentSessionDataChanged(@NonNull PaymentSessionData data) {
-                mResultTextView.setText(formatStringResults(mPaymentSession.getPaymentSessionData()));
+                Log.d("PAYMENT RESULT", data.getPaymentResult());
+                if (data.getPaymentResult().equals("success")){
+                    // Payment has been completed!!
+                    Log.d("PAYMENT RESULT SUCCESS", data.getPaymentResult());
+                }
                 if (data.isPaymentReadyToCharge()){
                     Log.d("PAYMENT", "READY TO CHARGE");
-                    mResultTextView.setVisibility(View.VISIBLE);
                     selectPaymentButton.setVisibility(View.GONE);
+                    mResultTextView.setVisibility(View.VISIBLE);
+                    mResultTextView.setText(formatStringResults(data));
+                    completePurchaseButton.setBackgroundColor(getResources().getColor(R.color.activeBlue));
                     completePurchaseButton.setEnabled(true);
                 } else {
                     mResultTextView.setVisibility(View.GONE);
@@ -155,12 +177,13 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
             }
         }, new PaymentSessionConfig.Builder()
                 .setShippingInfoRequired(false)
+                .setShippingMethodsRequired(false)
                 .build());
         if (paymentSessionInitialized) {
+            Log.d("HERE", "paymentSessionInitialized");
             selectPaymentButton.setEnabled(true);
             selectPaymentButton.setBackgroundColor(getResources().getColor(R.color.activeBlue));
         }
-
     }
 
     @Override
