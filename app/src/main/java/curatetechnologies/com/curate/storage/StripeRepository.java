@@ -6,10 +6,8 @@ import com.stripe.android.EphemeralKeyUpdateListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.network.CurateClient;
 import curatetechnologies.com.curate.network.services.StripeService;
 import okhttp3.ResponseBody;

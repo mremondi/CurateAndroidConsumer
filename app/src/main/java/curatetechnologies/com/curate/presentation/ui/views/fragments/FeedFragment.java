@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.presentation.presenters.FeedContract;
 import curatetechnologies.com.curate.presentation.presenters.FeedPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.FeedAdapter;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.PostRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
@@ -43,6 +46,10 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
     @BindView(R.id.fragment_feed_recycler_view)
     RecyclerView feedRecyclerView;
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
     // -- BEGIN Fragment methods
     @Nullable
@@ -53,6 +60,8 @@ public class FeedFragment extends Fragment implements FeedContract.View {
         unbinder = ButterKnife.bind(this, v);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
+
 
         mFeedPresenter = new FeedPresenter(
                 ThreadExecutor.getInstance(),
@@ -62,6 +71,12 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
         mFeedPresenter.getPostsByLocation(20, getLocation(), getRadius());
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

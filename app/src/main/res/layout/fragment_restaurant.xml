@@ -1,73 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/greyBackground">
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
 
-    <ImageView
-        android:id="@+id/fragment_restaurant_logo"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:padding="16dp"
-        android:background="@color/white"
-        android:layout_alignParentTop="true"/>
-    
-    <include
-        android:id="@+id/button_row"
-        layout="@layout/fragment_restaurant_button_row"
-        android:layout_below="@id/fragment_restaurant_logo"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/fragment_restaurant_menu_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textAlignment="center"
-        android:textColor="@color/lightGray"
-        android:layout_below="@id/button_row"
-        android:text="MENUS"/>
+        <FrameLayout
+            android:id="@+id/fragment_restaurant_logo_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
 
-    <ProgressBar
-        android:id="@+id/fragment_restaurant_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/fragment_restaurant_logo"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:padding="16dp"
+                android:background="@color/white"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_restaurant_menu_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fragment_restaurant_menu_label"
-        android:scrollbars="vertical"/>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/fragment_restaurant_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:background="@android:color/transparent">
+                <RelativeLayout
+                    android:id="@+id/search_bar_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
 
-    <TextView
-        android:id="@+id/fragment_restaurant_photos_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textAlignment="center"
-        android:textColor="@color/lightGray"
-        android:layout_below="@id/fragment_restaurant_menu_recyclerview"
-        android:text="PHOTOS" />
+                    <include layout="@layout/cart_button"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_restaurant_photos_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fragment_restaurant_photos_label"
-        android:background="@color/white"
-        android:scrollbars="vertical"
-        android:nestedScrollingEnabled="false"/>
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </FrameLayout>
+
+        <include
+            android:id="@+id/button_row"
+            layout="@layout/fragment_restaurant_button_row"
+            android:layout_below="@id/fragment_restaurant_logo_frame"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+
+        <TextView
+            android:id="@+id/fragment_restaurant_menu_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/lightGray"
+            android:layout_below="@id/button_row"
+            android:text="MENUS"/>
+
+        <ProgressBar
+            android:id="@+id/fragment_restaurant_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_restaurant_menu_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_restaurant_menu_label"
+            android:scrollbars="vertical"/>
+
+        <TextView
+            android:id="@+id/fragment_restaurant_photos_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/lightGray"
+            android:layout_below="@id/fragment_restaurant_menu_recyclerview"
+            android:text="PHOTOS" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_restaurant_photos_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_restaurant_photos_label"
+            android:background="@color/white"
+            android:scrollbars="vertical"
+            android:nestedScrollingEnabled="false"/>
 
 
-</RelativeLayout>
+    </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import curatetechnologies.com.curate.domain.model.MenuSectionModel;
 import curatetechnologies.com.curate.presentation.presenters.MenuContract;
 import curatetechnologies.com.curate.presentation.presenters.MenuPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.MenuSection;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.MenuRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
@@ -52,6 +54,10 @@ public class MenuFragment extends Fragment implements MenuContract.View {
     TextView tvTitle;
     @BindView(R.id.fragment_restaurant_menu_recyclerview)
     RecyclerView menuRecyclerView;
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
 
     // -- BEGIN Fragment methods
@@ -72,6 +78,12 @@ public class MenuFragment extends Fragment implements MenuContract.View {
 
         mMenuPresenter.getMenuById(menuId);
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override

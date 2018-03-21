@@ -22,10 +22,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.stripe.android.CustomerSession;
-import com.stripe.android.EphemeralKeyProvider;
-import com.stripe.android.EphemeralKeyUpdateListener;
-import com.stripe.android.PaymentConfiguration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

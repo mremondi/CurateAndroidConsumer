@@ -1,8 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.stripe.android.CustomerSession;
-import com.stripe.android.EphemeralKeyProvider;
-import com.stripe.android.EphemeralKeyUpdateListener;
-import com.stripe.android.PaymentConfiguration;
 
 import org.json.JSONObject;
 
@@ -40,7 +34,6 @@ import curatetechnologies.com.curate.network.converters.oauth.FacebookUserConver
 import curatetechnologies.com.curate.network.converters.oauth.GoogleUserConverter;
 import curatetechnologies.com.curate.presentation.presenters.LoginContract;
 import curatetechnologies.com.curate.presentation.presenters.LoginPresenter;
-import curatetechnologies.com.curate.storage.StripeRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 

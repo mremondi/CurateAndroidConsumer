@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,6 +41,7 @@ import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.presentation.ui.views.activities.CartActivity;
 import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 import curatetechnologies.com.curate.storage.ItemRepository;
@@ -90,10 +92,10 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @BindView(R.id.fragment_item_item_price)
     TextView tvItemPrice;
 
-    @OnClick(R.id.fragment_item_cart_button) void goToCartClick(){
-        Intent i = new Intent(getContext(), CartActivity.class);
-        startActivity(i);
-    }
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
     @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
         CartManager.getInstance().addItemToCart(mItem);
@@ -147,6 +149,12 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
         mItemPresenter.getItemById(itemId, getLocation());
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

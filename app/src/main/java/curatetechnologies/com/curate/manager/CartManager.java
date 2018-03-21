@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 
 /**
  * Created by mremondi on 2/26/18.
@@ -47,6 +48,7 @@ public class CartManager {
         } else{
             this.orderItems.add(item);
         }
+        CartButtonWrapper.getInstance().updateCartButtonCount(orderItems.size());
     }
 
     public void removeItemFromCart(ItemModel item){
@@ -60,6 +62,8 @@ public class CartManager {
     public ArrayList<ItemModel> getOrderItems(){
         return orderItems;
     }
+
+    public int getOrderItemCount() { return orderItems.size(); }
 
     public ArrayList<Integer> getOrderItemIds(){
         ArrayList<Integer> itemIds = new ArrayList<>();

@@ -23,17 +23,9 @@
                 android:layout_alignParentStart="true"
                 app:queryHint="Search for meals or restaurants"
                 android:background="#E3E3E3"/>
-            <Button
-                android:id="@+id/search_cart_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/ic_shopping_cart_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"/>
+
+                <include layout="@layout/cart_button"/>
+
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

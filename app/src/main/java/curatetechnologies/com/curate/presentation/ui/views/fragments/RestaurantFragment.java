@@ -24,8 +24,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -43,6 +45,7 @@ import curatetechnologies.com.curate.presentation.presenters.RestaurantContract;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantMenusAdapter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantPhotosAdapter;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.presentation.ui.views.activities.EditImageActivity;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.PostRepository;
@@ -77,6 +80,10 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     RecyclerView menuRecyclerView;
     @BindView(R.id.fragment_restaurant_photos_recyclerview)
     RecyclerView photosRecyclerView;
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
     @Nullable
     @Override
@@ -101,6 +108,12 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         photosRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

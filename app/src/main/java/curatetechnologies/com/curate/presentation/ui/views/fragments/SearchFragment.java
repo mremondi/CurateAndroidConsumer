@@ -1,15 +1,11 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -19,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -28,7 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
-import curatetechnologies.com.curate.config.Constants;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
@@ -36,6 +33,7 @@ import curatetechnologies.com.curate.presentation.presenters.SearchContract;
 import curatetechnologies.com.curate.presentation.presenters.SearchPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.ItemSearchAdapter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantSearchAdapter;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
@@ -51,8 +49,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         RESTAURANT_SEARCH
     }
 
-    private int progressStatus = 0;
-    private Handler handler = new Handler();
     @BindView(R.id.fragment_search_progress_bar)
     ProgressBar progressBar;
 
@@ -70,6 +66,10 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     Button btnItem;
     @BindView(R.id.fragment_search_restaurant_button)
     Button btnRestaurant;
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
     @OnClick(R.id.fragment_search_item_button) void onItemButtonClick(){
         searchType = SearchType.ITEM_SEARCH;
@@ -102,6 +102,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                 new RestaurantRepository());
 
         // SET DEFAULTS
+
         searchType = SearchType.ITEM_SEARCH;
         btnItem.setSelected(true);
         searchView.setIconified(false);
@@ -133,6 +134,12 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         });
         return v;
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

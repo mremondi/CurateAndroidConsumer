@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ import curatetechnologies.com.curate.presentation.presenters.ProfileContract;
 import curatetechnologies.com.curate.presentation.presenters.ProfilePresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.FeedAdapter;
 import curatetechnologies.com.curate.presentation.ui.adapters.ProfileAdapter;
+import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.PostRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
@@ -44,6 +47,10 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
     @BindView(R.id.fragment_profile_recycler_view)
     RecyclerView profileRecyclerView;
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
     // -- BEGIN Fragment methods
     @Nullable
@@ -53,7 +60,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
         unbinder = ButterKnife.bind(this, v);
         profileRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
 
         mProfilePresenter = new ProfilePresenter(
                 ThreadExecutor.getInstance(),
@@ -68,6 +74,12 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
             mProfilePresenter.getUserPosts(20, getUserId());
         }
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {
