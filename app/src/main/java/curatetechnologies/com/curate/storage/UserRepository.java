@@ -27,6 +27,7 @@ import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.CurateClient;
 import curatetechnologies.com.curate.network.converters.curate.UserConverter;
 import curatetechnologies.com.curate.network.model.CurateAPIPreferencePost;
+import curatetechnologies.com.curate.network.model.CurateAPIUserGet;
 import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
 import curatetechnologies.com.curate.network.services.UserService;
@@ -98,25 +99,9 @@ public class UserRepository implements UserModelRepository {
         prefsEditor.putString(Constants.USER_SHARED_PREFERENCE_KEY, json);
         prefsEditor.apply();
 
-        initializeStripeCustomer(userModel.getEmail());
         return true;
     }
 
-    // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND
-    private void initializeStripeCustomer(final String email){
-        PaymentConfiguration.init("pk_test_5mf0TR8Bf9NP6fXT3Mlg6DHv");
-        CustomerSession.initCustomerSession(
-                new EphemeralKeyProvider() {
-                    @Override
-                    public void createEphemeralKey(@NonNull String apiVersion,
-                                                   @NonNull EphemeralKeyUpdateListener keyUpdateListener) {
-                        StripeRepository stripeRepository = new StripeRepository();
-                        String token = stripeRepository.createEphemeralKey(apiVersion,
-                                email,
-                                keyUpdateListener);
-                    }
-                });
-    }
 
     @Override
     public Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences){
@@ -177,5 +162,21 @@ public class UserRepository implements UserModelRepository {
         editor.commit();
         // clear stripe customer session
         CustomerSession.endCustomerSession();
+    }
+
+    @Override
+    public UserModel getUserById(Integer userId) {
+        UserModel user = null;
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            Response<CurateAPIUserGet> response = userService
+                    .getUserById(userId)
+                    .execute();
+            Log.d("STRIPE ID RESPONSE", "ID " + response.body().getUserStripeId());
+            user = UserConverter.convertCurateUserToUserModel(response.body());
+        } catch (Exception e){
+            Log.d("FAILURE1", e.getMessage());
+        }
+        return user;
     }
 }

@@ -13,12 +13,20 @@ import curatetechnologies.com.curate.network.model.CurateRegisterUser;
 
 public class UserConverter {
 
-    public static UserModel convertCurateUserToUserModel(CurateAPIUserGet apiUser, String jwt){
+    public static UserModel convertCurateUserToUserModel(CurateAPIUserGet apiUser){
         return new UserModel(apiUser.getUserID(), apiUser.getUserUsername(), apiUser.getUserEmail(),
-                apiUser.getUserLoyaltyPoints(), apiUser.getUserFullName(), apiUser.getUserFirstName(),
+                0, apiUser.getUserFullName(), apiUser.getUserFirstName(),
                 apiUser.getUserLastName(), apiUser.getUserDOB(), apiUser.getUserAge(),
                 apiUser.getUserGender(), apiUser.getUserPicture(), apiUser.getUserFacebookToken(),
-                apiUser.getUserGoogleToken(), jwt);
+                apiUser.getUserGoogleToken(), "", apiUser.getUserStripeId());
+    }
+
+    public static UserModel convertCurateUserToUserModel(CurateAPIUserGet apiUser, String jwt){
+        return new UserModel(apiUser.getUserID(), apiUser.getUserUsername(), apiUser.getUserEmail(),
+               0, apiUser.getUserFullName(), apiUser.getUserFirstName(),
+                apiUser.getUserLastName(), apiUser.getUserDOB(), apiUser.getUserAge(),
+                apiUser.getUserGender(), apiUser.getUserPicture(), apiUser.getUserFacebookToken(),
+                apiUser.getUserGoogleToken(), jwt, apiUser.getUserStripeId());
     }
 
     public static CurateAPIUserPost convertUserModelToCurateUserPost(UserModel userModel){
@@ -35,6 +43,6 @@ public class UserConverter {
                 0, "", "",
                 "", "01/01/1901", 0, "",
                 "", "", "",
-                jwt);
+                jwt, "");
     }
 }

@@ -19,5 +19,6 @@ public interface UserModelRepository {
     UserModel getCurrentUser();
     Boolean checkUsernameAvailable(String username);
     void signOutUser();
+    UserModel getUserById(Integer userId);
 
 }

@@ -1,5 +1,8 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -43,9 +46,11 @@ import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
 import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.presentation.ui.views.activities.CartActivity;
+import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
 import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
+import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -98,7 +103,26 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     TextView tvCartBadge;
 
     @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
-        CartManager.getInstance().addItemToCart(mItem);
+        if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
+            AlertDialog.Builder builder;
+            builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Feature Unavailable")
+                    .setMessage("You need to be logged in to use this feature.")
+                    .setPositiveButton("Register", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(getContext(), LoginActivity.class);
+                            startActivity(i);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            CartManager.getInstance().addItemToCart(mItem);
+        }
     }
 
     @OnClick(R.id.fragment_item_restaurant_row) void onRestaurantRowClick(View view){
@@ -175,8 +199,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
         itemInfoSecondary.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override

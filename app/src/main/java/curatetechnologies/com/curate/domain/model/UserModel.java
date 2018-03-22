@@ -16,12 +16,14 @@ public class UserModel {
     private String facebookToken;
     private String googleToken;
     private String curateToken;
+    private String stripeId;
 
     public UserModel(){}
 
     public UserModel(int id, String username, String email, int loyaltyPoints, String fullName,
                      String firstName, String lastName, String birthday, int age, String gender,
-                     String profilePictureURL, String facebookToken, String googleToken, String curateToken) {
+                     String profilePictureURL, String facebookToken, String googleToken,
+                     String curateToken, String stripeId) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -36,6 +38,7 @@ public class UserModel {
         this.facebookToken = facebookToken;
         this.googleToken = googleToken;
         this.curateToken = curateToken;
+        this.stripeId = stripeId;
     }
 
     public int getId() {
@@ -148,5 +151,13 @@ public class UserModel {
 
     public void setCurateToken(String curateToken) {
         this.curateToken = curateToken;
+    }
+
+    public String getStripeId() {
+        return stripeId;
+    }
+
+    public void setStripeId(String stripeId) {
+        this.stripeId = stripeId;
     }
 }

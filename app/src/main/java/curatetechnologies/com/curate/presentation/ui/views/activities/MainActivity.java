@@ -22,11 +22,19 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.stripe.android.CustomerSession;
+import com.stripe.android.EphemeralKeyProvider;
+import com.stripe.android.EphemeralKeyUpdateListener;
+import com.stripe.android.PaymentConfiguration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
+import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
+import curatetechnologies.com.curate.domain.model.UserModel;
+import curatetechnologies.com.curate.presentation.presenters.MainActivityContract;
+import curatetechnologies.com.curate.presentation.presenters.MainActivityPresenter;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.FeedFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.MoreFragment;
@@ -34,10 +42,14 @@ import curatetechnologies.com.curate.presentation.ui.views.fragments.ProfileFrag
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.StripeRepository;
+import curatetechnologies.com.curate.storage.UserRepository;
+import curatetechnologies.com.curate.threading.MainThreadImpl;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    private MainActivityContract mMainActivityPresenter;
 
     FusedLocationProviderClient mFusedLocationProvider;
     protected Location mLastLocation;
@@ -89,6 +101,19 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
         }
 
+        // TODO: load the User and cache it. Eventually, we don't want to be doing this every time
+        // TODO: but this makes sure that the StripeID is loaded and all info is current
+        UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
+        if (user != null) {
+            mMainActivityPresenter = new MainActivityPresenter(
+                    ThreadExecutor.getInstance(),
+                    MainThreadImpl.getInstance(),
+                    this,
+                    UserRepository.getInstance(getApplicationContext())
+            );
+            mMainActivityPresenter.getUserById(user.getId());
+        }
+
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -100,6 +125,23 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.content_frame, searchFragment);
         transaction.commit();
 
+    }
+
+    // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND
+    private void initializeStripeCustomer(final String email, final String customerId){
+        PaymentConfiguration.init("pk_test_5mf0TR8Bf9NP6fXT3Mlg6DHv");
+        CustomerSession.initCustomerSession(
+                new EphemeralKeyProvider() {
+                    @Override
+                    public void createEphemeralKey(@NonNull String apiVersion,
+                                                   @NonNull EphemeralKeyUpdateListener keyUpdateListener) {
+                        StripeRepository stripeRepository = new StripeRepository();
+                        String token = stripeRepository.createEphemeralKey(apiVersion,
+                                email,
+                                customerId,
+                                keyUpdateListener);
+                    }
+                });
     }
 
     /**
@@ -242,4 +284,32 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+
+    @Override
+    public void updateUser(UserModel userModel) {
+        UserRepository.getInstance(getApplicationContext()).saveUser(userModel, false);
+        UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
+        if (user != null){
+            Log.d("HERE", user.getEmail());
+            Log.d("STRIPE ID", user.getStripeId());
+            if (!user.getEmail().equals("") || user.getEmail() != null){
+                initializeStripeCustomer(user.getEmail(), user.getStripeId());
+            }
+        }
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
 }

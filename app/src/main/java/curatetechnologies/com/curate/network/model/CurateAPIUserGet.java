@@ -8,54 +8,58 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class CurateAPIUserGet {
-    @SerializedName("User_ID")
+    @SerializedName("ID")
     @Expose
     private Integer userID;
-    @SerializedName("User_Username")
+    @SerializedName("Username")
     @Expose
     private String userUsername;
-    @SerializedName("User_Email")
+    @SerializedName("Email")
     @Expose
     private String userEmail;
-    @SerializedName("User_LoyaltyPoints")
+    @SerializedName("LoyaltyPoints")
     @Expose
     private Integer userLoyaltyPoints;
-    @SerializedName("User_FullName")
+    @SerializedName("FullName")
     @Expose
     private String userFirstName;
-    @SerializedName("User_FirstName")
+    @SerializedName("FirstName")
     @Expose
     private String userFullName;
-    @SerializedName("User_LastName")
+    @SerializedName("LastName")
     @Expose
     private String userLastName;
-    @SerializedName("User_DOB")
+    @SerializedName("DOB")
     @Expose
     private String userDOB;
-    @SerializedName("User_Age")
+    @SerializedName("Age")
     @Expose
     private Integer userAge;
-    @SerializedName("User_Gender")
+    @SerializedName("Gender")
     @Expose
     private String userGender;
-    @SerializedName("User_Picture")
+    @SerializedName("Picture")
     @Expose
     private String userPicture;
-    @SerializedName("User_FacebookToken")
+    @SerializedName("FacebookToken")
     @Expose
     private String userFacebookToken;
-    @SerializedName("User_GoogleToken")
+    @SerializedName("GoogleToken")
     @Expose
     private String userGoogleToken;
-    @SerializedName("User_InstagramToken")
+    @SerializedName("InstagramToken")
     @Expose
     private String userInstagramToken;
+    @SerializedName("StripeId")
+    @Expose
+    private String userStripeId;
+
 
     public CurateAPIUserGet(Integer userID, String userUsername, String userEmail,
                             Integer userLoyaltyPoints, String userFirstName, String userFullName,
                             String userLastName, String userDOB, Integer userAge, String userGender,
                             String userPicture, String userFacebookToken, String userGoogleToken,
-                            String userInstagramToken) {
+                            String userInstagramToken, String userStripeId) {
         this.userID = userID;
         this.userUsername = userUsername;
         this.userEmail = userEmail;
@@ -70,6 +74,7 @@ public class CurateAPIUserGet {
         this.userFacebookToken = userFacebookToken;
         this.userGoogleToken = userGoogleToken;
         this.userInstagramToken = userInstagramToken;
+        this.userStripeId = userStripeId;
     }
 
     public Integer getUserID() {
@@ -182,5 +187,13 @@ public class CurateAPIUserGet {
 
     public void setUserFirstName(String userFirstName) {
         this.userFirstName = userFirstName;
+    }
+
+    public String getUserStripeId() {
+        return userStripeId;
+    }
+
+    public void setUserStripeId(String userStripeId) {
+        this.userStripeId = userStripeId;
     }
 }

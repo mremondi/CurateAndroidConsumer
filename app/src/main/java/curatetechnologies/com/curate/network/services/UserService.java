@@ -52,4 +52,8 @@ public interface UserService {
     Call<JsonNull> createUserPreferences(@Header("authorization") String token,
                                          @Body CurateAPIPreferencePost preference);
 
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @GET("account/profile")
+    Call<CurateAPIUserGet> getUserById(@Query("userId") Integer userId);
+
 }

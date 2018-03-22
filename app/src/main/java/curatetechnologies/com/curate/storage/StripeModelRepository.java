@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public interface StripeModelRepository {
 
-    String createEphemeralKey(String apiVersion, String email, EphemeralKeyUpdateListener keyUpdateListener);
+    String createEphemeralKey(String apiVersion, String email, String customerId, EphemeralKeyUpdateListener keyUpdateListener);
 
     String createCharge(ArrayList<Integer> itemIds, String description, String email, String token, Integer restaurantId);
 }

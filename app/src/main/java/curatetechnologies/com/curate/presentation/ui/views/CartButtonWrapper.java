@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import curatetechnologies.com.curate.manager.CartManager;
+import curatetechnologies.com.curate.presentation.ui.views.activities.CartActivity;
 import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
 import curatetechnologies.com.curate.storage.UserRepository;
 
@@ -47,7 +48,15 @@ public class CartButtonWrapper {
         mItemCountTextView = tvItemCount;
         updateCartButtonCount(CartManager.getInstance().getOrderItemCount());
 
-        setOnClickAlert(fragment);
+        setUpOnClick(fragment);
+    }
+
+    private void setUpOnClick(Fragment fragment) {
+        if (UserRepository.getInstance(fragment.getContext()).getCurrentUser() == null) {
+            setOnClickAlert(fragment);
+        } else {
+            setUpClickToCart(fragment);
+        }
     }
 
     private void setOnClickAlert(final Fragment fragment) {
@@ -62,8 +71,7 @@ public class CartButtonWrapper {
                         .setPositiveButton("Register", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent i = new Intent(context, LoginActivity.class);
-                                context.startActivity(i);
-                                fragment.getActivity().finish();
+                                fragment.startActivity(i);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -72,6 +80,16 @@ public class CartButtonWrapper {
                             }
                         })
                         .show();
+            }
+        });
+    }
+
+    private void setUpClickToCart(final Fragment fragment){
+        mCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(fragment.getContext(), CartActivity.class);
+                fragment.startActivity(i);
             }
         });
     }

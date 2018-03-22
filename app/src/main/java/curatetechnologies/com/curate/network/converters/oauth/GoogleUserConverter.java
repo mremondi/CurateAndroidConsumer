@@ -20,6 +20,6 @@ public class GoogleUserConverter {
         String profilePictureUrl = (account.getPhotoUrl() != null) ? account.getPhotoUrl().toString() : "";
 
         return new UserModel(0, "", email, 0, full_name, first_name, last_name,
-                birthday, 0, gender, profilePictureUrl, "", "", account.getIdToken());
+                birthday, 0, gender, profilePictureUrl, "", "", account.getIdToken(), "");
     }
 }
