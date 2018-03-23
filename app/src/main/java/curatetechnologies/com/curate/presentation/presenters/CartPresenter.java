@@ -99,6 +99,13 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
         mView.hideProgress();
         mView.chargeCompleted(true);
     }
+
+    @Override
+    public void onChargeFailed(String error) {
+        mView.hideProgress();
+        onError(error);
+    }
+
     // -- END: CompleteChargeInteractor.Callback methods
 
 }

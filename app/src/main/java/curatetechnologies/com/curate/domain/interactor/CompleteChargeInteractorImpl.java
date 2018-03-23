@@ -50,7 +50,7 @@ public class CompleteChargeInteractorImpl extends AbstractInteractor implements 
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onRetrievalFailed("Get Item By Id Failed");
+                mCallback.onChargeFailed("Failed to create charge. Please try again.");
             }
         });
     }

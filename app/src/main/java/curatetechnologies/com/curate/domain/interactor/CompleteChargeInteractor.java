@@ -10,6 +10,6 @@ public interface CompleteChargeInteractor extends Interactor {
 
         void onChargeSuccessful();
 
-        void onRetrievalFailed(String error);
+        void onChargeFailed(String error);
     }
 }

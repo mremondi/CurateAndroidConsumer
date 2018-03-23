@@ -1,8 +1,10 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -173,6 +175,7 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
     @Override
     public void chargeCompleted(boolean success) {
         Log.d("CHARGE COMPLETE", "NOW FIREBASE");
+        // TODO: send to firebase
     }
 
     @Override
@@ -187,7 +190,16 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
     @Override
     public void showError(String message) {
-
+        android.app.AlertDialog.Builder builder;
+        builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Order Cannot Be Processed")
+                .setMessage(message)
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void showCardDetails(PaymentSessionData data) {
