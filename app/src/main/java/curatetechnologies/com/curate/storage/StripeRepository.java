@@ -63,25 +63,9 @@ public class StripeRepository implements StripeModelRepository {
     }
 
     @Override
-    public String createCharge(ArrayList<Integer> itemIds, String description, String email, String token, Integer restaurantId) {
+    public Call<ResponseBody> createCharge(ArrayList<Integer> itemIds, String description, String email, String token, Integer restaurantId) {
 
         StripeService stripeService = CurateClient.getService(StripeService.class);
-
-        Call<ResponseBody> call = stripeService.createCharge(itemIds, email, token, restaurantId, description);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try{
-                    Log.d("Response.body", response.body().toString());
-                } catch (Exception e){
-                    Log.d("FAILURE", e.getLocalizedMessage());
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("ON FAILURE", t.getMessage());
-            }
-        });
-        return null;
+        return stripeService.createCharge(itemIds, email, token, restaurantId, description);
     }
 }

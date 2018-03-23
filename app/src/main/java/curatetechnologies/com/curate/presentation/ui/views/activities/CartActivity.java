@@ -70,24 +70,9 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
     Button completePurchaseButton;
     @OnClick(R.id.activity_cart_complete_button) void completePurchase(){
         // TODO:
-        mPaymentSession.completePayment(new PaymentCompletionProvider() {
-            @Override
-            public void completePayment(@NonNull PaymentSessionData data, @NonNull PaymentResultListener listener) {
-                // TODO:
-                StripeRepository stripeRepository = new StripeRepository();
-
-                ArrayList<Integer> itemIds = CartManager.getInstance().getOrderItemIds();
-                String description = "ANDROID ORDER AT RESTAURANT ID: " + CartManager.getInstance().getRestaurantId();
-                UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
-                String email = user.getEmail();
-                String token = CustomerSession.getInstance().getCachedCustomer().getDefaultSource();
-                Integer restaurantId = CartManager.getInstance().getRestaurantId();
-                Log.d("TOKEN", token);
-                // stripe Id
-
-                stripeRepository.createCharge(itemIds, description, email, token, restaurantId );
-            }
-        });
+        UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
+        String email = user.getEmail();
+        mCartPresenter.completeCharge(mPaymentSession, email);
     }
 
     @OnClick(R.id.activity_cart_payment_row) void selectPaymentClick(){
@@ -106,7 +91,8 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                new RestaurantRepository()
+                new RestaurantRepository(),
+                new StripeRepository()
         );
         mCartPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId());
 
@@ -182,6 +168,11 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
         initializePaymentSession();
 
+    }
+
+    @Override
+    public void chargeCompleted(boolean success) {
+        Log.d("CHARGE COMPLETE", "NOW FIREBASE");
     }
 
     @Override

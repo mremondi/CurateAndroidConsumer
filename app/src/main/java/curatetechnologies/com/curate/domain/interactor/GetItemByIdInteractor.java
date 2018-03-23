@@ -8,7 +8,7 @@ import curatetechnologies.com.curate.domain.model.ItemModel;
  * Created by mremondi on 2/10/18.
  */
 
-public interface GetItemByIdInteractor  extends Interactor {
+public interface GetItemByIdInteractor extends Interactor {
 
     interface Callback {
 
