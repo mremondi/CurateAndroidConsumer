@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/fragment_empty_cart_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:textAlignment="center"
+        android:textColor="@color/textDark"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/fragment_empty_cart_register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:padding="8dp"
+        android:background="@color/activeBlue"
+        android:textColor="@color/white"
+        android:text="Register"/>
+
+    <Button
+        android:id="@+id/fragment_empty_cart_find_items_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:padding="8dp"
+        android:background="@color/activeBlue"
+        android:textColor="@color/white"
+        android:text="Find Your Next Meal"
+        android:visibility="gone"/>
+
+</RelativeLayout>

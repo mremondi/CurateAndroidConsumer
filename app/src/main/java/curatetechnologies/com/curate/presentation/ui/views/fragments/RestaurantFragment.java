@@ -65,9 +65,6 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
 
-
-    private int progressStatus = 0;
-    private Handler handler = new Handler();
     @BindView(R.id.fragment_restaurant_progress_bar)
     ProgressBar progressBar;
 
@@ -80,10 +77,6 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     RecyclerView menuRecyclerView;
     @BindView(R.id.fragment_restaurant_photos_recyclerview)
     RecyclerView photosRecyclerView;
-    @BindView(R.id.cart_button)
-    ImageButton btnCart;
-    @BindView(R.id.cart_badge)
-    TextView tvCartBadge;
 
     @Nullable
     @Override
@@ -113,7 +106,6 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     @Override
     public void onStart() {
         super.onStart();
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {
@@ -150,10 +142,6 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
 
     @Override
     public void displayRestaurantPosts(List<PostModel> posts) {
-        posts.add(new PostModel(null, null, null, null,
-                null, null, null, null,
-                null, null, null, null,
-                null, null, null, null));
         photosRecyclerView.setAdapter(new RestaurantPhotosAdapter(posts, null,
             new RecyclerViewClickListener() {
                 @Override

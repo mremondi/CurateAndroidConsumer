@@ -22,7 +22,6 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="22sp"
                 android:text="Activity"/>
-            <include layout="@layout/cart_button"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

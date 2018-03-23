@@ -33,9 +33,11 @@ import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.UserModel;
+import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.MainActivityContract;
 import curatetechnologies.com.curate.presentation.presenters.MainActivityPresenter;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
+import curatetechnologies.com.curate.presentation.ui.views.fragments.EmptyCartFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.FeedFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.MoreFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.ProfileFragment;
@@ -83,6 +85,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     transaction.replace(R.id.content_frame, moreFragment);
                     transaction.commit();
                     return true;
+                case R.id.navigation_cart:
+                    if (UserRepository.getInstance(getApplicationContext()).getCurrentUser() == null
+                            || CartManager.getInstance().isEmpty()){
+                        Fragment emptyCartFragment = new EmptyCartFragment();
+                        transaction.replace(R.id.content_frame, emptyCartFragment);
+                        transaction.commit();
+                        return true;
+                    } else {
+                        Intent i = new Intent(getApplicationContext(), CartActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
             }
             return false;
         }
@@ -160,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
+                            mLastLocation = LocationRepository.getInstance(getApplicationContext()).getTestingLocation();
                             LocationRepository.getInstance(getApplicationContext()).setLastLocation(mLastLocation);
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());

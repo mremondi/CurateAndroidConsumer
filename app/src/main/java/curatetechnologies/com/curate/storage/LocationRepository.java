@@ -68,4 +68,13 @@ public class LocationRepository implements LocationModelRepository {
         location.setLongitude(lon);
         return location;
     }
+
+    public Location getTestingLocation(){
+        Float lat = (float)42.444853;
+        Float lon = (float)-71.147892;
+        Location location = new Location(Constants.LOCATION_PROVIDER);
+        location.setLatitude(lat);
+        location.setLongitude(lon);
+        return location;
+    }
 }

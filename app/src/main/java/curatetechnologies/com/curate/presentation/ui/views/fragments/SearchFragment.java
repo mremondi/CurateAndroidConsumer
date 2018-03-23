@@ -66,10 +66,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     Button btnItem;
     @BindView(R.id.fragment_search_restaurant_button)
     Button btnRestaurant;
-    @BindView(R.id.cart_button)
-    ImageButton btnCart;
-    @BindView(R.id.cart_badge)
-    TextView tvCartBadge;
 
     @OnClick(R.id.fragment_search_item_button) void onItemButtonClick(){
         searchType = SearchType.ITEM_SEARCH;
@@ -139,7 +135,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     @Override
     public void onStart() {
         super.onStart();
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

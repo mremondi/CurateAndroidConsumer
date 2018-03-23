@@ -35,9 +35,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="10">
-
-                    <include layout="@layout/cart_button"/>
-
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 

@@ -1,7 +1,5 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.stripe.android.CustomerSession;
@@ -24,16 +21,13 @@ import com.stripe.android.PaymentSession;
 import com.stripe.android.PaymentSessionConfig;
 import com.stripe.android.PaymentSessionData;
 import com.stripe.android.Stripe;
-import com.stripe.android.TokenCallback;
+import com.stripe.android.StripeNetworkUtils;
 import com.stripe.android.model.Customer;
 import com.stripe.android.model.CustomerSource;
 import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceCardData;
-import com.stripe.android.model.Token;
-import com.stripe.android.view.CardInputWidget;
 
 import java.util.ArrayList;
-import java.util.Currency;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +37,7 @@ import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.manager.CartManager;
+import curatetechnologies.com.curate.network.stripe.StripeChargeProvider;
 import curatetechnologies.com.curate.presentation.presenters.CartContract;
 import curatetechnologies.com.curate.presentation.presenters.CartPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.CartItemsAdapter;
@@ -50,8 +45,6 @@ import curatetechnologies.com.curate.storage.RestaurantRepository;
 import curatetechnologies.com.curate.storage.StripeRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
-
-import static com.stripe.android.PayWithGoogleUtils.getPriceString;
 
 public class CartActivity extends AppCompatActivity implements CartContract.View {
 
@@ -96,10 +89,8 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
             }
         });
     }
-    @BindView(R.id.activity_cart_select_payment_button)
-    Button selectPaymentButton;
 
-    @OnClick(R.id.activity_cart_select_payment_button) void selectPaymentClick(){
+    @OnClick(R.id.activity_cart_payment_row) void selectPaymentClick(){
         mPaymentSession.presentPaymentMethodSelection();
     }
 
@@ -161,15 +152,11 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
                     Log.d("PAYMENT RESULT SUCCESS", data.getPaymentResult());
                 }
                 if (data.isPaymentReadyToCharge()){
-                    Log.d("PAYMENT", "READY TO CHARGE");
-                    selectPaymentButton.setVisibility(View.GONE);
-                    mResultTextView.setVisibility(View.VISIBLE);
-                    mResultTextView.setText(formatStringResults(data));
+                    showCardDetails(data);
                     completePurchaseButton.setBackgroundColor(getResources().getColor(R.color.activeBlue));
                     completePurchaseButton.setEnabled(true);
                 } else {
                     mResultTextView.setVisibility(View.GONE);
-                    selectPaymentButton.setVisibility(View.VISIBLE);
                     completePurchaseButton.setEnabled(false);
                     Log.d("PAYMENT", "NOT READY TO CHARGE");
 
@@ -181,8 +168,6 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
                 .build());
         if (paymentSessionInitialized) {
             Log.d("HERE", "paymentSessionInitialized");
-            selectPaymentButton.setEnabled(true);
-            selectPaymentButton.setBackgroundColor(getResources().getColor(R.color.activeBlue));
         }
     }
 
@@ -214,41 +199,22 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
     }
 
-    private String formatStringResults(PaymentSessionData data) {
-        Currency currency = Currency.getInstance("USD");
+    private void showCardDetails(PaymentSessionData data) {
         StringBuilder stringBuilder = new StringBuilder();
-
         if (data.getSelectedPaymentMethodId() != null && mCustomer != null) {
             CustomerSource source = mCustomer.getSourceById(data.getSelectedPaymentMethodId());
             if (source != null) {
                 Source cardSource = source.asSource();
-                stringBuilder.append("Payment Info:\n");
                 if (cardSource != null) {
                     SourceCardData scd = (SourceCardData) cardSource.getSourceTypeModel();
                     stringBuilder.append(scd.getBrand())
-                            .append(" ending in ")
+                            .append(" ")
                             .append(scd.getLast4());
-                } else {
-                    stringBuilder.append('\n').append(source.toString()).append('\n');
                 }
-                String isOrNot = data.isPaymentReadyToCharge() ? " IS " : " IS NOT ";
-                stringBuilder.append(isOrNot).append("ready to charge.\n\n");
-            }
-        }
-        if (data.getShippingInformation() != null) {
-            stringBuilder.append("Shipping Info: \n");
-            stringBuilder.append(data.getShippingInformation());
-            stringBuilder.append("\n\n");
-        }
-        if (data.getShippingMethod() != null) {
-            stringBuilder.append("Shipping Method: \n");
-            stringBuilder.append(data.getShippingMethod()).append('\n');
-            if (data.getShippingTotal() > 0) {
-                stringBuilder.append("Shipping total: ")
-                        .append(getPriceString(data.getShippingTotal(), currency));
             }
         }
 
-        return stringBuilder.toString();
+        mResultTextView.setVisibility(View.VISIBLE);
+        mResultTextView.setText(stringBuilder.toString());
     }
 }

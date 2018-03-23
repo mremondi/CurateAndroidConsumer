@@ -47,10 +47,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
     @BindView(R.id.fragment_profile_recycler_view)
     RecyclerView profileRecyclerView;
-    @BindView(R.id.cart_button)
-    ImageButton btnCart;
-    @BindView(R.id.cart_badge)
-    TextView tvCartBadge;
 
     // -- BEGIN Fragment methods
     @Nullable
@@ -79,7 +75,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     @Override
     public void onStart() {
         super.onStart();
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

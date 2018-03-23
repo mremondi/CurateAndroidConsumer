@@ -51,6 +51,10 @@ public class CartManager {
         CartButtonWrapper.getInstance().updateCartButtonCount(orderItems.size());
     }
 
+    public boolean isEmpty(){
+        return orderItems.size() > 0 ? false: true;
+    }
+
     public void removeItemFromCart(ItemModel item){
         this.orderItems.remove(item);
     }

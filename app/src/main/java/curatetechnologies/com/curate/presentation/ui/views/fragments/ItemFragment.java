@@ -97,11 +97,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @BindView(R.id.fragment_item_item_price)
     TextView tvItemPrice;
 
-    @BindView(R.id.cart_button)
-    ImageButton btnCart;
-    @BindView(R.id.cart_badge)
-    TextView tvCartBadge;
-
     @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
         if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
             AlertDialog.Builder builder;
@@ -178,7 +173,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @Override
     public void onStart() {
         super.onStart();
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

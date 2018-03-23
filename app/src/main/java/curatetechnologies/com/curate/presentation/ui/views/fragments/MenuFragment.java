@@ -41,8 +41,6 @@ public class MenuFragment extends Fragment implements MenuContract.View {
     public static final String MENU_ID = "menuId";
     Unbinder unbinder;
 
-    private int progressStatus = 0;
-    private Handler handler = new Handler();
     @BindView(R.id.fragment_menu_progress_bar)
     ProgressBar progressBar;
 
@@ -54,10 +52,6 @@ public class MenuFragment extends Fragment implements MenuContract.View {
     TextView tvTitle;
     @BindView(R.id.fragment_restaurant_menu_recyclerview)
     RecyclerView menuRecyclerView;
-    @BindView(R.id.cart_button)
-    ImageButton btnCart;
-    @BindView(R.id.cart_badge)
-    TextView tvCartBadge;
 
 
     // -- BEGIN Fragment methods
@@ -83,7 +77,6 @@ public class MenuFragment extends Fragment implements MenuContract.View {
     @Override
     public void onStart() {
         super.onStart();
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override

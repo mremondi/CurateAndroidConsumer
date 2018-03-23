@@ -46,10 +46,6 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
     @BindView(R.id.fragment_feed_recycler_view)
     RecyclerView feedRecyclerView;
-    @BindView(R.id.cart_button)
-    ImageButton btnCart;
-    @BindView(R.id.cart_badge)
-    TextView tvCartBadge;
 
     // -- BEGIN Fragment methods
     @Nullable
@@ -59,9 +55,6 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
         unbinder = ButterKnife.bind(this, v);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
-
 
         mFeedPresenter = new FeedPresenter(
                 ThreadExecutor.getInstance(),
@@ -76,7 +69,6 @@ public class FeedFragment extends Fragment implements FeedContract.View {
     @Override
     public void onStart() {
         super.onStart();
-        CartButtonWrapper.getInstance().setUpCartUI(this, btnCart, tvCartBadge);
     }
 
     @Override public void onDestroyView() {

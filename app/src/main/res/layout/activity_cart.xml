@@ -3,8 +3,7 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:stripe="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -26,9 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/activity_cart_restaurant_logo"
             android:layout_marginBottom="1dp"
-            android:padding="20dp"
-            android:background="@color/white"
-            >
+            android:padding="10dp"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/activity_cart_payment_label"
@@ -42,20 +40,15 @@
 
             <TextView
                 android:id="@+id/activity_cart_payment_session_data"
-                android:layout_width="300dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_margin="16dp"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:visibility="gone"/>
-
-            <Button
-                android:id="@+id/activity_cart_select_payment_button"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/activity_cart_payment_label"
-                android:textColor="@color/white"
-                android:text="Select Payment"/>
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textColor="#000000"
+                android:text="VISA 4242"/>
 
         </RelativeLayout>
 
