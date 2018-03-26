@@ -17,9 +17,13 @@ import curatetechnologies.com.curate.domain.interactor.CompleteChargeInteractor;
 import curatetechnologies.com.curate.domain.interactor.CompleteChargeInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.GetRestaurantByIdInteractor;
 import curatetechnologies.com.curate.domain.interactor.GetRestaurantByIdInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.SendOrderToRestaurantInteractor;
+import curatetechnologies.com.curate.domain.interactor.SendOrderToRestaurantInteractorImpl;
+import curatetechnologies.com.curate.domain.model.OrderModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.manager.CartManager;
+import curatetechnologies.com.curate.storage.OrderModelRepository;
 import curatetechnologies.com.curate.storage.RestaurantModelRepository;
 import curatetechnologies.com.curate.storage.StripeModelRepository;
 import curatetechnologies.com.curate.storage.StripeRepository;
@@ -30,19 +34,23 @@ import curatetechnologies.com.curate.storage.UserRepository;
  */
 
 public class CartPresenter extends AbstractPresenter implements CartContract,
-        GetRestaurantByIdInteractor.Callback, CompleteChargeInteractor.Callback {
+        GetRestaurantByIdInteractor.Callback, CompleteChargeInteractor.Callback,
+        SendOrderToRestaurantInteractor.Callback{
 
     private CartContract.View mView;
     private RestaurantModelRepository mRestaurantRepository;
     private StripeModelRepository mStripeRepository;
+    private OrderModelRepository mOrderRepository;
 
     public CartPresenter(Executor executor, MainThread mainThread,
                          View view, RestaurantModelRepository restaurantModelRepository,
-                         StripeModelRepository stripeRepository) {
+                         StripeModelRepository stripeRepository,
+                         OrderModelRepository orderModelRepository) {
         super(executor, mainThread);
         mView = view;
         mRestaurantRepository = restaurantModelRepository;
         mStripeRepository = stripeRepository;
+        mOrderRepository = orderModelRepository;
     }
 
     // -- BEGIN: CartContract methods
@@ -70,6 +78,25 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
                 paymentSession,
                 email);
         completeChargeInteractor.execute();
+    }
+
+    @Override
+    public void processOrder(OrderModel orderModel) {
+        mView.showProgress();
+        SendOrderToRestaurantInteractor sendOrderToRestaurantInteractor =
+                new SendOrderToRestaurantInteractorImpl(
+                        mExecutor,
+                        mMainThread,
+                        this,
+                        mOrderRepository,
+                        orderModel
+                );
+        sendOrderToRestaurantInteractor.execute();
+
+//        PostOrderInteractor postOrderInteractor = new PostOrderInteractorImpl(
+//
+//        );
+//        postOrderInteractor.execute();
     }
 
     // -- END: CartContract methods
@@ -107,5 +134,14 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     }
 
     // -- END: CompleteChargeInteractor.Callback methods
+
+    // -- BEGIN: SendOrderToRestaurantInteractor.Callback methods
+
+    @Override
+    public void onOrderSent() {
+
+    }
+
+    // -- END: SendOrderToRestaurantInteractor.Callback methods
 
 }

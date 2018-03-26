@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.Locale;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.network.firebase.model.FirebaseItem;
 import curatetechnologies.com.curate.network.model.CurateAPIItem;
 
 /**
@@ -34,5 +35,11 @@ public class ItemConverter {
         // TODO: Do actual conversions
         CurateAPIItem apiItem = new CurateAPIItem();
         return apiItem;
+    }
+
+
+    public static FirebaseItem convertItemModelToFirebaseItem(ItemModel itemModel){
+        return new FirebaseItem(String.valueOf(itemModel.getId()),
+                itemModel.getName(), itemModel.getPrice());
     }
 }

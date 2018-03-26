@@ -2,6 +2,7 @@ package curatetechnologies.com.curate.presentation.presenters;
 
 import com.stripe.android.PaymentSession;
 
+import curatetechnologies.com.curate.domain.model.OrderModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.presentation.ui.BaseView;
 
@@ -14,9 +15,12 @@ public interface CartContract {
     interface View extends BaseView {
         void displayRestaurant(RestaurantModel restaurant);
         void chargeCompleted(boolean success);
+        void orderProcessed();
     }
 
     void getRestaurantById(Integer restaurantId);
 
     void completeCharge(PaymentSession paymentSession, String email);
+
+    void processOrder(OrderModel orderModel);
 }

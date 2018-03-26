@@ -43,6 +43,7 @@ import curatetechnologies.com.curate.network.stripe.StripeChargeProvider;
 import curatetechnologies.com.curate.presentation.presenters.CartContract;
 import curatetechnologies.com.curate.presentation.presenters.CartPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.CartItemsAdapter;
+import curatetechnologies.com.curate.storage.OrderRepository;
 import curatetechnologies.com.curate.storage.RestaurantRepository;
 import curatetechnologies.com.curate.storage.StripeRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
@@ -88,13 +89,15 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
         ButterKnife.bind(this);
         mCustomer = CustomerSession.getInstance().getCachedCustomer();
+        CartManager.getInstance().setUser(UserRepository.getInstance(getApplicationContext()).getCurrentUser());
 
         mCartPresenter = new CartPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
                 new RestaurantRepository(),
-                new StripeRepository()
+                new StripeRepository(),
+                new OrderRepository()
         );
         mCartPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId());
 
@@ -176,6 +179,12 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
     public void chargeCompleted(boolean success) {
         Log.d("CHARGE COMPLETE", "NOW FIREBASE");
         // TODO: send to firebase
+        mCartPresenter.processOrder(CartManager.getInstance().createOrderModel());
+    }
+
+    @Override
+    public void orderProcessed() {
+        // TODO: indicate the order has been completed and move back to main app
     }
 
     @Override

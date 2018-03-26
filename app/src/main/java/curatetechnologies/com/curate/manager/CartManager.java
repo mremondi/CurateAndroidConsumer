@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.domain.model.OrderModel;
+import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
+import curatetechnologies.com.curate.storage.UserRepository;
 
 /**
  * Created by mremondi on 2/26/18.
@@ -15,10 +18,12 @@ public class CartManager {
     private static CartManager instance;
 
     private ArrayList<ItemModel> orderItems = new ArrayList<>();
+    private UserModel user;
     private Integer restaurantId;
     private String restaurantName;
     private String restaurantLogoUrl;
     private Double mealTaxRate;
+    private String instructions;
 
     private CartManager() {
     }
@@ -77,6 +82,13 @@ public class CartManager {
         return itemIds;
     }
 
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
 
     public void clearCart(){
         this.orderItems.clear();
@@ -122,6 +134,16 @@ public class CartManager {
     public List<ItemModel> getOrderFromCache(){
         // TODO:
         return null;
+    }
+
+    public OrderModel createOrderModel(){
+        return new OrderModel(0, getDeviceId(), user, instructions, orderItems, getOrderTotal(),
+                restaurantId, restaurantName);
+    }
+
+    private String getDeviceId(){
+        //TODO: once push notifications are done
+        return "";
     }
 
 }
