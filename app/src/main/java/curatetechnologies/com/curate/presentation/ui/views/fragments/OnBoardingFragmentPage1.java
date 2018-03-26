@@ -79,7 +79,7 @@ public class OnBoardingFragmentPage1 extends Fragment implements OnBoardingFragm
         if (available){
             activity.user.setUsername(username.getText().toString());
             activity.user.setFirstName(firstName.getText().toString());
-            activity.user.setLastName(firstName.getText().toString());
+            activity.user.setLastName(lastName.getText().toString());
             activity.mPager.setCurrentItem(2);
         }
         else{

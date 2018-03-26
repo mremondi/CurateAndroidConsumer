@@ -302,6 +302,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void updateUser(UserModel userModel) {
+        // TODO: stop doing all of this every time
+        userModel.setCurateToken(UserRepository.getInstance(getApplicationContext()).getCurrentUser().getCurateToken());
         UserRepository.getInstance(getApplicationContext()).saveUser(userModel, false);
         UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
         if (user != null){

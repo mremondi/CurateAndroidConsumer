@@ -21,7 +21,7 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  */
 
 public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUserContract,
-        SaveUserInteractor.Callback, GetUserInteractor.Callback,
+        SaveUserInteractor.Callback,
         SaveUserPreferencesInteractor.Callback{
 
     private OnBoardUserContract.View mView;
@@ -32,17 +32,6 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
         super(executor, mainThread);
         mView = view;
         mUserRepository = userRepository;
-    }
-
-    @Override
-    public void getCurrentUser() {
-        GetUserInteractor getUserInteractor = new GetUserInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mUserRepository
-        );
-        getUserInteractor.execute();
     }
 
     @Override
@@ -93,15 +82,4 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
         mView.showError(error);
     }
 
-    @Override
-    public void onUserRetrieved(UserModel user) {
-        Log.d("USER IN ON BOARD", user.getEmail());
-        mView.beginOnBoarding(user);
-
-    }
-
-    @Override
-    public void onRetrieveUserFailed(String error) {
-        Log.d("ERROR IN ONBOARD", error);
-    }
 }

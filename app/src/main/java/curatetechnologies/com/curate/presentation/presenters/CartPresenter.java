@@ -17,6 +17,8 @@ import curatetechnologies.com.curate.domain.interactor.CompleteChargeInteractor;
 import curatetechnologies.com.curate.domain.interactor.CompleteChargeInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.GetRestaurantByIdInteractor;
 import curatetechnologies.com.curate.domain.interactor.GetRestaurantByIdInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.PostOrderInteractor;
+import curatetechnologies.com.curate.domain.interactor.PostOrderInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SendOrderToRestaurantInteractor;
 import curatetechnologies.com.curate.domain.interactor.SendOrderToRestaurantInteractorImpl;
 import curatetechnologies.com.curate.domain.model.OrderModel;
@@ -35,7 +37,7 @@ import curatetechnologies.com.curate.storage.UserRepository;
 
 public class CartPresenter extends AbstractPresenter implements CartContract,
         GetRestaurantByIdInteractor.Callback, CompleteChargeInteractor.Callback,
-        SendOrderToRestaurantInteractor.Callback{
+        SendOrderToRestaurantInteractor.Callback, PostOrderInteractor.Callback{
 
     private CartContract.View mView;
     private RestaurantModelRepository mRestaurantRepository;
@@ -81,7 +83,7 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     }
 
     @Override
-    public void processOrder(OrderModel orderModel) {
+    public void processOrder(String jwt, OrderModel orderModel) {
         mView.showProgress();
         SendOrderToRestaurantInteractor sendOrderToRestaurantInteractor =
                 new SendOrderToRestaurantInteractorImpl(
@@ -93,10 +95,15 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
                 );
         sendOrderToRestaurantInteractor.execute();
 
-//        PostOrderInteractor postOrderInteractor = new PostOrderInteractorImpl(
-//
-//        );
-//        postOrderInteractor.execute();
+        PostOrderInteractor postOrderInteractor = new PostOrderInteractorImpl(
+            mExecutor,
+            mMainThread,
+            this,
+            mOrderRepository,
+            jwt,
+            orderModel
+        );
+        postOrderInteractor.execute();
     }
 
     // -- END: CartContract methods
@@ -136,12 +143,26 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     // -- END: CompleteChargeInteractor.Callback methods
 
     // -- BEGIN: SendOrderToRestaurantInteractor.Callback methods
-
     @Override
     public void onOrderSent() {
-
+        // TODO:
+        mView.hideProgress();
+        mView.orderProcessed();
     }
-
     // -- END: SendOrderToRestaurantInteractor.Callback methods
 
+    // -- BEGIN: PostOrderInteractor.Callback methods
+
+    @Override
+    public void onOrderPosted() {
+        // TODO:
+    }
+
+    @Override
+    public void onOrderPostFailed(String error) {
+        mView.hideProgress();
+        onError(error);
+    }
+
+    // -- END: PostOrderInteractor.Callback methods
 }

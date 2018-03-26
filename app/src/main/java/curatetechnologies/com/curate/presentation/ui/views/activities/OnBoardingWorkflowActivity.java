@@ -62,7 +62,8 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
                 this,
                 UserRepository.getInstance(getApplicationContext())
         );
-        mOnBoardUserPresenter.getCurrentUser();
+        this.user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
+        Log.d("USER JWT", this.user.getCurateToken());
 
         mPagerAdapter = new OnBoardingPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -87,12 +88,6 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
         this.preferences.remove(preference);
     }
 
-
-    @Override
-    public void beginOnBoarding(UserModel user) {
-        Log.d("USER MODEL", user.getEmail());
-        this.user = user;
-    }
 
     public void completeOnBoarding(){
         mOnBoardUserPresenter.saveUser(user);

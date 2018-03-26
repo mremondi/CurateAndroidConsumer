@@ -138,7 +138,7 @@ public class CartManager {
 
     public OrderModel createOrderModel(){
         return new OrderModel(0, getDeviceId(), user, instructions, orderItems, getOrderTotal(),
-                restaurantId, restaurantName);
+                restaurantId, restaurantName, "", mealTaxRate);
     }
 
     private String getDeviceId(){

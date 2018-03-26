@@ -17,11 +17,12 @@ public class OrderModel {
     private double totalOrderPrice;
     private Integer restaurantId;
     private String restaurantName;
-    // TODO: private Date time;
+    private String time;
+    private double mealTaxRate;
 
 
     public OrderModel(Integer id, String deviceId, UserModel user, String instructions, List<ItemModel> orderItems,
-                      double totalOrderPrice, Integer restaurantId, String restaurantName) {
+                      double totalOrderPrice, Integer restaurantId, String restaurantName, String time, double mealTaxRate) {
         this.id = id;
         this.deviceId = deviceId;
         this.user = user;
@@ -30,6 +31,8 @@ public class OrderModel {
         this.totalOrderPrice = totalOrderPrice;
         this.restaurantId = restaurantId;
         this.restaurantName = restaurantName;
+        this.time = time;
+        this.mealTaxRate = mealTaxRate;
     }
 
     public Integer getId() {
@@ -94,5 +97,21 @@ public class OrderModel {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public double getMealTaxRate() {
+        return mealTaxRate;
+    }
+
+    public void setMealTaxRate(double mealTaxRate) {
+        this.mealTaxRate = mealTaxRate;
     }
 }

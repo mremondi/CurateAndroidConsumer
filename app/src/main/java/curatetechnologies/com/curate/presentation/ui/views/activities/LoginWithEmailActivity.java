@@ -3,6 +3,7 @@ package curatetechnologies.com.curate.presentation.ui.views.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -68,6 +69,7 @@ public class LoginWithEmailActivity extends AppCompatActivity implements LoginWi
 
     @Override
     public void saveUser(UserModel user) {
+        Log.d("SAVE USER LOGIN", user.getCurateToken());
         mConnectWithEmailPresenter.saveUser(user);
     }
     // -- END LOGIN CONTRACT METHODS

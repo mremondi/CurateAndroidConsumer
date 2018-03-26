@@ -11,4 +11,6 @@ import curatetechnologies.com.curate.domain.model.OrderModel;
 public interface OrderModelRepository {
 
     Task<Void> sendOrderToFirebase(OrderModel orderModel);
+
+    boolean postOrder(String jwt, OrderModel orderModel);
 }

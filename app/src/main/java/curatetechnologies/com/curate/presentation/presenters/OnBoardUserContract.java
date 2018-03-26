@@ -13,12 +13,10 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
 public interface OnBoardUserContract {
 
     interface View extends BaseView {
-        void beginOnBoarding(UserModel user);
         void saveUserPreferences();
         void segueToMainApp();
     }
 
-    void getCurrentUser();
     void saveUser(UserModel user);
     void saveUserPreferences(UserModel user, List<TagTypeModel> preferences);
 }

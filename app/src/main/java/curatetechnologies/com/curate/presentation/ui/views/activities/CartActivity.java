@@ -179,7 +179,15 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
     public void chargeCompleted(boolean success) {
         Log.d("CHARGE COMPLETE", "NOW FIREBASE");
         // TODO: send to firebase
-        mCartPresenter.processOrder(CartManager.getInstance().createOrderModel());
+        Log.d("JWT in charge", "A " + UserRepository
+                .getInstance(getApplicationContext())
+                .getCurrentUser()
+                .getCurateToken());
+        mCartPresenter.processOrder(UserRepository
+                    .getInstance(getApplicationContext())
+                    .getCurrentUser()
+                    .getCurateToken(),
+                CartManager.getInstance().createOrderModel());
     }
 
     @Override

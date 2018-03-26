@@ -74,6 +74,9 @@ public class UserModel {
     }
 
     public String getFullName() {
+        if (fullName.equals("")){
+            return firstName + " " + lastName;
+        }
         return fullName;
     }
 

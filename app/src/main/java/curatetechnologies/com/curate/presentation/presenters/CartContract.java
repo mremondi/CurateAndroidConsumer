@@ -22,5 +22,5 @@ public interface CartContract {
 
     void completeCharge(PaymentSession paymentSession, String email);
 
-    void processOrder(OrderModel orderModel);
+    void processOrder(String jwt, OrderModel orderModel);
 }
