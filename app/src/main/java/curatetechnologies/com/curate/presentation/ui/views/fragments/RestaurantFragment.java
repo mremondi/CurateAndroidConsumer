@@ -9,25 +9,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -45,7 +40,6 @@ import curatetechnologies.com.curate.presentation.presenters.RestaurantContract;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantMenusAdapter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantPhotosAdapter;
-import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
 import curatetechnologies.com.curate.presentation.ui.views.activities.EditImageActivity;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.PostRepository;
@@ -141,43 +135,52 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     }
 
     @Override
-    public void displayRestaurantPosts(List<PostModel> posts) {
-        photosRecyclerView.setAdapter(new RestaurantPhotosAdapter(posts, null,
-            new RecyclerViewClickListener() {
-                @Override
-                public void onClick(View view, int position) {
-                    // present dialog asking if they want to add a photo from camera or from gallery
+    public void displayRestaurantPosts(final List<PostModel> posts) {
+        final RestaurantFragment self = this;
+        photosRecyclerView.setAdapter(new RestaurantPhotosAdapter(posts,
+                new RecyclerViewClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        ItemPreviewBottomSheetFragment bottomSheetFragment = new ItemPreviewBottomSheetFragment();
+                        bottomSheetFragment.setPost(posts.get(position));
+                        bottomSheetFragment.show(self.getFragmentManager(), bottomSheetFragment.getTag());
+                    }
+                },
+                new RecyclerViewClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        // present dialog asking if they want to add a photo from camera or from gallery
 
-                    if(!checkWritePermission())
-                        requestWritePermission();
-                    if(!checkReadPermission())
-                        requestReadPermission();
+                        if (!checkWritePermission())
+                            requestWritePermission();
+                        if (!checkReadPermission())
+                            requestReadPermission();
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setTitle("Add Photo");
-                    alertDialog.setMessage("How would you like to add a new photo?");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Camera",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // CAMERA
-                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Add Photo");
+                        alertDialog.setMessage("How would you like to add a new photo?");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Camera",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // CAMERA
+                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                        }
                                     }
-                                }
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Gallery",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
+                                });
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Gallery",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                    // GALLERY
-                                    Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                    startActivityForResult(i, RESULT_LOAD_IMAGE);
-                                }
-                            });
-                    alertDialog.show();
-                }
-            }));
+                                        // GALLERY
+                                        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+                                    }
+                                });
+                        alertDialog.show();
+                    }
+                }));
     }
 
     private boolean checkWritePermission(){
