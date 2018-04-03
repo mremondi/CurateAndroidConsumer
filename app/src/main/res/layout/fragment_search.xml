@@ -27,7 +27,6 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-
     <LinearLayout
         android:id="@+id/fragment_search_scope_buttons"
         android:layout_width="match_parent"
@@ -56,6 +55,18 @@
                 android:text="Restaurants"/>
         </LinearLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/search_placeholder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="20dp">
+        <ImageView
+            android:id="@+id/search_placeholder_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/fragment_search_progress_bar"

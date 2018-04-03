@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -57,6 +59,10 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     private SearchType searchType = SearchType.ITEM_SEARCH;
 
     Unbinder unbinder;
+    @BindView(R.id.search_placeholder_layout)
+    RelativeLayout searchPlaceHolderLayout;
+    @BindView(R.id.search_placeholder_image)
+    ImageView searchPlaceHolderImage;
 
     @BindView(R.id.fragment_search_search_bar)
     SearchView searchView;
@@ -69,6 +75,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     @OnClick(R.id.fragment_search_item_button) void onItemButtonClick(){
         searchType = SearchType.ITEM_SEARCH;
+        searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.item_search_holder));
         btnItem.setSelected(true);
         btnRestaurant.setSelected(false);
         searchResults.setAdapter(null);
@@ -76,6 +83,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     @OnClick(R.id.fragment_search_restaurant_button) void onRestaurantButtonClick(){
         searchType = SearchType.RESTAURANT_SEARCH;
+        searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.restaurant_search_holder));
         btnRestaurant.setSelected(true);
         btnItem.setSelected(false);
         searchResults.setAdapter(null);
@@ -99,9 +107,14 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
         // SET DEFAULTS
 
+        searchResults.setVisibility(View.GONE);
+
         searchType = SearchType.ITEM_SEARCH;
+        searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.item_search_holder));
+
         btnItem.setSelected(true);
-        searchView.setIconified(false);
+        searchView.setIconified(true);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
