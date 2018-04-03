@@ -1,5 +1,9 @@
 package curatetechnologies.com.curate.manager;
 
+import android.util.Log;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,8 +146,7 @@ public class CartManager {
     }
 
     private String getDeviceId(){
-        //TODO: once push notifications are done
-        return "";
+        return FirebaseInstanceId.getInstance().getToken();
     }
 
 }
