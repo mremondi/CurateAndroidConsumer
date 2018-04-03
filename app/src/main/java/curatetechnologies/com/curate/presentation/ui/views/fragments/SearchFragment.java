@@ -63,6 +63,8 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     RelativeLayout searchPlaceHolderLayout;
     @BindView(R.id.search_placeholder_image)
     ImageView searchPlaceHolderImage;
+    @BindView(R.id.search_placeholder_text)
+    TextView searchPlaceHolderText;
 
     @BindView(R.id.fragment_search_search_bar)
     SearchView searchView;
@@ -75,7 +77,12 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     @OnClick(R.id.fragment_search_item_button) void onItemButtonClick(){
         searchType = SearchType.ITEM_SEARCH;
+        searchPlaceHolderText.setVisibility(View.VISIBLE);
+        searchPlaceHolderImage.setVisibility(View.VISIBLE);
+        searchPlaceHolderLayout.setVisibility(View.VISIBLE);
+        searchResults.setVisibility(View.GONE);
         searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.item_search_holder));
+        searchPlaceHolderText.setText("Search for exactly what you're craving!");
         btnItem.setSelected(true);
         btnRestaurant.setSelected(false);
         searchResults.setAdapter(null);
@@ -83,7 +90,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     @OnClick(R.id.fragment_search_restaurant_button) void onRestaurantButtonClick(){
         searchType = SearchType.RESTAURANT_SEARCH;
+        searchPlaceHolderText.setVisibility(View.VISIBLE);
+        searchPlaceHolderImage.setVisibility(View.VISIBLE);
+        searchPlaceHolderLayout.setVisibility(View.VISIBLE);
+        searchResults.setVisibility(View.GONE);
         searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.restaurant_search_holder));
+        searchPlaceHolderText.setText("Search for your favorite local restaurants!");
+
         btnRestaurant.setSelected(true);
         btnItem.setSelected(false);
         searchResults.setAdapter(null);
@@ -111,9 +124,9 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
         searchType = SearchType.ITEM_SEARCH;
         searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.item_search_holder));
-
+        searchPlaceHolderText.setText("Search for exactly what you're craving!");
         btnItem.setSelected(true);
-        searchView.setIconified(true);
+        searchView.setIconified(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -178,6 +191,10 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     // -- BEGIN: SearchContract.View methods
     @Override
     public void displayItems(final List<ItemModel> items) {
+        searchPlaceHolderText.setVisibility(View.GONE);
+        searchPlaceHolderImage.setVisibility(View.GONE);
+        searchPlaceHolderLayout.setVisibility(View.GONE);
+        searchResults.setVisibility(View.VISIBLE);
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -201,6 +218,10 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     @Override
     public void displayRestaurants(final List<RestaurantModel> restaurants) {
+        searchPlaceHolderText.setVisibility(View.GONE);
+        searchPlaceHolderImage.setVisibility(View.GONE);
+        searchPlaceHolderLayout.setVisibility(View.GONE);
+        searchResults.setVisibility(View.VISIBLE);
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {

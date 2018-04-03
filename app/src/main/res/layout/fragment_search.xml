@@ -8,24 +8,29 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/fragment_search_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/greyBackground"
+        android:padding="0dp">
+
         <RelativeLayout
             android:id="@+id/search_bar_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:layout_above="@+id/search_placeholder_text"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
             <android.support.v7.widget.SearchView
                 android:id="@+id/fragment_search_search_bar"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                app:queryHint="Search for meals or restaurants"
-                android:background="#E3E3E3"/>
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                app:queryHint="Search for meals or restaurants" />
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+
+
 
     <LinearLayout
         android:id="@+id/fragment_search_scope_buttons"
@@ -44,7 +49,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/scope_bar_button_background"
                 android:textColor="@color/scope_bar_button_text"
-                android:text="Items"/>
+                android:text="MEALS"/>
             <Button
                 android:id="@+id/fragment_search_restaurant_button"
                 android:layout_width="0dp"
@@ -59,13 +64,25 @@
     <RelativeLayout
         android:id="@+id/search_placeholder_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
         android:padding="20dp">
+
+        <TextView
+            android:id="@+id/search_placeholder_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:layout_centerInParent="true"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccentLight"/>
+
+
         <ImageView
             android:id="@+id/search_placeholder_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/search_placeholder_text"/>
     </RelativeLayout>
 
     <ProgressBar
