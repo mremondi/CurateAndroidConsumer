@@ -14,4 +14,7 @@
     <color name="greyBackground">#F2F2F2</color>
     <color name="darkGreyBackgroundActive">#e4e4e4</color>
     <color name="lightBlueGray">#B8B7C3</color>
+    <color name="greyBorder">#E0DFDF</color>
+
+
 </resources>

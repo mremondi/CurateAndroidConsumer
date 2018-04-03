@@ -1,42 +1,29 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
-import butterknife.OnTouch;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
@@ -44,16 +31,11 @@ import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
-import curatetechnologies.com.curate.presentation.ui.views.CartButtonWrapper;
-import curatetechnologies.com.curate.presentation.ui.views.activities.CartActivity;
 import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
-import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 
 public class ItemFragment extends Fragment implements ItemContract.View {
@@ -61,8 +43,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     public static final String ITEM_ID = "itemId";
     Unbinder unbinder;
 
-    private int progressStatus = 0;
-    private Handler handler = new Handler();
     @BindView(R.id.fragment_item_progress_bar)
     ProgressBar progressBar;
 
@@ -70,6 +50,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     private ItemModel mItem;
 
+    Boolean mLike;
 
     @BindView(R.id.fragment_item_item_info_primary)
     RelativeLayout itemPrimaryInfo;
@@ -96,6 +77,41 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     @BindView(R.id.fragment_item_item_price)
     TextView tvItemPrice;
+
+    @BindView(R.id.fragment_item_thumbs_up)
+    Button btnThumbsUp;
+    @BindView(R.id.fragment_item_thumbs_down)
+    Button btnThumbsDown;
+
+    @OnClick(R.id.fragment_item_thumbs_down) void onDislike(){
+        if (mLike == null){
+            mLike = false;
+        } else{
+            mLike = !mLike;
+        }
+        updateRatingButtons();
+        // TODO: mItemPresenter.rateItem(mLike, itemID, userID)
+    }
+
+    @OnClick(R.id.fragment_item_thumbs_up) void onLike(){
+        if (mLike == null){
+            mLike = true;
+        } else{
+            mLike = !mLike;
+        }
+        updateRatingButtons();
+        // TODO: mItemPresenter.rateItem(mLike, itemID, userID)
+    }
+
+    private void updateRatingButtons(){
+        if (mLike) {
+            btnThumbsUp.setBackground(getResources().getDrawable(R.drawable.thumbs_up_black));
+            btnThumbsDown.setBackground(getResources().getDrawable(R.drawable.thumbs_down));
+        } else{
+            btnThumbsUp.setBackground(getResources().getDrawable(R.drawable.thumbs_up));
+            btnThumbsDown.setBackground(getResources().getDrawable(R.drawable.thumbs_down_black));
+        }
+    }
 
     @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
         if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
@@ -212,9 +228,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         if (item.getImageURL() != null){
             Glide.with(this)
                     .load(item.getImageURL())
-                    .apply(bitmapTransform(new MultiTransformation(
-                            new CenterCrop(), new RoundedCornerTransformation(45, 0,
-                            RoundedCornerTransformation.CornerType.ALL))))
                     .into(ivItemPhotoMain);
         }
         tvItemDescription.setText(item.getDescription());
