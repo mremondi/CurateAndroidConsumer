@@ -26,7 +26,7 @@ public class CurateAPIPost {
     private String postDescription;
     @SerializedName("Post_Rating")
     @Expose
-    private Boolean postRating;
+    private String postRating;
     @SerializedName("Post_NumberOfLikes")
     @Expose
     private Integer postNumberOfLikes;
@@ -57,6 +57,29 @@ public class CurateAPIPost {
     @SerializedName("distance_in_miles")
     @Expose
     private Double distanceInMiles;
+
+    public CurateAPIPost(Integer postID, String postPostType, Integer restaurantID,
+                         Integer itemID, String postDescription, String postRating,
+                         Integer postNumberOfLikes, Integer postNumberOfSaves, String postImageURL,
+                         String postTime, Integer userID, String userUsername, String userPicture,
+                         String itemName, String restaurantName, Double distanceInMiles) {
+        this.postID = postID;
+        this.postPostType = postPostType;
+        this.restaurantID = restaurantID;
+        this.itemID = itemID;
+        this.postDescription = postDescription;
+        this.postRating = postRating;
+        this.postNumberOfLikes = postNumberOfLikes;
+        this.postNumberOfSaves = postNumberOfSaves;
+        this.postImageURL = postImageURL;
+        this.postTime = postTime;
+        this.userID = userID;
+        this.userUsername = userUsername;
+        this.userPicture = userPicture;
+        this.itemName = itemName;
+        this.restaurantName = restaurantName;
+        this.distanceInMiles = distanceInMiles;
+    }
 
     public Integer getPostID() {
         return postID;
@@ -98,11 +121,11 @@ public class CurateAPIPost {
         this.postDescription = postDescription;
     }
 
-    public Boolean getPostRating() {
+    public String getPostRating() {
         return postRating;
     }
 
-    public void setPostRating(Boolean postRating) {
+    public void setPostRating(String postRating) {
         this.postRating = postRating;
     }
 

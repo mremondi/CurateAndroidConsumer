@@ -5,25 +5,34 @@ import android.util.Log;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
+import curatetechnologies.com.curate.domain.interactor.CreatePostInteractor;
+import curatetechnologies.com.curate.domain.interactor.CreatePostInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.GetItemByIdInteractor;
 import curatetechnologies.com.curate.domain.interactor.GetItemByIdInteractorImpl;
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.storage.ItemModelRepository;
+import curatetechnologies.com.curate.storage.PostModelRepository;
 
 /**
  * Created by mremondi on 2/10/18.
  */
 
-public class ItemPresenter extends AbstractPresenter implements ItemContract, GetItemByIdInteractor.Callback {
+public class ItemPresenter extends AbstractPresenter implements ItemContract,
+        GetItemByIdInteractor.Callback,
+        CreatePostInteractor.Callback {
 
     private ItemContract.View mView;
     private ItemModelRepository mItemRepository;
+    private PostModelRepository mPostRepository;
 
     public ItemPresenter(Executor executor, MainThread mainThread,
-                               View view, ItemModelRepository itemModelRepository) {
+                         View view, ItemModelRepository itemModelRepository,
+                         PostModelRepository postModelRepository) {
         super(executor, mainThread);
         mView = view;
         mItemRepository = itemModelRepository;
+        mPostRepository = postModelRepository;
     }
 
     // -- BEGIN: ItemContract methods
@@ -40,6 +49,21 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract, Ge
         );
         itemInteractor.execute();
     }
+
+    @Override
+    public void createRatingPost(String jwt, PostModel postModel) {
+        mView.showProgress();
+        CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mPostRepository,
+                jwt,
+                postModel
+        );
+        createPostInteractor.execute();
+    }
+
     // -- END: ItemContract methods
 
     public void onError(String message) {
@@ -59,4 +83,18 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract, Ge
         onError(error);
     }
     // -- END: GetItemByIdInteractor.Callback methods
+
+    // -- BEGIN: CreatePostInteractor.Callback methods
+    @Override
+    public void onCreatePostSuccess() {
+        mView.hideProgress();
+        mView.postCreatedSuccessfully();
+    }
+
+    @Override
+    public void onCreatePostFailed(String error) {
+        mView.hideProgress();
+        onError(error);
+    }
+    // -- END: CreatePostInteractor.Callback methods
 }

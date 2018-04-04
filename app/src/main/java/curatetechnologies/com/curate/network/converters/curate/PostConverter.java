@@ -19,11 +19,20 @@ public class PostConverter {
     public static PostModel convertCuratePostToPostModel(CurateAPIPost apiPost){
         return new PostModel(apiPost.getPostID(), apiPost.getPostPostType(),
                 apiPost.getRestaurantID(), apiPost.getItemID(), apiPost.getPostDescription(),
-                apiPost.getPostRating(), apiPost.getPostNumberOfSaves(),
+                Boolean.parseBoolean(apiPost.getPostRating()), apiPost.getPostNumberOfSaves(),
                 apiPost.getPostNumberOfSaves(), apiPost.getPostImageURL(),
                 calculateHowLongAgoPosted(apiPost.getPostTime()),
                 apiPost.getUserID(), "@" + apiPost.getUserUsername(), apiPost.getUserPicture(),
                 apiPost.getItemName(), apiPost.getRestaurantName(), apiPost.getDistanceInMiles());
+    }
+
+    public static CurateAPIPost convertPostModelToCuratePost(PostModel postModel){
+        return new CurateAPIPost(postModel.getId(), postModel.getPostType(),
+                postModel.getRestaurantId(), postModel.getItemId(), postModel.getDescription(),
+                String.valueOf(postModel.getRating()), postModel.getNumberOfLikes(), postModel.getNumberOfSaves(),
+                postModel.getImageURL(), postModel.getTime(), postModel.getUserId(),
+                postModel.getUsername(), postModel.getUserPicture(), postModel.getItemName(),
+                postModel.getRestaurantName(), postModel.getDistanceInMiles());
     }
 
     private static String calculateHowLongAgoPosted(String dateString){

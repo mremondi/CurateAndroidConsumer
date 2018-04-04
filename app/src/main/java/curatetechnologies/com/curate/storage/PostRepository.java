@@ -3,6 +3,8 @@ package curatetechnologies.com.curate.storage;
 import android.location.Location;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,5 +77,27 @@ public class PostRepository implements PostModelRepository {
             Log.d("FAILURE", e.getMessage());
         }
         return posts;
+    }
+
+    @Override
+    public Integer createPost(String jwt, PostModel postModel) {
+        Integer insertId = 0;
+        String bearerToken = "Bearer " + jwt;
+        Log.d("BEARER TOKEN ", bearerToken);
+
+        PostService postService = CurateClient.getService(PostService.class);
+        try{
+            Response<JsonObject> response = postService
+                    .createPost(bearerToken,
+                                postModel.getPostType(),
+                                PostConverter.convertPostModelToCuratePost(postModel))
+                    .execute();
+            Log.d("JSON OBJECT", response.body().toString());
+            insertId = response.body().get("postID").getAsJsonObject().get("insertId").getAsInt();
+            Log.d("insertId", String.valueOf(insertId));
+        } catch (Exception e){
+            Log.d("PostRepository Failure", e.getLocalizedMessage());
+        }
+        return insertId;
     }
 }

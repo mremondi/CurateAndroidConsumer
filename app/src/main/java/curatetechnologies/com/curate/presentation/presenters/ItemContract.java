@@ -9,6 +9,7 @@ import android.location.Location;
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.presentation.ui.BaseView;
 
 /**
@@ -18,7 +19,10 @@ public interface ItemContract {
 
     interface View extends BaseView {
         void displayItem(ItemModel item);
+        void postCreatedSuccessfully();
+
     }
 
     void getItemById(Integer itemId, Location location);
+    void createRatingPost(String jwt, PostModel postModel);
 }

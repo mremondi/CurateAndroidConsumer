@@ -28,14 +28,19 @@ import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.ItemModel;
+import curatetechnologies.com.curate.domain.model.PostModel;
+import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
 import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
+import curatetechnologies.com.curate.storage.PostRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class ItemFragment extends Fragment implements ItemContract.View {
@@ -90,7 +95,15 @@ public class ItemFragment extends Fragment implements ItemContract.View {
             mLike = !mLike;
         }
         updateRatingButtons();
-        // TODO: mItemPresenter.rateItem(mLike, itemID, userID)
+        UserModel user = UserRepository
+                .getInstance(getApplicationContext())
+                .getCurrentUser();
+        mItemPresenter.createRatingPost(user.getCurateToken(),
+                new PostModel(0, "RATING", mItem.getRestaurantId(),
+                        mItem.getId(), "", false, 0, 0, "",
+                        "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
+                        mItem.getName(), mItem.getRestaurantName(), 0.0)
+                );
     }
 
     @OnClick(R.id.fragment_item_thumbs_up) void onLike(){
@@ -100,7 +113,16 @@ public class ItemFragment extends Fragment implements ItemContract.View {
             mLike = !mLike;
         }
         updateRatingButtons();
-        // TODO: mItemPresenter.rateItem(mLike, itemID, userID)
+
+        UserModel user = UserRepository
+                .getInstance(getApplicationContext())
+                .getCurrentUser();
+        mItemPresenter.createRatingPost(user.getCurateToken(),
+                new PostModel(0, "RATING", mItem.getRestaurantId(),
+                        mItem.getId(), "", true, 0, 0, "",
+                        "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
+                        mItem.getName(), mItem.getRestaurantName(), 0.0)
+        );
     }
 
     private void updateRatingButtons(){
@@ -180,7 +202,8 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                new ItemRepository());
+                new ItemRepository(),
+                new PostRepository());
 
         mItemPresenter.getItemById(itemId, getLocation());
         return v;
@@ -236,6 +259,12 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         tvMenuName.setText(item.getMenuName() + " - " + item.getMenuSectionName());
         tvItemPrice.setText(item.getPrice());
     }
+
+    @Override
+    public void postCreatedSuccessfully() {
+        Log.d("POST CREATED", "SUCCESSFULLY");
+    }
+
     // -- END ItemContract.View methods
 
     private Location getLocation(){
