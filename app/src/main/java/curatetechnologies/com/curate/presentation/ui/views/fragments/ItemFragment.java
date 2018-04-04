@@ -1,13 +1,19 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,7 +41,9 @@ import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
+import curatetechnologies.com.curate.presentation.ui.adapters.ImagePostAdapter;
 import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
+import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
 import curatetechnologies.com.curate.storage.PostRepository;
@@ -41,6 +51,10 @@ import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
+import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.REQUEST_IMAGE_CAPTURE;
+import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.RESULT_LOAD_IMAGE;
 
 
 public class ItemFragment extends Fragment implements ItemContract.View {
@@ -87,6 +101,9 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     Button btnThumbsUp;
     @BindView(R.id.fragment_item_thumbs_down)
     Button btnThumbsDown;
+
+    @BindView(R.id.fragment_item_photos_recyclerview)
+    RecyclerView photosRecyclerView;
 
     @OnClick(R.id.fragment_item_thumbs_down) void onDislike(){
         if (mLike == null){
@@ -196,6 +213,8 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
         unbinder = ButterKnife.bind(this, v);
 
+        photosRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+
         Integer itemId = getArguments().getInt(ITEM_ID);
 
         mItemPresenter = new ItemPresenter(
@@ -206,6 +225,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 new PostRepository());
 
         mItemPresenter.getItemById(itemId, getLocation());
+        mItemPresenter.getItemPosts(20, itemId);
         return v;
     }
 
@@ -261,6 +281,59 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     }
 
     @Override
+    public void displayItemPosts(final List<PostModel> posts) {
+        // add a null post to create a add photo button
+        posts.add(null);
+        final ItemFragment self = this;
+        photosRecyclerView.setAdapter(new ImagePostAdapter(posts,
+                new RecyclerViewClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        ItemPreviewBottomSheetFragment bottomSheetFragment = new ItemPreviewBottomSheetFragment();
+                        bottomSheetFragment.setPost(posts.get(position));
+                        bottomSheetFragment.show(self.getFragmentManager(), bottomSheetFragment.getTag());
+                    }
+                },
+                new RecyclerViewClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        // present dialog asking if they want to add a photo from camera or from gallery
+
+                        if (!checkWritePermission())
+                            requestWritePermission();
+                        if (!checkReadPermission())
+                            requestReadPermission();
+
+                        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle("Add Photo");
+                        alertDialog.setMessage("How would you like to add a new photo?");
+                        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "Camera",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // CAMERA
+                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                        }
+                                    }
+                                });
+                        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "Gallery",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        // GALLERY
+                                        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+                                    }
+                                });
+                        alertDialog.show();
+                    }
+                }));
+    }
+
+
+
+    @Override
     public void postCreatedSuccessfully() {
         Log.d("POST CREATED", "SUCCESSFULLY");
     }
@@ -270,4 +343,27 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     private Location getLocation(){
         return LocationRepository.getInstance(getContext()).getLastLocation();
     }
+
+    private boolean checkWritePermission(){
+        return (ContextCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestWritePermission(){
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+    }
+
+    private boolean checkReadPermission(){
+        return (ContextCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestReadPermission(){
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+    }
+
 }

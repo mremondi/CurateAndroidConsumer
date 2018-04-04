@@ -39,7 +39,7 @@ import curatetechnologies.com.curate.domain.model.RestaurantModel;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantContract;
 import curatetechnologies.com.curate.presentation.presenters.RestaurantPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantMenusAdapter;
-import curatetechnologies.com.curate.presentation.ui.adapters.RestaurantPhotosAdapter;
+import curatetechnologies.com.curate.presentation.ui.adapters.ImagePostAdapter;
 import curatetechnologies.com.curate.presentation.ui.views.activities.EditImageActivity;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.PostRepository;
@@ -137,7 +137,7 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     @Override
     public void displayRestaurantPosts(final List<PostModel> posts) {
         final RestaurantFragment self = this;
-        photosRecyclerView.setAdapter(new RestaurantPhotosAdapter(posts,
+        photosRecyclerView.setAdapter(new ImagePostAdapter(posts,
                 new RecyclerViewClickListener() {
                     @Override
                     public void onClick(View view, int position) {

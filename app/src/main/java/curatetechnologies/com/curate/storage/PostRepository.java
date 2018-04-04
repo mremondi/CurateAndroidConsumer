@@ -80,6 +80,24 @@ public class PostRepository implements PostModelRepository {
     }
 
     @Override
+    public List<PostModel> getPostsByItemId(Integer limit, Integer itemId, String postType) {
+        final List<PostModel> posts = new ArrayList<>();
+
+        PostService postService = CurateClient.getService(PostService.class);
+        try {
+            Response<List<CurateAPIPost>> response = postService
+                    .getPostsByItemId(limit, itemId, postType)
+                    .execute();
+            for (CurateAPIPost post: response.body()){
+                posts.add(PostConverter.convertCuratePostToPostModel(post));
+            }
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+        }
+        return posts;
+    }
+
+    @Override
     public Integer createPost(String jwt, PostModel postModel) {
         Integer insertId = 0;
         String bearerToken = "Bearer " + jwt;

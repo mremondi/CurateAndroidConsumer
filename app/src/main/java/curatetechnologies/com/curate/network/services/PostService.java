@@ -39,6 +39,12 @@ public interface PostService {
                                                      @Query("postType") String postType);
 
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @GET("item/posts")
+    Call<List<CurateAPIPost>> getPostsByItemId(@Query("limit") Integer limit,
+                                                     @Query("itemId") Integer itemId,
+                                                     @Query("postType") String postType);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("createPost")
     Call<JsonObject> createPost(@Header("authorization") String token,
                                 @Query("postType") String postType,

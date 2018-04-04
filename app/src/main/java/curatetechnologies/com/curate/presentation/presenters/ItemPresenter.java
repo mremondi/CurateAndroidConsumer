@@ -3,12 +3,16 @@ package curatetechnologies.com.curate.presentation.presenters;
 import android.location.Location;
 import android.util.Log;
 
+import java.util.List;
+
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
 import curatetechnologies.com.curate.domain.interactor.CreatePostInteractor;
 import curatetechnologies.com.curate.domain.interactor.CreatePostInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.GetItemByIdInteractor;
 import curatetechnologies.com.curate.domain.interactor.GetItemByIdInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.GetItemPostsInteractor;
+import curatetechnologies.com.curate.domain.interactor.GetItemPostsInteractorImpl;
 import curatetechnologies.com.curate.domain.model.ItemModel;
 import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.storage.ItemModelRepository;
@@ -20,6 +24,7 @@ import curatetechnologies.com.curate.storage.PostModelRepository;
 
 public class ItemPresenter extends AbstractPresenter implements ItemContract,
         GetItemByIdInteractor.Callback,
+        GetItemPostsInteractor.Callback,
         CreatePostInteractor.Callback {
 
     private ItemContract.View mView;
@@ -48,6 +53,19 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
                 location
         );
         itemInteractor.execute();
+    }
+
+    @Override
+    public void getItemPosts(Integer limit, Integer itemId) {
+        GetItemPostsInteractor restaurantPostsInteractor = new GetItemPostsInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mPostRepository,
+                limit,
+                itemId
+        );
+        restaurantPostsInteractor.execute();
     }
 
     @Override
@@ -83,6 +101,14 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
         onError(error);
     }
     // -- END: GetItemByIdInteractor.Callback methods
+
+    // -- BEGIN: GetItemPostsInteractor.Callback methods
+    @Override
+    public void onPostsRetrieved(List<PostModel> posts) {
+        mView.hideProgress();
+        mView.displayItemPosts(posts);
+    }
+    // -- END: GetItemPostsInteractor.Callback methods
 
     // -- BEGIN: CreatePostInteractor.Callback methods
     @Override

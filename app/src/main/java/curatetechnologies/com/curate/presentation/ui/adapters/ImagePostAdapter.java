@@ -1,12 +1,10 @@
 package curatetechnologies.com.curate.presentation.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
@@ -17,7 +15,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import curatetechnologies.com.curate.R;
-import curatetechnologies.com.curate.domain.model.MenuModel;
 import curatetechnologies.com.curate.domain.model.PostModel;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
@@ -28,14 +25,14 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
  * Created by mremondi on 3/1/18.
  */
 
-public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ImagePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<PostModel> mPosts;
     private RecyclerViewClickListener mPostListener;
     private RecyclerViewClickListener mAddPhotoListener;
 
-    public RestaurantPhotosAdapter(List<PostModel> posts, RecyclerViewClickListener postlistener,
-                                   RecyclerViewClickListener addPhotoListener){
+    public ImagePostAdapter(List<PostModel> posts, RecyclerViewClickListener postlistener,
+                            RecyclerViewClickListener addPhotoListener){
         this.mPosts = posts;
         this.mPostListener = postlistener;
         this.mAddPhotoListener = addPhotoListener;
@@ -54,12 +51,12 @@ public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RecyclerView.V
             case 0:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.fragment_restaurant_photo_view_holder, parent, false);
-                viewHolder = new RestaurantPhotosAdapter.ImageViewHolder(view, mPostListener);
+                viewHolder = new ImagePostAdapter.ImageViewHolder(view, mPostListener);
                 break;
             case 1:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.fragment_restaurant_add_photo_view_holder, parent, false);
-                viewHolder = new RestaurantPhotosAdapter.AddImageViewHolder(view, mAddPhotoListener);
+                viewHolder = new ImagePostAdapter.AddImageViewHolder(view, mAddPhotoListener);
                 break;
         }
         return viewHolder;
@@ -86,7 +83,7 @@ public class RestaurantPhotosAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if (mPosts.get(position).getId() != null){
+        if (mPosts.get(position) != null){
             return 0;
         } else {
             return 1;

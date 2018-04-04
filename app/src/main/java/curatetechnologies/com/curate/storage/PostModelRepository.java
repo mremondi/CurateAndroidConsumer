@@ -18,5 +18,7 @@ public interface PostModelRepository {
 
     List<PostModel> getPostsByRestaurantId(Integer limit, Integer restaurantId, String postType);
 
+    List<PostModel> getPostsByItemId(Integer limit, Integer itemId, String postType);
+
     Integer createPost(String jwt, PostModel postModel);
 }

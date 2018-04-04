@@ -131,6 +131,14 @@
                 android:visibility="gone"/>
 
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_item_photos_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_info_secondary"
+                android:background="@color/white"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"/>
 
         </RelativeLayout>
 

@@ -19,10 +19,12 @@ public interface ItemContract {
 
     interface View extends BaseView {
         void displayItem(ItemModel item);
+        void displayItemPosts(List<PostModel> posts);
         void postCreatedSuccessfully();
 
     }
 
     void getItemById(Integer itemId, Location location);
+    void getItemPosts(Integer limit, Integer itemId);
     void createRatingPost(String jwt, PostModel postModel);
 }
