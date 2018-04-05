@@ -1,12 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_more_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <Button
+                android:id="@+id/activity_edit_image_cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorAccent"
+                android:text="CANCEL"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"
+                android:layout_centerInParent="true"
+                android:text="Edit Image"/>
+
+            <Button
+                android:id="@+id/activity_edit_image_post_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorAccent"
+                android:text="POST"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <ImageView
         android:id="@+id/activity_edit_image_image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:adjustViewBounds="true"/>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/colorPrimaryDark">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_edit_image_filters"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:clipToPadding="false"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:background="@drawable/fragment_item_rate_background">
+
+            <Button
+                android:id="@+id/fragment_item_thumbs_down"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/thumbs_down"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Rate"/>
+
+            <Button
+                android:id="@+id/fragment_item_thumbs_up"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/thumbs_up"/>
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/activity_edit_image_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:lines="3"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -55,7 +55,7 @@ import static android.app.Activity.RESULT_OK;
 public class RestaurantFragment extends Fragment implements RestaurantContract.View {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int RESULT_LOAD_IMAGE = 2;
-    public static final String RESTAURANT_ID = "itemId";
+    public static final String RESTAURANT_ID = "restaurantId";
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
 

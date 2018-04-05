@@ -5,7 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -27,6 +31,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,6 +47,7 @@ import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.ImagePostAdapter;
+import curatetechnologies.com.curate.presentation.ui.views.activities.EditImageActivity;
 import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.ItemRepository;
@@ -50,14 +56,16 @@ import curatetechnologies.com.curate.storage.PostRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
+import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
-import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
-import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.REQUEST_IMAGE_CAPTURE;
-import static curatetechnologies.com.curate.presentation.ui.views.fragments.RestaurantFragment.RESULT_LOAD_IMAGE;
 
 
 public class ItemFragment extends Fragment implements ItemContract.View {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int RESULT_LOAD_IMAGE = 2;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
 
     public static final String ITEM_ID = "itemId";
     Unbinder unbinder;
@@ -366,4 +374,36 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap imageBitmap = null;
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            // GET IMAGE DATA
+            Log.d("HERE", "Image capture");
+            Bundle extras = data.getExtras();
+            imageBitmap = (Bitmap) extras.get("data");
+
+        } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            imageBitmap = BitmapFactory.decodeFile(picturePath);
+            cursor.close();
+
+        }
+        if (imageBitmap != null) {
+            Log.d("HERE", "Image not null: " + imageBitmap.toString());
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            Intent intent = new Intent(getContext(), EditImageActivity.class);
+            intent.putExtra(EditImageActivity.IMAGE_TAG, byteArray);
+            startActivity(intent);
+        }
+    }
 }
