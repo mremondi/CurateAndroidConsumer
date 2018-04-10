@@ -229,7 +229,7 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
             byte[] byteArray = stream.toByteArray();
 
             Intent intent = new Intent(getContext(), EditImageActivity.class);
-            intent.putExtra(EditImageActivity.IMAGE_TAG, byteArray);
+            intent.putExtra(EditImageActivity.IMAGE_URI, byteArray);
             startActivity(intent);
         }
     }

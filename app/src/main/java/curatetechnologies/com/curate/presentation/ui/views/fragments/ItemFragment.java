@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,6 +67,8 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     static final int RESULT_LOAD_IMAGE = 2;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
+
+    private Uri imageUri;
 
     public static final String ITEM_ID = "itemId";
     Unbinder unbinder;
@@ -319,10 +322,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // CAMERA
-                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                        }
+                                        captureCameraImage();
                                     }
                                 });
                         alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "Gallery",
@@ -337,6 +337,14 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                         alertDialog.show();
                     }
                 }));
+    }
+
+    private void captureCameraImage() {
+        Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File f = new File(Environment.getExternalStorageDirectory(), "POST_IMAGE.jpg");
+        chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        imageUri = Uri.fromFile(f);
+        startActivityForResult(chooserIntent, REQUEST_IMAGE_CAPTURE);
     }
 
 
@@ -378,12 +386,13 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap imageBitmap = null;
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // GET IMAGE DATA
-            Log.d("HERE", "Image capture");
-            Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
+            if(imageUri != null) {
+                Intent intent = new Intent(getContext(), EditImageActivity.class);
+                intent.putExtra(EditImageActivity.IMAGE_URI, imageUri);
+                startActivity(intent);
 
-        } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            }
+        }  else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
@@ -391,8 +400,11 @@ public class ItemFragment extends Fragment implements ItemContract.View {
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
-            imageBitmap = BitmapFactory.decodeFile(picturePath);
             cursor.close();
+
+            Intent intent = new Intent(getContext(), EditImageActivity.class);
+            intent.putExtra(EditImageActivity.IMAGE_GALLERY_PATH, picturePath);
+            startActivity(intent);
 
         }
         if (imageBitmap != null) {
@@ -401,9 +413,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
-            Intent intent = new Intent(getContext(), EditImageActivity.class);
-            intent.putExtra(EditImageActivity.IMAGE_TAG, byteArray);
-            startActivity(intent);
+
         }
     }
 }

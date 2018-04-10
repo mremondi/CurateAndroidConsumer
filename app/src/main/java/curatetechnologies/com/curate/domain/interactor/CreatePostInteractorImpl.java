@@ -14,11 +14,11 @@ public class CreatePostInteractorImpl extends AbstractInteractor implements Crea
     private String mJwt;
 
     public CreatePostInteractorImpl(Executor threadExecutor,
-                                   MainThread mainThread,
+                                    MainThread mainThread,
                                     CreatePostInteractor.Callback callback,
-                                   PostModelRepository postModelRepository,
-                                   String jwt,
-                                   PostModel postModel) {
+                                    PostModelRepository postModelRepository,
+                                    String jwt,
+                                    PostModel postModel) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mPostModelRepository = postModelRepository;

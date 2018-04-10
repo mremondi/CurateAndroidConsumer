@@ -79,6 +79,7 @@ public class FilterThumbnailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private ThumbnailsViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            //v.setBackgroundColor(v.getResources().getColor(R.color.colorPrimary));
 
         }
     }
