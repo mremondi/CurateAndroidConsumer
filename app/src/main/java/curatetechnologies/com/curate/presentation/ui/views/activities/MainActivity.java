@@ -51,6 +51,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
+    public static final String GOTO_FRAGMENT_TAG = "GOTO_FRAGMENT_TAG";
+    public static final String FEED_FRAGMENT_TAG = "FEED_FRAGMENT_TAG";
+    public static final String SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG";
+    public static final String PROFILE_FRAGMENT_TAG = "PROFILE_FRAGMENT_TAG";
+    public static final String MORE_FRAGMENT_TAG = "MORE_FRAGMENT_TAG";
+
     private MainActivityContract mMainActivityPresenter;
 
     FusedLocationProviderClient mFusedLocationProvider;
@@ -133,12 +139,45 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_search);
 
-        Fragment searchFragment = new SearchFragment();
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, searchFragment);
-        transaction.commit();
 
+        // USED FOR NAVIGATION FROM OTHER ACTIVITIES
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String gotoFragment = extras.getString(GOTO_FRAGMENT_TAG, "");
+
+            if (gotoFragment.equals("") || gotoFragment.equals(SEARCH_FRAGMENT_TAG)) {
+                Fragment searchFragment = new SearchFragment();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content_frame, searchFragment);
+                transaction.commit();
+            }
+            else if (gotoFragment.equals(FEED_FRAGMENT_TAG)){
+                Fragment feedFragment = new FeedFragment();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content_frame, feedFragment);
+                transaction.commit();
+            } else if (gotoFragment.equals(PROFILE_FRAGMENT_TAG)){
+                Fragment profileFragment = new ProfileFragment();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content_frame, profileFragment);
+                transaction.commit();
+            } else if (gotoFragment.equals(MORE_FRAGMENT_TAG)){
+                Fragment moreFragment = new MoreFragment();
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content_frame, moreFragment);
+                transaction.commit();
+            }
+        } else{
+            Fragment searchFragment = new SearchFragment();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.content_frame, searchFragment);
+            transaction.commit();
+        }
     }
 
     // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND

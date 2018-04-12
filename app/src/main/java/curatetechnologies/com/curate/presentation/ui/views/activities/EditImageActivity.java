@@ -320,7 +320,11 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
     @Override
     public void postSuccessful() {
-        Log.d("IMAGE POST", "SUCCESS");
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtra(MainActivity.GOTO_FRAGMENT_TAG, MainActivity.FEED_FRAGMENT_TAG);
+        startActivity(i);
+        finish();
+
     }
 
     // -- BEGIN BaseView methods
