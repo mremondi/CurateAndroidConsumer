@@ -1,8 +1,10 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,7 +63,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     private Bitmap mBitmap;
     private int mItemId;
     private int mRestaurantId;
-    private boolean mRating;
+    private Boolean mRating = null;
 
     private EditImagePresenter mEditImagePresenter;
 
@@ -190,9 +192,22 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     @OnClick(R.id.activity_edit_image_post_button) void postClick(){
-        String jwt = UserRepository.getInstance(getApplicationContext()).getCurrentUser().getCurateToken();
-        String path = saveImage(mBitmap, "curate_post.jpeg");
-        mEditImagePresenter.postImagePost(constructPost(path), jwt);
+        if (mRating == null){
+            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Unable to post");
+            alertDialog.setMessage("Please rate the item before you post!");
+            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } else {
+            String jwt = UserRepository.getInstance(getApplicationContext()).getCurrentUser().getCurateToken();
+            String path = saveImage(mBitmap, "curate_post.jpeg");
+            mEditImagePresenter.postImagePost(constructPost(path), jwt);
+        }
     }
 
     private String saveImage(Bitmap finalBitmap, String image_name) {

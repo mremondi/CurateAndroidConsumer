@@ -195,13 +195,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
 
         public void bindData(final PostModel post, final Context context){
-            if (post.getUserPicture() != null){
+            if (post.getUserPicture() != null && !post.getUserPicture().equals("")){
                 Glide.with(view)
                         .load(post.getUserPicture())
                         .apply(circleCropTransform())
                         .into(ivUserPicture);
             } else {
-                ivUserPicture.setImageDrawable(null);
+                ivUserPicture.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
             }
             tvItemName.setText(post.getItemName());
             tvRestaurantName.setText(post.getRestaurantName());

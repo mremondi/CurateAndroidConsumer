@@ -9,19 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="24sp"
+        android:textSize="22dp"
         android:layout_marginBottom="4dp"
         android:textColor="@color/textDark"
+        android:textStyle="bold"
         android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/rating_post_restaurant_name"
-        android:layout_width="match_parent"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/rating_post_item_name"
-        android:textSize="20sp"
-        android:textColor="@color/activeBlue"
-        android:textAlignment="center" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="from  "
+            android:textSize="18sp"
+            android:textColor="@color/lightGray"
+            android:textAlignment="center"/>
+
+
+        <TextView
+            android:id="@+id/rating_post_restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/activeBlue"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>

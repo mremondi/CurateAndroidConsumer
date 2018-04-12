@@ -20,7 +20,8 @@
             android:layout_width="350dp"
             android:layout_height="300dp"
             android:layout_centerInParent="true"
-            android:layout_below="@id/fragment_image_post_top"/>
+            android:layout_below="@id/fragment_image_post_top"
+            android:layout_margin="8dp"/>
 
         <include layout="@layout/fragment_feed_post_bottom"
             android:layout_width="match_parent"
