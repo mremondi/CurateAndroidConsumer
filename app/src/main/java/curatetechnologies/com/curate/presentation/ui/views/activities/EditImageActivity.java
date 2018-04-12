@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,21 +9,27 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.Glide;
 import com.zomato.photofilters.SampleFilters;
 import com.zomato.photofilters.imageprocessors.Filter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -40,16 +47,23 @@ import curatetechnologies.com.curate.presentation.ui.views.filters.FilterThumbna
 import curatetechnologies.com.curate.presentation.ui.views.filters.FilterThumbnail;
 import curatetechnologies.com.curate.presentation.ui.views.filters.FilterThumbnailCallback;
 import curatetechnologies.com.curate.storage.PostRepository;
+import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 public class EditImageActivity extends AppCompatActivity implements EditImageContract.View, FilterThumbnailCallback{
 
     public static final String IMAGE_URI = "IMAGE_URI";
     public static final String IMAGE_GALLERY_PATH = "IMAGE_GALLERY_PATH";
-    Bitmap bitmap;
+    public static final String ITEM_ID = "ITEM_ID";
+    public static final String RESTAURANT_ID = "RESTAURANT_ID";
+
+
+    private Bitmap mBitmap;
+    private int mItemId;
+    private int mRestaurantId;
+    private boolean mRating;
 
     private EditImagePresenter mEditImagePresenter;
-
 
     @BindView(R.id.fragment_item_progress_bar)
     ProgressBar progressBar;
@@ -60,12 +74,35 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @BindView(R.id.activity_edit_image_filters)
     RecyclerView filterListView;
 
+    @BindView(R.id.activity_edit_image_description)
+    EditText descriptionTextView;
+
+    @BindView(R.id.activity_edit_image_thumbs_up)
+    Button likeButton;
+    @BindView(R.id.activity_edit_image_thumbs_down)
+    Button dislikeButton;
+
+    @OnClick(R.id.activity_edit_image_thumbs_down) void dislikeClick(){
+        mRating = false;
+        dislikeButton.setBackground(getResources().getDrawable(R.drawable.thumbs_down_black));
+        likeButton.setBackground(getResources().getDrawable(R.drawable.thumbs_up));
+    }
+
+    @OnClick(R.id.activity_edit_image_thumbs_up) void likeClick(){
+        mRating = true;
+        likeButton.setBackground(getResources().getDrawable(R.drawable.thumbs_up_black));
+        dislikeButton.setBackground(getResources().getDrawable(R.drawable.thumbs_down));
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_image);
 
         ButterKnife.bind(this);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
 
         mEditImagePresenter = new EditImagePresenter(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
@@ -74,16 +111,18 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
         Bundle extras = getIntent().getExtras();
         Uri imageUri = (Uri) extras.get(IMAGE_URI);
+        mItemId = extras.getInt(ITEM_ID);
+        mRestaurantId = extras.getInt(RESTAURANT_ID);
 
         String path = extras.getString(IMAGE_GALLERY_PATH);
 
         if (imageUri != null){
-            bitmap = getBitmap(imageUri.getPath());
+            mBitmap = getBitmap(imageUri.getPath());
         } else {
-            bitmap = getBitmap(path);
+            mBitmap = getBitmap(path);
         }
 
-        imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false));
+        imageView.setImageBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth(), mBitmap.getHeight(), false));
         initHorizontalList();
     }
 
@@ -108,7 +147,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
                 FilterThumbnail t4 = new FilterThumbnail();
                 FilterThumbnail t5 = new FilterThumbnail();
                 FilterThumbnail t6 = new FilterThumbnail();
-                Bitmap thumbImage = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/5, bitmap.getHeight()/5, false);
+                Bitmap thumbImage = Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth()/5, mBitmap.getHeight()/5, false);
 
                 t1.image = thumbImage;
                 t2.image = thumbImage;
@@ -151,12 +190,45 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     @OnClick(R.id.activity_edit_image_post_button) void postClick(){
-        mEditImagePresenter.postImagePost(null, null);
+        String jwt = UserRepository.getInstance(getApplicationContext()).getCurrentUser().getCurateToken();
+        String path = saveImage(mBitmap, "curate_post.jpeg");
+        mEditImagePresenter.postImagePost(constructPost(path), jwt);
+    }
+
+    private String saveImage(Bitmap finalBitmap, String image_name) {
+        //return Utils.insertImage(getContentResolver(), finalBitmap, "CURATE_POST", image_name );
+        try {
+            File f = new File(getCacheDir(), image_name);
+            f.createNewFile();
+
+            //Convert bitmap to byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            return f.getAbsolutePath();
+        } catch (IOException e){
+            return "";
+        }
+    }
+
+    private PostModel constructPost(String path){
+        String postType = PostModel.IMAGE_POST;
+        String description = descriptionTextView.getText().toString();
+
+        int userId = UserRepository.getInstance(getApplicationContext()).getCurrentUser().getId();
+        return new PostModel(0, postType, mRestaurantId, mItemId, description, mRating, 0, 0,
+                "", "", userId, "", "", "", "", 0.0, path);
     }
 
     @Override
     public void onThumbnailClick(Filter filter) {
-        Bitmap mutableBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(),false)
+        Bitmap mutableBitmap = Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth(), mBitmap.getHeight(),false)
                 .copy(Bitmap.Config.ARGB_8888, true);
         imageView.setImageBitmap(filter.processFilter(mutableBitmap));
     }
@@ -181,7 +253,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
                     IMAGE_MAX_SIZE) {
                 scale++;
             }
-            Log.d("", "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-height: " + o.outHeight);
 
             Bitmap b = null;
             in = getContentResolver().openInputStream(uri);
@@ -196,7 +267,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
                 // resize to desired dimensions
                 int height = b.getHeight();
                 int width = b.getWidth();
-                Log.d("", "1th scale operation dimenions - width: " + width + ", height: " + height);
 
                 double y = Math.sqrt(IMAGE_MAX_SIZE / (((double) width) / height));
                 double x = (y / height) * width;
@@ -234,7 +304,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
                 default:
                     rotatedBitmap = b;
             }
-            Log.d("", "bitmap size - width: " + b.getWidth() + ", height: " + b.getHeight());
             return rotatedBitmap;
         } catch (IOException e) {
             Log.e("", e.getMessage(), e);

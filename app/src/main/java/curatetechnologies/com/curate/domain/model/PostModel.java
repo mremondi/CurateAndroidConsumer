@@ -1,10 +1,16 @@
 package curatetechnologies.com.curate.domain.model;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by mremondi on 2/22/18.
  */
 
 public class PostModel {
+
+    public static final String IMAGE_POST = "ImageRating";
+    public static final String RATING_POST = "Rating";
+    public static final String ORDER_POST = "Order";
 
     private Integer id;
     private String postType;
@@ -15,6 +21,7 @@ public class PostModel {
     private Integer numberOfLikes;
     private Integer numberOfSaves;
     private String imageURL;
+    private String imagePath;
     private String time;
     private Integer userId;
     private String username;
@@ -27,7 +34,7 @@ public class PostModel {
                      String description, Boolean rating, Integer numberOfLikes,
                      Integer numberOfSaves, String imageURL, String time, Integer userId,
                      String username, String userPicture, String itemName, String restaurantName,
-                     Double distanceInMiles) {
+                     Double distanceInMiles, String imagePath) {
         this.id = id;
         this.postType = postType;
         this.restaurantId = restaurantId;
@@ -44,6 +51,7 @@ public class PostModel {
         this.itemName = itemName;
         this.restaurantName = restaurantName;
         this.distanceInMiles = distanceInMiles;
+        this.imagePath = imagePath;
     }
 
     public Integer getId() {
@@ -172,5 +180,13 @@ public class PostModel {
 
     public void setDistanceInMiles(Double distanceInMiles) {
         this.distanceInMiles = distanceInMiles;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

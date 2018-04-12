@@ -23,7 +23,7 @@ public class PostConverter {
                 apiPost.getPostNumberOfSaves(), apiPost.getPostImageURL(),
                 calculateHowLongAgoPosted(apiPost.getPostTime()),
                 apiPost.getUserID(), "@" + apiPost.getUserUsername(), apiPost.getUserPicture(),
-                apiPost.getItemName(), apiPost.getRestaurantName(), apiPost.getDistanceInMiles());
+                apiPost.getItemName(), apiPost.getRestaurantName(), apiPost.getDistanceInMiles(), null);
     }
 
     public static CurateAPIPost convertPostModelToCuratePost(PostModel postModel){

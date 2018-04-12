@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/fragment_more_toolbar"
+        android:id="@+id/activity_edit_image_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/activity_edit_image_cancel_button"
@@ -52,16 +51,18 @@
     <ImageView
         android:id="@+id/activity_edit_image_image_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="300dp"
         android:adjustViewBounds="true"
         android:layout_margin="4dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/activity_edit_image_toolbar"/>
 
     <RelativeLayout
+        android:id="@+id/activity_edit_image_filter_container"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_below="@+id/activity_edit_image_image_view">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_edit_image_filters"
@@ -75,9 +76,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/activity_edit_image_filter_container">
 
         <RelativeLayout
             android:layout_width="200dp"
@@ -89,7 +90,7 @@
             android:background="@drawable/fragment_item_rate_background">
 
             <Button
-                android:id="@+id/fragment_item_thumbs_down"
+                android:id="@+id/activity_edit_image_thumbs_down"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
@@ -104,7 +105,7 @@
                 android:text="Rate"/>
 
             <Button
-                android:id="@+id/fragment_item_thumbs_up"
+                android:id="@+id/activity_edit_image_thumbs_up"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -118,7 +119,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
-            android:lines="3"/>
+            android:maxLength="140"
+            android:lines="2"/>
 
     </LinearLayout>
 
@@ -126,8 +128,8 @@
         android:id="@+id/fragment_item_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_below="@+id/fragment_item_item_info_primary"
         android:visibility="gone"/>
 
-</LinearLayout>
+</RelativeLayout>

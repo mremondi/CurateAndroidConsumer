@@ -130,7 +130,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 new PostModel(0, "RATING", mItem.getRestaurantId(),
                         mItem.getId(), "", false, 0, 0, "",
                         "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
-                        mItem.getName(), mItem.getRestaurantName(), 0.0)
+                        mItem.getName(), mItem.getRestaurantName(), 0.0, null)
                 );
     }
 
@@ -149,7 +149,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 new PostModel(0, "RATING", mItem.getRestaurantId(),
                         mItem.getId(), "", true, 0, 0, "",
                         "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
-                        mItem.getName(), mItem.getRestaurantName(), 0.0)
+                        mItem.getName(), mItem.getRestaurantName(), 0.0, null)
         );
     }
 
@@ -385,10 +385,14 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap imageBitmap = null;
+
+        Intent intent = new Intent(getContext(), EditImageActivity.class);
+        intent.putExtra(EditImageActivity.IMAGE_URI, imageUri);
+        intent.putExtra(EditImageActivity.ITEM_ID, mItem.getId());
+        intent.putExtra(EditImageActivity.RESTAURANT_ID, mItem.getRestaurantId());
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             if(imageUri != null) {
-                Intent intent = new Intent(getContext(), EditImageActivity.class);
-                intent.putExtra(EditImageActivity.IMAGE_URI, imageUri);
                 startActivity(intent);
 
             }
@@ -402,13 +406,11 @@ public class ItemFragment extends Fragment implements ItemContract.View {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Intent intent = new Intent(getContext(), EditImageActivity.class);
             intent.putExtra(EditImageActivity.IMAGE_GALLERY_PATH, picturePath);
             startActivity(intent);
 
         }
         if (imageBitmap != null) {
-            Log.d("HERE", "Image not null: " + imageBitmap.toString());
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
