@@ -23,20 +23,24 @@
             android:orientation="vertical"
             android:layout_toRightOf="@+id/restaurant_search_view_holder_restaurant_logo"
             android:layout_toEndOf="@+id/restaurant_search_view_holder_restaurant_logo"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_centerVertical="true">
 
             <TextView
                 android:id="@+id/restaurant_search_view_holder_restaurant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold"/>
+                android:textSize="18sp"
+                android:textColor="#464646"
+                android:layout_marginBottom="4dp"/>
 
             <TextView
                 android:id="@+id/restaurant_search_view_holder_cuisine_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:layout_marginBottom="4dp"
+                android:textSize="12sp"
                 android:textColor="@color/lightGray"
                 android:text="Mexican"/>
 
@@ -44,14 +48,15 @@
                 android:id="@+id/restaurant_search_view_holder_item_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
+                android:textSize="12sp"
                 android:textColor="@color/distanceBlue"
+                android:layout_marginBottom="4dp"
                 android:text="0.0mi"/>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/item_search_view_holder_item_rating"
+            android:id="@+id/restaurant_search_view_holder_restaurant_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -59,8 +64,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="8dp"
-            android:textStyle="normal"
-            android:text="1.0"/>
+            android:textStyle="normal"/>
 
 
     </RelativeLayout>

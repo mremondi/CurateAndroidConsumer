@@ -71,6 +71,10 @@ public class RestaurantSearchAdapter extends RecyclerView.Adapter<RestaurantSear
         ImageView restaurantLogo;
         @BindView(R.id.restaurant_search_view_holder_restaurant_name)
         TextView restaurantName;
+        @BindView(R.id.restaurant_search_view_holder_cuisine_type)
+        TextView restaurantCuisineType;
+        @BindView(R.id.restaurant_search_view_holder_restaurant_rating)
+        TextView restaurantRating;
 
         public ViewHolder(CardView searchRow, RecyclerViewClickListener listener){
             super(searchRow);
@@ -92,6 +96,10 @@ public class RestaurantSearchAdapter extends RecyclerView.Adapter<RestaurantSear
 
             }
             restaurantName.setText(restaurant.getName());
+            // TODO: restaurantRating.setText(restaurant.getRating());
+            // TODO: restaurantCuisineType.setText(restaurant.getCuisines());
+            restaurantCuisineType.setVisibility(View.GONE);
+            restaurantRating.setVisibility(View.GONE);
         }
 
         // -- BEGIN View.OnClickListener methods
