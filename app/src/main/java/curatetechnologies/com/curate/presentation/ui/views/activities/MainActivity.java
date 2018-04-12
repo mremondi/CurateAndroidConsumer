@@ -32,17 +32,20 @@ import butterknife.ButterKnife;
 import curatetechnologies.com.curate.BuildConfig;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
+import curatetechnologies.com.curate.domain.model.OrderModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.presenters.MainActivityContract;
 import curatetechnologies.com.curate.presentation.presenters.MainActivityPresenter;
 import curatetechnologies.com.curate.presentation.ui.views.BottomNavigationViewHelper;
+import curatetechnologies.com.curate.presentation.ui.views.dialogs.RatePreviousOrderDialog;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.EmptyCartFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.FeedFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.MoreFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.ProfileFragment;
 import curatetechnologies.com.curate.presentation.ui.views.fragments.SearchFragment;
 import curatetechnologies.com.curate.storage.LocationRepository;
+import curatetechnologies.com.curate.storage.OrderRepository;
 import curatetechnologies.com.curate.storage.StripeRepository;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
@@ -114,6 +117,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        mMainActivityPresenter = new MainActivityPresenter(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                UserRepository.getInstance(getApplicationContext()),
+                new OrderRepository()
+        );
+
+        // ask user to rate their last order
+        getLastOrder();
+
+        // get location
         mFusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         if (!checkPermissions()) {
             requestPermissions();
@@ -125,12 +140,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         // TODO: but this makes sure that the StripeID is loaded and all info is current
         UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
         if (user != null) {
-            mMainActivityPresenter = new MainActivityPresenter(
-                    ThreadExecutor.getInstance(),
-                    MainThreadImpl.getInstance(),
-                    this,
-                    UserRepository.getInstance(getApplicationContext())
-            );
             mMainActivityPresenter.getUserById(user.getId());
         }
 
@@ -140,6 +149,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         navigation.setSelectedItemId(R.id.navigation_search);
 
 
+        navigateToSpecifiedFragment();
+    }
+
+    private void navigateToSpecifiedFragment(){
         // USED FOR NAVIGATION FROM OTHER ACTIVITIES
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -177,6 +190,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.content_frame, searchFragment);
             transaction.commit();
+        }
+    }
+
+    private void getLastOrder(){
+        mMainActivityPresenter.getLastOrder(getApplicationContext());
+    }
+
+    @Override
+    public void rateLastOrder(OrderModel orderModel) {
+        if (orderModel != null){
+            // CREATE RATE ORDER MODAL
+            RatePreviousOrderDialog ratePreviousOrderDialog =new RatePreviousOrderDialog(this, orderModel);
+            ratePreviousOrderDialog.show();
         }
     }
 

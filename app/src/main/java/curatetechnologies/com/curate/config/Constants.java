@@ -11,5 +11,6 @@ public class Constants {
     public static final String LOCATION_PROVIDER="LOCATION_PROVIDER";
     public static final String LATITUDE_SHARED_PREFERENCE_KEY="Latitude";
     public static final String LONGITUDE_SHARED_PREFERENCE_KEY="Longitude";
+    public static final String LAST_ORDER_SHARED_PREFERENCE_KEY="LAST_ORDER";
 
 }

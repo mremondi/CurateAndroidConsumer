@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.domain.interactor;
 
+import android.content.Context;
 import android.util.Log;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
@@ -16,20 +17,24 @@ public class PostOrderInteractorImpl extends AbstractInteractor implements PostO
     private PostOrderInteractor.Callback mCallback;
     private OrderModelRepository mOrderModelRepository;
 
+    Context appContext;
+
     private OrderModel mOrder;
     private String mJwt;
 
     public PostOrderInteractorImpl(Executor threadExecutor,
-                                  MainThread mainThread,
-                                  PostOrderInteractor.Callback callback,
-                                  OrderModelRepository orderModelRepository,
-                                  String jwt,
-                                  OrderModel orderModel) {
+                                   MainThread mainThread,
+                                   PostOrderInteractor.Callback callback,
+                                   OrderModelRepository orderModelRepository,
+                                   String jwt,
+                                   OrderModel orderModel,
+                                   Context appContext) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mOrderModelRepository = orderModelRepository;
         mOrder = orderModel;
         mJwt = jwt;
+        this.appContext = appContext;
     }
 
     private void notifyError() {
@@ -54,7 +59,7 @@ public class PostOrderInteractorImpl extends AbstractInteractor implements PostO
     @Override
     public void run() {
         // retrieve the message
-        boolean success = mOrderModelRepository.postOrder(mJwt, mOrder);
+        boolean success = mOrderModelRepository.postOrder(mJwt, mOrder, appContext);
 
         // check if we have failed to retrieve our message
         if (!success) {

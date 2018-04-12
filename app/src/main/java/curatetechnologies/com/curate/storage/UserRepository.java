@@ -77,8 +77,6 @@ public class UserRepository implements UserModelRepository {
     @Override
     public Boolean saveUser(final UserModel userModel, boolean remote) {
         // save user to DB
-        Log.d("SAVE USER 2", userModel.getCurateToken());
-
         UserService userService = CurateClient.getService(UserService.class);
         if (remote) {
             try {
@@ -90,7 +88,6 @@ public class UserRepository implements UserModelRepository {
                 Log.d("network save user", "failure " + e.getLocalizedMessage());
             }
         }
-        Log.d("SAVE USER 1", userModel.getCurateToken());
         return this.cacheUser(userModel);
     }
 

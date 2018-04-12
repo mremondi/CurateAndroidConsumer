@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.content.Context;
+
 import com.stripe.android.PaymentSession;
 
 import curatetechnologies.com.curate.domain.model.OrderModel;
@@ -22,5 +24,5 @@ public interface CartContract {
 
     void completeCharge(PaymentSession paymentSession, String email);
 
-    void processOrder(String jwt, OrderModel orderModel);
+    void processOrder(String jwt, OrderModel orderModel, Context appContext);
 }

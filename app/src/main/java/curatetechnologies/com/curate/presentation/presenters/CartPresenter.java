@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -83,7 +84,7 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     }
 
     @Override
-    public void processOrder(String jwt, OrderModel orderModel) {
+    public void processOrder(String jwt, OrderModel orderModel, Context appContext) {
         mView.showProgress();
         SendOrderToRestaurantInteractor sendOrderToRestaurantInteractor =
                 new SendOrderToRestaurantInteractorImpl(
@@ -96,12 +97,13 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
         sendOrderToRestaurantInteractor.execute();
 
         PostOrderInteractor postOrderInteractor = new PostOrderInteractorImpl(
-            mExecutor,
-            mMainThread,
-            this,
-            mOrderRepository,
-            jwt,
-            orderModel
+                mExecutor,
+                mMainThread,
+                this,
+                mOrderRepository,
+                jwt,
+                orderModel,
+                appContext
         );
         postOrderInteractor.execute();
     }

@@ -1,5 +1,8 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -177,22 +180,30 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
     @Override
     public void chargeCompleted(boolean success) {
-        Log.d("CHARGE COMPLETE", "NOW FIREBASE");
-        // TODO: send to firebase
-        Log.d("JWT in charge", "A " + UserRepository
-                .getInstance(getApplicationContext())
-                .getCurrentUser()
-                .getCurateToken());
         mCartPresenter.processOrder(UserRepository
                     .getInstance(getApplicationContext())
                     .getCurrentUser()
                     .getCurateToken(),
-                CartManager.getInstance().createOrderModel());
+                CartManager.getInstance().createOrderModel(),
+                getApplicationContext());
     }
 
     @Override
     public void orderProcessed() {
-        // TODO: indicate the order has been completed and move back to main app
+        final Activity self = this;
+
+        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Order Successful");
+        alertDialog.setMessage("You will receive a notification when your order status changes. Enjoy!");
+        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent i = new Intent(self, MainActivity.class);
+                        i.putExtra(MainActivity.GOTO_FRAGMENT_TAG, MainActivity.SEARCH_FRAGMENT_TAG);
+                    }
+                });
+        alertDialog.show();
     }
 
     @Override
@@ -207,8 +218,8 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
 
     @Override
     public void showError(String message) {
-        android.app.AlertDialog.Builder builder;
-        builder = new android.app.AlertDialog.Builder(this);
+        android.support.v7.app.AlertDialog.Builder builder;
+        builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("Order Cannot Be Processed")
                 .setMessage(message)
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -218,6 +229,7 @@ public class CartActivity extends AppCompatActivity implements CartContract.View
                 })
                 .show();
     }
+
 
     private void showCardDetails(PaymentSessionData data) {
         StringBuilder stringBuilder = new StringBuilder();
