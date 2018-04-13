@@ -85,7 +85,13 @@
         <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity" />
         <activity android:name=".presentation.ui.views.activities.CartActivity" />
         <activity android:name=".presentation.ui.views.activities.GetCardActivity" />
-        <activity android:name=".presentation.ui.views.activities.EditImageActivity"></activity>
+        <activity android:name=".presentation.ui.views.activities.EditImageActivity"/>
+
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
     </application>
 
 </manifest>
