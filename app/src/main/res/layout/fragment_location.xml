@@ -136,7 +136,7 @@ android:background="@color/greyBackground">
 
             <SeekBar
                 android:id="@+id/fragment_location_radius_seek_bar"
-                android:layout_width="300dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content" />
 
             <TextView

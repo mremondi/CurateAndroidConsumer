@@ -27,9 +27,11 @@
     </android.support.v7.widget.Toolbar>
 
     <ImageView
+        android:id="@+id/fragment_about_us_logo"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_above="@+id/fragment_about_us_title"
+        android:layout_below="@+id/fragment_more_toolbar"
+        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/big_round_curate_logo"/>
 
@@ -37,8 +39,7 @@
         android:id="@+id/fragment_about_us_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@id/fragment_about_us_logo"
         android:textColor="@color/textDark"
         android:textSize="32sp"
         android:textStyle="bold"

@@ -11,9 +11,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +29,7 @@ import curatetechnologies.com.curate.storage.LocationRepository;
 public class LocationFragment extends Fragment {
 
     Unbinder unbinder;
-    private double mRadius;
+    private double mRadius = 50.0;
 
     @OnClick(R.id.fragment_location_detect_current_location_row) void onDetectLocationClick(){
         detectCurrentLocation();
@@ -58,8 +61,10 @@ public class LocationFragment extends Fragment {
                         .getFragmentManager()
                         .findFragmentById(R.id.fragment_location_place_autocomplete_fragment);
         if (autocompleteFragment != null)
-            getActivity()
-                    .getFragmentManager().beginTransaction().remove(autocompleteFragment).commit();
+            getActivity().getFragmentManager()
+                    .beginTransaction()
+                    .remove(autocompleteFragment)
+                    .commit();
         unbinder.unbind();
         cacheRadius();
     }
@@ -121,6 +126,19 @@ public class LocationFragment extends Fragment {
     }
 
     private void detectCurrentLocation(){
-        LocationRepository.getInstance(getContext()).getLastLocation();
+        FusedLocationProviderClient fusedLocationProvider = LocationServices.getFusedLocationProviderClient(getContext());
+        try {
+            fusedLocationProvider.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        LocationRepository.getInstance(getContext()).setLastLocation(location);
+                    }
+                }
+            });
+        } catch (SecurityException e){
+            // TODO: ask for permissions
+        }
     }
+
 }
