@@ -1,5 +1,9 @@
 package curatetechnologies.com.curate.domain.model;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 /**
@@ -13,15 +17,22 @@ public class RestaurantModel {
     private String distance_in_mi;
     private List<MenuModel> menus;
     private Double mealTaxRate;
+    private String phoneNumber;
+    private String websiteURL;
+    private LatLng restaurantLocation;
 
     public RestaurantModel(Integer id, String name, String logoURL, String distance_in_mi,
-                           List<MenuModel> menus, Double mealTaxRate) {
+                           List<MenuModel> menus, Double mealTaxRate, String phoneNumber,
+                           String websiteURL, LatLng restaurantLocation) {
         this.id = id;
         this.name = name;
         this.logoURL = logoURL;
         this.distance_in_mi = distance_in_mi;
         this.menus = menus;
         this.mealTaxRate = mealTaxRate;
+        this.phoneNumber = phoneNumber;
+        this.websiteURL = websiteURL;
+        this.restaurantLocation = restaurantLocation;
     }
 
     public Integer getId() {
@@ -70,5 +81,29 @@ public class RestaurantModel {
 
     public void setMealTaxRate(Double mealTaxRate) {
         this.mealTaxRate = mealTaxRate;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getWebsiteURL() {
+        return websiteURL;
+    }
+
+    public void setWebsiteURL(String websiteURL) {
+        this.websiteURL = websiteURL;
+    }
+
+    public LatLng getRestaurantLocation() {
+        return restaurantLocation;
+    }
+
+    public void setRestaurantLocation(LatLng restaurantLocation) {
+        this.restaurantLocation = restaurantLocation;
     }
 }

@@ -21,8 +21,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -31,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
@@ -62,15 +66,57 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     @BindView(R.id.fragment_restaurant_progress_bar)
     ProgressBar progressBar;
 
+    private RestaurantModel mRestaurant;
+
     private RestaurantPresenter mRestaurantPresenter;
     Unbinder unbinder;
 
     @BindView(R.id.fragment_restaurant_logo)
     ImageView ivRestaurantLogo;
+    @BindView(R.id.fragment_restaurant_open_closed_text)
+    TextView tvOpenOrClosed;
+    @BindView(R.id.fragment_restaurant_todays_hours)
+    TextView tvHoursOfOperations;
     @BindView(R.id.fragment_restaurant_menu_recyclerview)
     RecyclerView menuRecyclerView;
     @BindView(R.id.fragment_restaurant_photos_recyclerview)
     RecyclerView photosRecyclerView;
+    @BindView(R.id.fragment_restaurant_contact_button)
+    RelativeLayout btnContact;
+    @BindView(R.id.fragment_restaurant_website_button)
+    RelativeLayout btnWebsite;
+    @BindView(R.id.fragment_restaurant_directions_button)
+    RelativeLayout btnDirections;
+
+    @OnClick(R.id.fragment_restaurant_contact_button) void onContactClick(){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + mRestaurant.getPhoneNumber()));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.fragment_restaurant_website_button) void onWebsiteClick(){
+        String url = mRestaurant.getWebsiteURL();
+        if (!url.startsWith("http://") && !url.startsWith("https://")){
+            url = "http://" + url;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.fragment_restaurant_directions_button) void onDirectionsClick(){
+
+
+        String latLngQuery = "http://maps.google.com/maps?daddr=" +
+                String.valueOf(mRestaurant.getRestaurantLocation().latitude) + ", " +
+                String.valueOf(mRestaurant.getRestaurantLocation().longitude);
+
+
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(latLngQuery));
+
+        startActivity(intent);
+
+    }
 
     @Nullable
     @Override
@@ -78,6 +124,9 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         View v = inflater.inflate(R.layout.fragment_restaurant, container, false);
 
         unbinder = ButterKnife.bind(this, v);
+
+        // makes sure no button is pressed before the restaurant is loaded, otherwise there would be a NPE
+        enableButtons(false);
 
         Integer restaurantId = getArguments().getInt(RESTAURANT_ID);
 
@@ -109,7 +158,14 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
 
     @Override
     public void displayRestaurant(final RestaurantModel restaurant) {
+        mRestaurant = restaurant;
+        enableButtons(true);
+
         Glide.with(this).load(restaurant.getLogoURL()).into(ivRestaurantLogo);
+
+        // TODO: populate these when we have the data coming in
+        tvOpenOrClosed.setVisibility(View.GONE);
+        tvHoursOfOperations.setVisibility(View.GONE);
 
         // set up recyclerview
         RecyclerViewClickListener listener = new RecyclerViewClickListener() {
@@ -137,6 +193,7 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
     @Override
     public void displayRestaurantPosts(final List<PostModel> posts) {
         final RestaurantFragment self = this;
+
         photosRecyclerView.setAdapter(new ImagePostAdapter(posts,
                 new RecyclerViewClickListener() {
                     @Override
@@ -203,6 +260,12 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         ActivityCompat.requestPermissions(getActivity(),
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+    }
+
+    private void enableButtons(boolean enabled){
+        btnContact.setEnabled(enabled);
+        btnDirections.setEnabled(enabled);
+        btnWebsite.setEnabled(enabled);
     }
 
     @Override

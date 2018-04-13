@@ -1,9 +1,5 @@
 package curatetechnologies.com.curate.network.model;
 
-/**
- * Created by mremondi on 2/12/18.
- */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

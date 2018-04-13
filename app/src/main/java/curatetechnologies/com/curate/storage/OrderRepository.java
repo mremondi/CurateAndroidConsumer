@@ -65,8 +65,7 @@ public class OrderRepository implements OrderModelRepository {
         SharedPreferences  prefs = appContext.getSharedPreferences(Constants.CURATE_SHARED_PREFERENCE_KEY, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = prefs.getString(Constants.LAST_ORDER_SHARED_PREFERENCE_KEY, "");
-        OrderModel order = gson.fromJson(json, OrderModel.class);
-        return order;
+        return gson.fromJson(json, OrderModel.class);
     }
 
     @Override

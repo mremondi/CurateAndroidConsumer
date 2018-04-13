@@ -1,10 +1,15 @@
 package curatetechnologies.com.curate.network.converters.curate;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate.domain.model.MenuModel;
 import curatetechnologies.com.curate.domain.model.RestaurantModel;
+import curatetechnologies.com.curate.network.model.CurateAPICoordinates;
 import curatetechnologies.com.curate.network.model.CurateAPIMenu;
 import curatetechnologies.com.curate.network.model.CurateAPIRestaurant;
 
@@ -20,8 +25,13 @@ public class RestaurantConverter {
         for (CurateAPIMenu apiMenu: apiMenus){
             menus.add(MenuConverter.convertCurateMenuToMenuModel(apiMenu));
         }
+
+        CurateAPICoordinates coordinates = apiRestaurant.getRestaurantCoordinates();
+        LatLng latLng = new LatLng(coordinates.getX(), coordinates.getY());
+
         return new RestaurantModel(apiRestaurant.getRestaurantID(), apiRestaurant.getRestaurantName(),
                 apiRestaurant.getRestaurantLogoURL(), "0.0mi",
-                menus, apiRestaurant.getRestaurantMealTaxRate());
+                menus, apiRestaurant.getRestaurantMealTaxRate(), apiRestaurant.getRestaurantPhoneNumber(),
+                apiRestaurant.getRestaurantURL(), latLng);
     }
 }
