@@ -9,12 +9,12 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
  * Created by mremondi on 2/13/18.
  */
 
-public interface LoginWithEmailContract {
+public interface CreateAccountWithEmailContract {
     interface View extends BaseView {
         void updateUI();
         void saveUser(UserModel user);
     }
 
-    void loginUserEmailPassword(String email, String password);
+    void createAccountEmailPassword(String email, String password);
     void saveUser(UserModel user);
 }

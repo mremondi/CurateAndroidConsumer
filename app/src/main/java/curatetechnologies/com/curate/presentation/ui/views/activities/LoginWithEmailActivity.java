@@ -1,9 +1,7 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -12,16 +10,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import curatetechnologies.com.curate.R;
-import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
-import curatetechnologies.com.curate.domain.model.UserModel;
-import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailContract;
-import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailPresenter;
-import curatetechnologies.com.curate.storage.UserRepository;
-import curatetechnologies.com.curate.threading.MainThreadImpl;
+import curatetechnologies.com.curate.presentation.presenters.CreateAccountWithEmailContract;
 
 public class LoginWithEmailActivity extends AppCompatActivity {
 
-    private LoginWithEmailContract mConnectWithEmailPresenter;
+    private CreateAccountWithEmailContract mConnectWithEmailPresenter;
 
     @BindView(R.id.login_with_email_et_email)
     EditText etEmail;
@@ -39,7 +32,7 @@ public class LoginWithEmailActivity extends AppCompatActivity {
         }
     }
     @OnClick(R.id.create_account_with_email_btn_login) void loginClick(){
-        mConnectWithEmailPresenter.loginUserEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
+        mConnectWithEmailPresenter.createAccountEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     @Override
@@ -52,7 +45,7 @@ public class LoginWithEmailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.login_action_bar);
 
-//        mConnectWithEmailPresenter = new LoginWithEmailPresenter(
+//        mConnectWithEmailPresenter = new CreateAccountWithEmailPresenter(
 //                ThreadExecutor.getInstance(),
 //                MainThreadImpl.getInstance(),
 //                this,

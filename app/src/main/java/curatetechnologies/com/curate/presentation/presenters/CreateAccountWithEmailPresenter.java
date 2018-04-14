@@ -1,12 +1,9 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
-import android.util.Log;
-import android.util.Pair;
-
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
-import curatetechnologies.com.curate.domain.interactor.LoginWithEmailInteractor;
-import curatetechnologies.com.curate.domain.interactor.LoginWithEmailInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.CreateAccountWithEmailInteractor;
+import curatetechnologies.com.curate.domain.interactor.CreateAccountWithEmailInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractor;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractorImpl;
 import curatetechnologies.com.curate.domain.model.UserModel;
@@ -16,14 +13,14 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  * Created by mremondi on 2/13/18.
  */
 
-public class LoginWithEmailPresenter extends AbstractPresenter implements LoginWithEmailContract,
-        LoginWithEmailInteractor.Callback, SaveUserInteractor.Callback {
+public class CreateAccountWithEmailPresenter extends AbstractPresenter implements CreateAccountWithEmailContract,
+        CreateAccountWithEmailInteractor.Callback, SaveUserInteractor.Callback {
 
-    private LoginWithEmailContract.View mView;
+    private CreateAccountWithEmailContract.View mView;
     private UserModelRepository mUserRepository;
 
-    public LoginWithEmailPresenter(Executor executor, MainThread mainThread,
-                                   LoginWithEmailContract.View view, UserModelRepository userRepository) {
+    public CreateAccountWithEmailPresenter(Executor executor, MainThread mainThread,
+                                           CreateAccountWithEmailContract.View view, UserModelRepository userRepository) {
         super(executor, mainThread);
         mView = view;
         mUserRepository = userRepository;
@@ -31,8 +28,8 @@ public class LoginWithEmailPresenter extends AbstractPresenter implements LoginW
 
     // -- BEGIN LOGIN CONTRACT METHODS
     @Override
-    public void loginUserEmailPassword(String email, String password) {
-        LoginWithEmailInteractor loginEmailInteractor = new LoginWithEmailInteractorImpl(
+    public void createAccountEmailPassword(String email, String password) {
+        CreateAccountWithEmailInteractor createAccountWithEmailInteractor = new CreateAccountWithEmailInteractorImpl(
                 mExecutor,
                 mMainThread,
                 this,
@@ -40,7 +37,7 @@ public class LoginWithEmailPresenter extends AbstractPresenter implements LoginW
                 email,
                 password
         );
-        loginEmailInteractor.execute();
+        createAccountWithEmailInteractor.execute();
     }
 
     @Override

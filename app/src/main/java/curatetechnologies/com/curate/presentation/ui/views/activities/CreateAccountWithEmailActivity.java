@@ -14,14 +14,14 @@ import butterknife.OnTextChanged;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.UserModel;
-import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailContract;
-import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailPresenter;
+import curatetechnologies.com.curate.presentation.presenters.CreateAccountWithEmailContract;
+import curatetechnologies.com.curate.presentation.presenters.CreateAccountWithEmailPresenter;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
-public class CreateAccountWithEmailActivity extends AppCompatActivity implements LoginWithEmailPresenter.View{
+public class CreateAccountWithEmailActivity extends AppCompatActivity implements CreateAccountWithEmailPresenter.View{
 
-    private LoginWithEmailContract mConnectWithEmailPresenter;
+    private CreateAccountWithEmailContract mConnectWithEmailPresenter;
 
     @BindView(R.id.create_account_with_email_et_email)
     EditText etEmail;
@@ -39,7 +39,7 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
         }
     }
     @OnClick(R.id.create_account_with_email_btn_login) void loginClick(){
-        mConnectWithEmailPresenter.loginUserEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
+        mConnectWithEmailPresenter.createAccountEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.login_action_bar);
 
-        mConnectWithEmailPresenter = new LoginWithEmailPresenter(
+        mConnectWithEmailPresenter = new CreateAccountWithEmailPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
