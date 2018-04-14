@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.LoginOrSignUpActivity">
+
+
+    <ImageView
+        android:id="@+id/activity_login_or_signup_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/activity_login_or_signup_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:tint="@color/white"
+        android:src="@drawable/white_logo"/>
+
+    <TextView
+        android:id="@+id/activity_login_or_signup_curate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_login_or_signup_logo"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/bebas"
+        android:text="CURATE"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/activity_login_or_signup_create_acount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/label1"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:text="Create Account"/>
+
+    <TextView
+        android:id="@+id/label1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/activity_login_or_signup_login"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:text="Already have an account?"/>
+
+    <Button
+        android:id="@+id/activity_login_or_signup_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_above="@+id/activity_login_or_signup_skip"
+        android:background="@color/white"
+        android:textColor="@color/colorAccent"
+        android:text="Log In"/>
+
+    <LinearLayout
+        android:id="@+id/activity_login_or_signup_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="SKIP"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/white"
+            android:src="@drawable/ic_chevron_right_black_24dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

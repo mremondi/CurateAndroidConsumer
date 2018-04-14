@@ -10,7 +10,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -28,27 +28,26 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCYhR42bQUapg3wVaXkATFq-e4hi6RlKPY" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-        <service
-            android:name=".network.firebase.CurateFirebaseMessagingService">
+        <service android:name=".network.firebase.CurateFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".network.firebase.CurateFirebaseInstanceIDService">
+        <service android:name=".network.firebase.CurateFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
         <receiver android:name=".network.firebase.CurateFirebaseMessageReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -85,13 +84,14 @@
         <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity" />
         <activity android:name=".presentation.ui.views.activities.CartActivity" />
         <activity android:name=".presentation.ui.views.activities.GetCardActivity" />
-        <activity android:name=".presentation.ui.views.activities.EditImageActivity"/>
-
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
-
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+        <activity android:name=".presentation.ui.views.activities.EditImageActivity" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity android:name=".presentation.ui.views.activities.LoginOrSignUpActivity"></activity>
     </application>
 
 </manifest>
