@@ -61,18 +61,18 @@ public class CreateAccountActivity extends AppCompatActivity implements LoginCon
 
     @BindView(R.id.activity_create_account_bg)
     ImageView backgroundImage;
-    @BindView(R.id.btn_login_facebook)
-    LoginButton btnFacebookLogin;
+    @BindView(R.id.btn_create_account_facebook)
+    LoginButton btnFacebookCreateAccount;
 
-    @OnClick(R.id.btn_login_facebook_custom) void btnFacebookCustomClick() {
-        btnFacebookLogin.performClick();
+    @OnClick(R.id.btn_create_account_facebook_custom) void btnFacebookCustomClick() {
+        btnFacebookCreateAccount.performClick();
     }
 
-    @OnClick(R.id.btn_login_google_custom) void btnGoogleLoginCustom() {
+    @OnClick(R.id.btn_create_account_google_custom) void btnGoogleLoginCustom() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    @OnClick(R.id.btn_login_email) void btnLoginEmailClick(){
+    @OnClick(R.id.btn_create_account_email) void btnLoginEmailClick(){
         // go to Register with email password screen
         Intent i = new Intent(this, CreateAccountWithEmailActivity.class);
         startActivity(i);
@@ -155,11 +155,11 @@ public class CreateAccountActivity extends AppCompatActivity implements LoginCon
 
     // -- BEGIN: FACEBOOK LOGIN METHODS
     private void setUpFacebookLoginCallback(){
-        btnFacebookLogin.setReadPermissions(Arrays.asList(EMAIL));
+        btnFacebookCreateAccount.setReadPermissions(Arrays.asList(EMAIL));
         // If you are using in a fragment, call loginButton.setFragment(this);
 
         // Callback registration
-        btnFacebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        btnFacebookCreateAccount.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
                 handleFacebookLoginSuccess(loginResult);

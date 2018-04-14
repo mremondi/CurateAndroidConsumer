@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.LoginWithEmailActivity">
+    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountWithEmailActivity"
+    android:background="#F6F6F6">
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/login_with_email_et_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/white"
+        android:textCursorDrawable="@null"
+        android:paddingLeft="20dp"
+        android:hint="email"
+        android:inputType="textEmailAddress"/>
+    <EditText
+        android:id="@+id/login_with_email_et_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/login_with_email_et_email"
+        android:textCursorDrawable="@null"
+        android:paddingLeft="20dp"
+        android:background="@color/white"
+        android:inputType="textPassword"
+        android:hint="password"/>
+
+    <Button
+        android:id="@+id/login_with_email_btn_login"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Log In"
+        android:textColor="@color/white"
+        android:background="#ADD6FF"
+        android:layout_below="@id/login_with_email_et_password"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="Forgot Password"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_below="@+id/login_with_email_btn_login"
+        android:textColor="#4FA7FF"
+        android:visibility="gone"/>
+
+</RelativeLayout>

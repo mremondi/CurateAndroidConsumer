@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:aandroid="http://schemas.android.com/apk/res-auto"
     tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountActivity">
 
     <ImageView
@@ -33,27 +34,26 @@
         android:textSize="32sp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/facebook_button_layout"/>
-
     <FrameLayout
         android:id="@+id/facebook_button_layout"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="4dp">
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_above="@id/btn_create_account_google_custom">
 
         <com.facebook.login.widget.LoginButton
-            android:id="@+id/btn_login_facebook"
+            android:id="@+id/btn_create_account_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
         <Button
-            android:id="@+id/btn_login_facebook_custom"
+            android:id="@+id/btn_create_account_facebook_custom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#4267B2"
@@ -65,27 +65,38 @@
 
 
     <Button
-        android:id="@+id/btn_login_google_custom"
-        android:layout_width="300dp"
+        android:id="@+id/btn_create_account_google_custom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/facebook_button_layout"
         android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_above="@+id/btn_create_account_email"
         android:background="#FAFAFA"
         android:textColor="#7F7F7F"
         android:text="Create Account with Google"
         android:textAllCaps="false" />
     
     <Button
-        android:id="@+id/btn_login_email"
-        android:layout_width="300dp"
+        android:id="@+id/btn_create_account_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Account with Email"
-        android:layout_below="@+id/btn_login_google_custom"
         android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginTop="12dp"
         android:background="#FAFAFA"
-        android:textColor="#7F7F7F"
-        android:textAllCaps="false" />
+        android:textColor="@color/colorAccent"
+        android:textAllCaps="false"
+        android:text="Create Account with Email"
+        />
 
 </RelativeLayout>

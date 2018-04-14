@@ -23,13 +23,13 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
 
     private LoginWithEmailContract mConnectWithEmailPresenter;
 
-    @BindView(R.id.connect_with_email_et_email)
+    @BindView(R.id.create_account_with_email_et_email)
     EditText etEmail;
-    @BindView(R.id.connect_with_email_et_password)
+    @BindView(R.id.create_account_with_email_et_password)
     EditText etPassword;
-    @BindView(R.id.connect_with_email_btn_login)
+    @BindView(R.id.create_account_with_email_btn_login)
     Button btnLogin;
-    @OnTextChanged(R.id.connect_with_email_et_password) void onPasswordChanged(){
+    @OnTextChanged(R.id.create_account_with_email_et_password) void onPasswordChanged(){
         if(etPassword.getText().length() > 6){
             btnLogin.setBackgroundColor(getResources().getColor(R.color.activeBlue));
             btnLogin.setClickable(true);
@@ -38,7 +38,7 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
             btnLogin.setClickable(false);
         }
     }
-    @OnClick(R.id.connect_with_email_btn_login) void loginClick(){
+    @OnClick(R.id.create_account_with_email_btn_login) void loginClick(){
         mConnectWithEmailPresenter.loginUserEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
     }
 

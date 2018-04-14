@@ -7,7 +7,7 @@
     android:background="#F6F6F6">
 
     <EditText
-        android:id="@+id/connect_with_email_et_email"
+        android:id="@+id/create_account_with_email_et_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
@@ -17,11 +17,11 @@
         android:hint="email"
         android:inputType="textEmailAddress"/>
     <EditText
-        android:id="@+id/connect_with_email_et_password"
+        android:id="@+id/create_account_with_email_et_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
-        android:layout_below="@id/connect_with_email_et_email"
+        android:layout_below="@id/create_account_with_email_et_email"
         android:textCursorDrawable="@null"
         android:paddingLeft="20dp"
         android:background="@color/white"
@@ -29,15 +29,15 @@
         android:hint="password"/>
 
     <Button
-        android:id="@+id/connect_with_email_btn_login"
+        android:id="@+id/create_account_with_email_btn_login"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:text="Log In"
+        android:text="Create Account"
         android:textColor="@color/white"
         android:background="#ADD6FF"
-        android:layout_below="@id/connect_with_email_et_password"/>
+        android:layout_below="@id/create_account_with_email_et_password"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_centerHorizontal="true"
         android:text="Forgot Password"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_below="@+id/connect_with_email_btn_login"
+        android:layout_below="@+id/create_account_with_email_btn_login"
         android:textColor="#4FA7FF"
         android:visibility="gone"/>
 

@@ -33,4 +33,69 @@
         android:textSize="32sp"
         android:textStyle="bold" />
 
+    <FrameLayout
+        android:id="@+id/facebook_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_above="@id/btn_login_google_custom">
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/btn_login_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_login_facebook_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4267B2"
+            android:textColor="#FFFFFF"
+            android:text="Log in with Facebook"
+            android:textAllCaps="false" />
+
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/btn_login_google_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_above="@+id/btn_login_email"
+        android:background="#FAFAFA"
+        android:textColor="#7F7F7F"
+        android:text="Log in with Google"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_login_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginTop="12dp"
+        android:background="#FAFAFA"
+        android:textColor="@color/colorAccent"
+        android:textAllCaps="false"
+        android:text="Log in with Email"
+        />
+
 </RelativeLayout>
