@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import curatetechnologies.com.curate.manager.CartManager;
 import curatetechnologies.com.curate.presentation.ui.views.activities.CartActivity;
-import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
+import curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountActivity;
 import curatetechnologies.com.curate.storage.UserRepository;
 
 /**
@@ -70,7 +70,7 @@ public class CartButtonWrapper {
                         .setMessage("You need to be logged in to use this feature.")
                         .setPositiveButton("Register", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(context, LoginActivity.class);
+                                Intent i = new Intent(context, CreateAccountActivity.class);
                                 fragment.startActivity(i);
                             }
                         })

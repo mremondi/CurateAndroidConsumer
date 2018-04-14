@@ -49,7 +49,7 @@ import curatetechnologies.com.curate.presentation.presenters.ItemContract;
 import curatetechnologies.com.curate.presentation.presenters.ItemPresenter;
 import curatetechnologies.com.curate.presentation.ui.adapters.ImagePostAdapter;
 import curatetechnologies.com.curate.presentation.ui.views.activities.EditImageActivity;
-import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
+import curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountActivity;
 import curatetechnologies.com.curate.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate.storage.ItemRepository;
 import curatetechnologies.com.curate.storage.LocationRepository;
@@ -171,7 +171,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                     .setMessage("You need to be logged in to use this feature.")
                     .setPositiveButton("Register", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(getContext(), LoginActivity.class);
+                            Intent i = new Intent(getContext(), CreateAccountActivity.class);
                             startActivity(i);
                         }
                     })

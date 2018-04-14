@@ -1,7 +1,6 @@
 package curatetechnologies.com.curate.presentation.ui.views.fragments;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +16,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.manager.CartManager;
-import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
+import curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountActivity;
 import curatetechnologies.com.curate.storage.UserRepository;
 
 /**
@@ -43,7 +42,7 @@ public class EmptyCartFragment extends Fragment {
     }
 
     @OnClick(R.id.fragment_empty_cart_register_button) void onRegisterClick(){
-        Intent i = new Intent(getContext(), LoginActivity.class);
+        Intent i = new Intent(getContext(), CreateAccountActivity.class);
         startActivity(i);
     }
 

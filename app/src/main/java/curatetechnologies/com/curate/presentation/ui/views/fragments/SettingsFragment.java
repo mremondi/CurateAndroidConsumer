@@ -4,9 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
-import curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity;
+import curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountActivity;
 import curatetechnologies.com.curate.storage.UserRepository;
 
 /**
@@ -82,7 +79,7 @@ public class SettingsFragment extends Fragment {
 
     private void signOutUser(){
         UserRepository.getInstance(getContext()).signOutUser();
-        Intent i = new Intent(getContext(), LoginActivity.class);
+        Intent i = new Intent(getContext(), CreateAccountActivity.class);
         startActivity(i);
         getActivity().finish();
     }

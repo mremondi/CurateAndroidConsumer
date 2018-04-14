@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import curatetechnologies.com.curate.R;
-import curatetechnologies.com.curate.presentation.ui.views.subclasses.RoundedCornerTransformation;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -48,8 +47,8 @@ public class LoginOrSignUpActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.activity_login_or_signup_create_acount) void onCreateAccountClick(){
-        //Intent i = new Intent(this, CreateAccountActivity.class);
-        //startActivity(i);
+        Intent i = new Intent(this, CreateAccountActivity.class);
+        startActivity(i);
     }
 
     @OnClick(R.id.activity_login_or_signup_login) void onLoginClick(){

@@ -6,70 +6,31 @@
     tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.LoginActivity">
 
     <ImageView
+        android:id="@+id/activity_login_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/activity_login_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/facebook_button_layout"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:tint="@color/white"
+        android:src="@drawable/white_logo"/>
 
-    <FrameLayout
-        android:id="@+id/facebook_button_layout"
-        android:layout_width="300dp"
+    <TextView
+        android:id="@+id/activity_login_curate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="4dp">
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btn_login_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/btn_login_facebook_custom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#4267B2"
-            android:textColor="#FFFFFF"
-            android:text="Connect with Facebook"
-            android:textAllCaps="false" />
-
-    </FrameLayout>
-
-
-    <Button
-        android:id="@+id/btn_login_google_custom"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/facebook_button_layout"
+        android:layout_below="@id/activity_login_logo"
         android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
-        android:background="#FAFAFA"
-        android:textColor="#7F7F7F"
-        android:text="Connect with Google"
-        android:textAllCaps="false" />
-    
-    <Button
-        android:id="@+id/btn_login_email"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Connect with Email"
-        android:layout_below="@+id/btn_login_google_custom"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
-        android:background="#FAFAFA"
-        android:textColor="#7F7F7F"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/btn_login_skip"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Skip"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
-        android:textColor="#7F7F7F"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+        android:fontFamily="@font/bebas"
+        android:text="CURATE"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

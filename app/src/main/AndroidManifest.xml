@@ -77,9 +77,9 @@
         <activity
             android:name=".presentation.ui.views.activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".presentation.ui.views.activities.LoginActivity" />
+        <activity android:name=".presentation.ui.views.activities.CreateAccountActivity" />
         <activity
-            android:name=".presentation.ui.views.activities.LoginWithEmailActivity"
+            android:name=".presentation.ui.views.activities.CreateAccountWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
         <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity" />
         <activity android:name=".presentation.ui.views.activities.CartActivity" />
@@ -91,7 +91,9 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".presentation.ui.views.activities.LoginOrSignUpActivity"></activity>
+        <activity android:name=".presentation.ui.views.activities.LoginOrSignUpActivity" />
+        <activity android:name=".presentation.ui.views.activities.LoginActivity" />
+        <activity android:name=".presentation.ui.views.activities.LoginWithEmailActivity"></activity>
     </application>
 
 </manifest>
