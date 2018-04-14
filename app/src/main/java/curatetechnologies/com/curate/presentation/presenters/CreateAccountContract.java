@@ -7,7 +7,7 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
  * Created by mremondi on 2/19/18.
  */
 
-public interface LoginContract {
+public interface CreateAccountContract {
 
     interface View extends BaseView {
         void segueToMainApp();

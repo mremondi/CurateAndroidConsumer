@@ -42,19 +42,19 @@ import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.converters.oauth.FacebookUserConverter;
 import curatetechnologies.com.curate.network.converters.oauth.GoogleUserConverter;
-import curatetechnologies.com.curate.presentation.presenters.LoginContract;
-import curatetechnologies.com.curate.presentation.presenters.LoginPresenter;
+import curatetechnologies.com.curate.presentation.presenters.CreateAccountContract;
+import curatetechnologies.com.curate.presentation.presenters.CreateAccountPresenter;
 import curatetechnologies.com.curate.storage.UserRepository;
 import curatetechnologies.com.curate.threading.MainThreadImpl;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
-public class CreateAccountActivity extends AppCompatActivity implements LoginContract.View{
+public class CreateAccountActivity extends AppCompatActivity implements CreateAccountContract.View{
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
     private static final Integer RC_SIGN_IN = 0;
 
-    private LoginContract mLoginPresenter;
+    private CreateAccountContract mCreateAccountPresenter;
 
     CallbackManager callbackManager = CallbackManager.Factory.create();
     GoogleSignInClient mGoogleSignInClient;
@@ -85,13 +85,13 @@ public class CreateAccountActivity extends AppCompatActivity implements LoginCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        mLoginPresenter = new LoginPresenter(
+        mCreateAccountPresenter = new CreateAccountPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
                 UserRepository.getInstance(getApplicationContext())
         );
-        mLoginPresenter.getCurrentUser();
+        mCreateAccountPresenter.getCurrentUser();
 
         ButterKnife.bind(this);
 
@@ -181,7 +181,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoginCon
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Log.d("JSON", object.toString());
                         UserModel user = FacebookUserConverter.apply(object, loginResult.getAccessToken().getToken());
-                        mLoginPresenter.saveUser(user);
+                        mCreateAccountPresenter.saveUser(user);
                         Log.d("USER", user.getEmail());
                     }
                 });
@@ -196,7 +196,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoginCon
     private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            mLoginPresenter.saveUser(GoogleUserConverter.apply(account));
+            mCreateAccountPresenter.saveUser(GoogleUserConverter.apply(account));
         } catch (ApiException e) {
             Log.d("Error Google Account", e.getLocalizedMessage());
         }

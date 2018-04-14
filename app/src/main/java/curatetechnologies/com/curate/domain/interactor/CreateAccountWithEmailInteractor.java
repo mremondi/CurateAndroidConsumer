@@ -11,7 +11,7 @@ import curatetechnologies.com.curate.domain.model.UserModel;
  * Created by mremondi on 2/13/18.
  */
 
-public interface LoginWithEmailInteractor extends Interactor{
+public interface CreateAccountWithEmailInteractor extends Interactor{
 
     interface Callback {
 

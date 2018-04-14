@@ -4,8 +4,6 @@ import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
 import curatetechnologies.com.curate.domain.interactor.GetUserInteractor;
 import curatetechnologies.com.curate.domain.interactor.GetUserInteractorImpl;
-import curatetechnologies.com.curate.domain.interactor.LoginWithEmailInteractor;
-import curatetechnologies.com.curate.domain.interactor.LoginWithEmailInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractor;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractorImpl;
 import curatetechnologies.com.curate.domain.model.UserModel;
@@ -15,14 +13,14 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  * Created by mremondi on 2/19/18.
  */
 
-public class LoginPresenter extends AbstractPresenter implements LoginContract,
+public class CreateAccountPresenter extends AbstractPresenter implements CreateAccountContract,
         GetUserInteractor.Callback, SaveUserInteractor.Callback {
 
-    private LoginContract.View mView;
+    private CreateAccountContract.View mView;
     private UserModelRepository mUserRepository;
 
-    public LoginPresenter(Executor executor, MainThread mainThread,
-                                   LoginContract.View view, UserModelRepository userRepository) {
+    public CreateAccountPresenter(Executor executor, MainThread mainThread,
+                                  CreateAccountContract.View view, UserModelRepository userRepository) {
         super(executor, mainThread);
         mView = view;
         mUserRepository = userRepository;

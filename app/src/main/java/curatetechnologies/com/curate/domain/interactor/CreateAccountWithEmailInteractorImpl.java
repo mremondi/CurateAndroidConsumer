@@ -1,7 +1,6 @@
 package curatetechnologies.com.curate.domain.interactor;
 
 import android.util.Log;
-import android.util.Pair;
 
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
@@ -12,20 +11,20 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  * Created by mremondi on 2/13/18.
  */
 
-public class LoginWithEmailInteractorImpl extends AbstractInteractor implements LoginWithEmailInteractor {
+public class CreateAccountWithEmailInteractorImpl extends AbstractInteractor implements CreateAccountWithEmailInteractor {
 
-    private LoginWithEmailInteractor.Callback mCallback;
+    private CreateAccountWithEmailInteractor.Callback mCallback;
     private UserModelRepository mUserModelRepository;
 
     private String mEmail;
     private String mPassword;
 
-    public LoginWithEmailInteractorImpl(Executor threadExecutor,
-                                        MainThread mainThread,
-                                        Callback callback,
-                                        UserModelRepository userModelRepository,
-                                        String email,
-                                        String password) {
+    public CreateAccountWithEmailInteractorImpl(Executor threadExecutor,
+                                                MainThread mainThread,
+                                                Callback callback,
+                                                UserModelRepository userModelRepository,
+                                                String email,
+                                                String password) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mUserModelRepository = userModelRepository;
