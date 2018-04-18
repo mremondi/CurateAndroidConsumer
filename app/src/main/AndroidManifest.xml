@@ -93,7 +93,8 @@
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity android:name=".presentation.ui.views.activities.LoginOrSignUpActivity" />
         <activity android:name=".presentation.ui.views.activities.LoginActivity" />
-        <activity android:name=".presentation.ui.views.activities.LoginWithEmailActivity"></activity>
+        <activity android:name=".presentation.ui.views.activities.LoginWithEmailActivity"
+            android:theme="@style/LoginWithEmailTheme" />
     </application>
 
 </manifest>

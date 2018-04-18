@@ -10,9 +10,9 @@ import curatetechnologies.com.curate.presentation.ui.BaseView;
 public interface CreateAccountContract {
 
     interface View extends BaseView {
-        void segueToMainApp();
-        void updateUI();
+        void segueToOnboarding();
+        void segueToMain();
     }
-    void getCurrentUser();
-    void saveUser(UserModel user);
+    void signUpWithFacebook(UserModel userModel);
+    void signUpWithGoogle(UserModel userModel);
 }

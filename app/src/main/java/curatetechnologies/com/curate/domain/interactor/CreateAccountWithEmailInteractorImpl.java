@@ -36,7 +36,7 @@ public class CreateAccountWithEmailInteractorImpl extends AbstractInteractor imp
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLoginRetrievalFailed("User Login Failed");
+                mCallback.onRegisterFailed("User Login Failed");
             }
         });
     }
@@ -45,7 +45,7 @@ public class CreateAccountWithEmailInteractorImpl extends AbstractInteractor imp
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onLoginUserRetrieved(user);
+                mCallback.onRegisterUser(user);
             }
         });
     }
@@ -53,7 +53,7 @@ public class CreateAccountWithEmailInteractorImpl extends AbstractInteractor imp
     @Override
     public void run() {
         // retrieve the message
-        final UserModel user = mUserModelRepository.loginUserEmailPassword(mEmail, mPassword);
+        final UserModel user = mUserModelRepository.registerUserEmailPassword(mEmail, mPassword);
         // check if we have failed to retrieve our message
         if (user == null){
             Log.d("User is ", "null");

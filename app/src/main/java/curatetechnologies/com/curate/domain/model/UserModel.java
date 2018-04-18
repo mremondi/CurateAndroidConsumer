@@ -2,7 +2,7 @@ package curatetechnologies.com.curate.domain.model;
 
 
 public class UserModel {
-    private int id;
+    private Integer id;
     private String username;
     private String email;
     private int loyaltyPoints;
@@ -20,7 +20,7 @@ public class UserModel {
 
     public UserModel(){}
 
-    public UserModel(int id, String username, String email, int loyaltyPoints, String fullName,
+    public UserModel(Integer id, String username, String email, int loyaltyPoints, String fullName,
                      String firstName, String lastName, String birthday, int age, String gender,
                      String profilePictureURL, String facebookToken, String googleToken,
                      String curateToken, String stripeId) {
@@ -41,11 +41,11 @@ public class UserModel {
         this.stripeId = stripeId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,9 +1,15 @@
 package curatetechnologies.com.curate.presentation.presenters;
 
+import android.util.Log;
+
 import curatetechnologies.com.curate.domain.executor.Executor;
 import curatetechnologies.com.curate.domain.executor.MainThread;
-import curatetechnologies.com.curate.domain.interactor.GetUserInteractor;
-import curatetechnologies.com.curate.domain.interactor.GetUserInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.GetUserIdByEmailInteractor;
+import curatetechnologies.com.curate.domain.interactor.GetUserIdByEmailInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.LoginWithFacebookInteractor;
+import curatetechnologies.com.curate.domain.interactor.LoginWithFacebookInteractorImpl;
+import curatetechnologies.com.curate.domain.interactor.LoginWithGoogleInteractor;
+import curatetechnologies.com.curate.domain.interactor.LoginWithGoogleInteractorImpl;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractor;
 import curatetechnologies.com.curate.domain.interactor.SaveUserInteractorImpl;
 import curatetechnologies.com.curate.domain.model.UserModel;
@@ -14,10 +20,15 @@ import curatetechnologies.com.curate.storage.UserModelRepository;
  */
 
 public class CreateAccountPresenter extends AbstractPresenter implements CreateAccountContract,
-        GetUserInteractor.Callback, SaveUserInteractor.Callback {
+        SaveUserInteractor.Callback,
+        LoginWithGoogleInteractor.Callback,
+        LoginWithFacebookInteractor.Callback,
+        GetUserIdByEmailInteractor.Callback{
 
     private CreateAccountContract.View mView;
     private UserModelRepository mUserRepository;
+
+    private UserModel mUserModel;
 
     public CreateAccountPresenter(Executor executor, MainThread mainThread,
                                   CreateAccountContract.View view, UserModelRepository userRepository) {
@@ -27,51 +38,41 @@ public class CreateAccountPresenter extends AbstractPresenter implements CreateA
     }
 
     // -- BEGIN LOGIN CONTRACT METHODS
-    @Override
-    public void getCurrentUser() {
-        GetUserInteractor getUserInteractor = new GetUserInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mUserRepository
-        );
-        getUserInteractor.execute();
-    }
 
     @Override
-    public void saveUser(UserModel user) {
-        SaveUserInteractor saveUserInteractor = new SaveUserInteractorImpl(
+    public void signUpWithFacebook(UserModel userModel) {
+        mUserModel = userModel;
+        LoginWithFacebookInteractor loginWithFacebookInteractor = new LoginWithFacebookInteractorImpl(
                 mExecutor,
                 mMainThread,
                 this,
                 mUserRepository,
-                user,
-                false
+                userModel.getFacebookToken()
         );
-        saveUserInteractor.execute();
+        loginWithFacebookInteractor.execute();
     }
+
+    @Override
+    public void signUpWithGoogle(UserModel userModel) {
+        mUserModel = userModel;
+        Log.d("HERE IN ", "SIGN UP GOOGLe");
+        Log.d("ACCESS TOKEN INT", userModel.getGoogleToken());
+        LoginWithGoogleInteractor loginWithGoogleInteractor = new LoginWithGoogleInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository,
+                userModel.getGoogleToken()
+        );
+        loginWithGoogleInteractor.execute();
+    }
+
     // -- END LOGIN CONTRACT METHODS
-
-    // -- BEGIN GET USER CALLBACK METHODS
-
-    @Override
-    public void onUserRetrieved(UserModel user) {
-        if (user != null) {
-            mView.segueToMainApp();
-        }
-    }
-
-    @Override
-    public void onRetrieveUserFailed(String error) {
-        mView.showError(error);
-    }
-
-    // -- END GET USER CALLBACK METHODS
 
     // -- BEGIN SAVE USER CALLBACK METHODS
     @Override
     public void onUserSaved() {
-        mView.updateUI();
+        mView.segueToOnboarding();
     }
 
     @Override
@@ -79,4 +80,76 @@ public class CreateAccountPresenter extends AbstractPresenter implements CreateA
         mView.showError(error);
     }
     // -- END SAVE USER CALLBACK METHODS
+
+
+    @Override
+    public void onLoginWithGoogle(String jwt) {
+        // TODO:
+        mUserModel.setCurateToken(jwt);
+
+        GetUserIdByEmailInteractor getUserIdByEmailInteractor = new GetUserIdByEmailInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository,
+                mUserModel.getEmail()
+        );
+        getUserIdByEmailInteractor.execute();
+    }
+
+    @Override
+    public void onLoginWithGoogleFailed(String error) {
+        mView.showError(error);
+    }
+
+    @Override
+    public void onLoginWithFacebook(String jwt) {
+        // TODO:
+        mUserModel.setCurateToken(jwt);
+
+        GetUserIdByEmailInteractor getUserIdByEmailInteractor = new GetUserIdByEmailInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mUserRepository,
+                mUserModel.getEmail()
+        );
+        getUserIdByEmailInteractor.execute();
+
+
+    }
+
+    @Override
+    public void onLoginWithFacebookFailed(String error) {
+        mView.showError(error);
+    }
+
+    @Override
+    public void onUserIdRetrieved(Integer userId) {
+
+        // The user has previously logged in
+        if (userId != 0){
+            mUserModel.setId(userId);
+            // cache the user
+            mUserRepository.saveUser(mUserModel, false);
+            // go to main activity
+            mView.segueToMain();
+        }
+
+        // new user take through onboarding flow
+        else{
+            // cache the user so far
+            Log.d("onUserId Retrieved", ""+ mUserModel.getId());
+            Log.d("onUserId retrieved", mUserModel.getEmail());
+            mUserRepository.saveUser(mUserModel, false);
+
+            Log.d("AFTER SAVE" , mUserRepository.getCurrentUser().getEmail());
+            // go to onboarding
+            mView.segueToOnboarding();
+        }
+    }
+
+    @Override
+    public void onRetrieveUserIdFailed(String error) {
+    }
 }

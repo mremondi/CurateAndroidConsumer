@@ -57,12 +57,12 @@ public class CreateAccountWithEmailPresenter extends AbstractPresenter implement
 
     // -- BEGIN LOGIN USER CALLBACK METHODS
     @Override
-    public void onLoginUserRetrieved(UserModel user) {
+    public void onRegisterUser(UserModel user) {
         mView.saveUser(user);
     }
 
     @Override
-    public void onLoginRetrievalFailed(String error) {
+    public void onRegisterFailed(String error) {
         mView.showError(error);
     }
     // -- END LOGIN USER CALLBACK METHODS

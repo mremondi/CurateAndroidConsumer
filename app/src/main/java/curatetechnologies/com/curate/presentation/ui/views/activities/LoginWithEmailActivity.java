@@ -1,20 +1,29 @@
 package curatetechnologies.com.curate.presentation.ui.views.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import curatetechnologies.com.curate.R;
-import curatetechnologies.com.curate.presentation.presenters.CreateAccountWithEmailContract;
+import curatetechnologies.com.curate.domain.executor.ThreadExecutor;
+import curatetechnologies.com.curate.domain.model.UserModel;
+import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailContract;
+import curatetechnologies.com.curate.presentation.presenters.LoginWithEmailPresenter;
+import curatetechnologies.com.curate.storage.UserRepository;
+import curatetechnologies.com.curate.threading.MainThreadImpl;
 
-public class LoginWithEmailActivity extends AppCompatActivity {
+public class LoginWithEmailActivity extends AppCompatActivity implements LoginWithEmailContract.View{
 
-    private CreateAccountWithEmailContract mConnectWithEmailPresenter;
+    private LoginWithEmailContract mLoginWithEmailPresenter;
 
     @BindView(R.id.login_with_email_et_email)
     EditText etEmail;
@@ -31,8 +40,8 @@ public class LoginWithEmailActivity extends AppCompatActivity {
             btnLogin.setClickable(false);
         }
     }
-    @OnClick(R.id.create_account_with_email_btn_login) void loginClick(){
-        mConnectWithEmailPresenter.createAccountEmailPassword(etEmail.getText().toString(), etPassword.getText().toString());
+    @OnClick(R.id.login_with_email_btn_login) void loginClick(){
+        mLoginWithEmailPresenter.loginUserWithEmail(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     @Override
@@ -45,41 +54,41 @@ public class LoginWithEmailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.login_action_bar);
 
-//        mConnectWithEmailPresenter = new CreateAccountWithEmailPresenter(
-//                ThreadExecutor.getInstance(),
-//                MainThreadImpl.getInstance(),
-//                this,
-//                UserRepository.getInstance(getApplicationContext())
-//        );
+        mLoginWithEmailPresenter = new LoginWithEmailPresenter(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                UserRepository.getInstance(getApplicationContext())
+        );
     }
 
-//    // -- BEGIN LOGIN CONTRACT METHODS
-//    @Override
-//    public void updateUI() {
-//        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
-//        startActivity(i);
-//        finish();
-//    }
-//
-//    @Override
-//    public void saveUser(UserModel user) {
-//        Log.d("SAVE USER LOGIN", user.getCurateToken());
-//        mConnectWithEmailPresenter.saveUser(user);
-//    }
-//    // -- END LOGIN CONTRACT METHODS
-//
-//    @Override
-//    public void showProgress() {
-//
-//    }
-//
-//    @Override
-//    public void hideProgress() {
-//
-//    }
-//
-//    @Override
-//    public void showError(String message) {
-//
-//    }
+    // -- BEGIN LOGIN CONTRACT METHODS
+    @Override
+    public void updateUI() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void saveUser(UserModel user) {
+        Log.d("SAVE USER LOGIN", user.getCurateToken());
+        mLoginWithEmailPresenter.saveUser(user);
+    }
+    // -- END LOGIN CONTRACT METHODS
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, "Incorrect username or password.", Toast.LENGTH_LONG).show();
+    }
 }

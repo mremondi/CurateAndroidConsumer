@@ -76,7 +76,6 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
         // go to Register with email password screen
         Intent i = new Intent(this, CreateAccountWithEmailActivity.class);
         startActivity(i);
-        finish();
     }
 
 
@@ -91,7 +90,6 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
                 this,
                 UserRepository.getInstance(getApplicationContext())
         );
-        mCreateAccountPresenter.getCurrentUser();
 
         ButterKnife.bind(this);
 
@@ -110,6 +108,7 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
         setUpFacebookLoginCallback();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("855249522296-uaffr57rie99f5q7esqq5cdkfp83r1mm.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -121,7 +120,7 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
 
         // TODO: I don't think we need this. We can check our locally save db. Keeping for now
 //        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        updateUI(GoogleUserConverter.apply(account));
+//        segueToOnboarding(GoogleUserConverter.apply(account));
     }
 
     @Override
@@ -140,15 +139,15 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     }
 
     @Override
-    public void segueToMainApp(){
-        Intent i = new Intent(this, MainActivity.class);
+    public void segueToOnboarding(){
+        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
         startActivity(i);
         finish();
     }
 
     @Override
-    public void updateUI(){
-        Intent i = new Intent(this, OnBoardingWorkflowActivity.class);
+    public void segueToMain() {
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }
@@ -179,10 +178,10 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.d("JSON", object.toString());
                         UserModel user = FacebookUserConverter.apply(object, loginResult.getAccessToken().getToken());
-                        mCreateAccountPresenter.saveUser(user);
-                        Log.d("USER", user.getEmail());
+
+
+                        mCreateAccountPresenter.signUpWithFacebook(user);
                     }
                 });
         Bundle parameters = new Bundle();
@@ -196,7 +195,9 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            mCreateAccountPresenter.saveUser(GoogleUserConverter.apply(account));
+            UserModel userModel = GoogleUserConverter.apply(account);
+
+            mCreateAccountPresenter.signUpWithGoogle(userModel);
         } catch (ApiException e) {
             Log.d("Error Google Account", e.getLocalizedMessage());
         }

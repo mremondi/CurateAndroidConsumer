@@ -49,7 +49,7 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.login_action_bar);
+        getSupportActionBar().setCustomView(R.layout.create_account_action_bar);
 
         mConnectWithEmailPresenter = new CreateAccountWithEmailPresenter(
                 ThreadExecutor.getInstance(),

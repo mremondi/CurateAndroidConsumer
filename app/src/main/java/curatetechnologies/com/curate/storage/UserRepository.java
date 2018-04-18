@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.util.JsonReader;
 import android.util.Log;
 
 import com.facebook.login.LoginManager;
@@ -11,8 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.stripe.android.CustomerSession;
 import com.stripe.android.EphemeralKeyProvider;
 import com.stripe.android.EphemeralKeyUpdateListener;
@@ -26,11 +29,14 @@ import curatetechnologies.com.curate.domain.model.TagTypeModel;
 import curatetechnologies.com.curate.domain.model.UserModel;
 import curatetechnologies.com.curate.network.CurateClient;
 import curatetechnologies.com.curate.network.converters.curate.UserConverter;
+import curatetechnologies.com.curate.network.model.CurateAPILoginUser;
 import curatetechnologies.com.curate.network.model.CurateAPIPreferencePost;
+import curatetechnologies.com.curate.network.model.CurateAPISimpleWrapper;
 import curatetechnologies.com.curate.network.model.CurateAPIUserGet;
 import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
 import curatetechnologies.com.curate.network.services.UserService;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -59,12 +65,13 @@ public class UserRepository implements UserModelRepository {
 
 
     @Override
-    public UserModel loginUserEmailPassword(String email, String password) {
+    public UserModel registerUserEmailPassword(String email, String password) {
         String jwt;
         UserModel user = null;
         UserService userService = CurateClient.getService(UserService.class);
         try {
             Response<CurateRegisterUser> response = userService.registerUserEmail(email, password).execute();
+            Log.d("REGISTER RESPONSE", response.body().toString());
             jwt = response.body().getToken();
             user = UserConverter.convertRegisteredUserToUserModel(response.body(), jwt);
             return user;
@@ -75,17 +82,75 @@ public class UserRepository implements UserModelRepository {
     }
 
     @Override
+    public UserModel loginUserEmailPassword(String email, String password) {
+        String jwt;
+        UserModel user = null;
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            Response<CurateAPILoginUser> response = userService.loginUserEmail(email, password).execute();
+
+            Log.d("USER LOGGED IN", response.body().toString());
+            jwt = response.body().getToken();
+            user = UserConverter.convertLoginUserToUserModel(response.body().getUser(), jwt);
+            return user;
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+        }
+        return user;
+    }
+
+    @Override
+    public String loginWithFacebook(String accessToken) {
+        String jwt = "";
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            Response<JsonObject> response = userService.loginUserFacebook(accessToken).execute();
+
+            jwt = response.body().get("token").getAsString();
+            return jwt;
+        } catch (Exception e){
+            Log.d("FAILURE LoginFacebook", e.getMessage());
+        }
+        return jwt;
+    }
+
+    @Override
+    public String loginWithGoogle(String accessToken) {
+        String jwt = "";
+        Log.d("ACCESS TOKEN GOOGLE" , accessToken);
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            Response<JsonObject> response = userService.loginUserGoogle(accessToken).execute();
+
+            jwt = response.body().get("token").getAsString();
+            return jwt;
+        } catch (Exception e) {
+            Log.d("FAILURE LoginGoogle", e.getMessage());
+        }
+        return jwt;
+    }
+
+    @Override
     public Boolean saveUser(final UserModel userModel, boolean remote) {
         // save user to DB
         UserService userService = CurateClient.getService(UserService.class);
         if (remote) {
             try {
+                // NOTE: NEED TO PUT A NUMBER OTHER THAN 0 (returns false in bool test in JS)
+                // -1 is never used though
+                userModel.setId(-1);
+                userModel.setGender("");
                 CurateAPIUserPost user = UserConverter.convertUserModelToCurateUserPost(userModel);
                 String bearerToken = "Bearer " + userModel.getCurateToken();
                 Call<JsonObject> saveUser = userService.createUser(bearerToken, user);
                 Response<JsonObject> response = saveUser.execute();
+
+                userModel.setId(response.body().get("userID").getAsInt());
+                return this.cacheUser(userModel);
+
             } catch (Exception e) {
                 Log.d("network save user", "failure " + e.getLocalizedMessage());
+                return false;
             }
         }
         return this.cacheUser(userModel);
@@ -179,5 +244,21 @@ public class UserRepository implements UserModelRepository {
             Log.d("FAILURE1", e.getMessage());
         }
         return user;
+    }
+
+    @Override
+    public Integer getUserIdByEmail(String email) {
+        Integer userId;
+        UserService userService = CurateClient.getService(UserService.class);
+        try {
+            Response<JsonObject> response = userService
+                    .getUserIdByEmail(email)
+                    .execute();
+            userId = response.body().get("ID").getAsInt();
+        } catch (Exception e){
+            Log.d("FAILURE GET ID BY EMAIl", e.getMessage());
+            return 0;
+        }
+        return userId;
     }
 }

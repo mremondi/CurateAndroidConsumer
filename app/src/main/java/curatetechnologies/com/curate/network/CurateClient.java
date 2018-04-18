@@ -1,5 +1,8 @@
 package curatetechnologies.com.curate.network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -12,9 +15,13 @@ public class CurateClient {
     public static <T> T getService(Class<T> serviceClass){
         final String CURATE_API_URL = "http://curate-staging.appspot.com/api/";
 
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         Retrofit s_retrofit = new Retrofit.Builder()
                 .baseUrl(CURATE_API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         return s_retrofit.create(serviceClass);

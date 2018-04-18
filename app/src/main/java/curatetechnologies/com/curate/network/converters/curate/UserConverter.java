@@ -3,6 +3,7 @@ package curatetechnologies.com.curate.network.converters.curate;
 import android.util.Log;
 
 import curatetechnologies.com.curate.domain.model.UserModel;
+import curatetechnologies.com.curate.network.model.CurateAPILoginUser;
 import curatetechnologies.com.curate.network.model.CurateAPIUserGet;
 import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
@@ -44,5 +45,28 @@ public class UserConverter {
                 "", "01/01/1901", 0, "",
                 "", "", "",
                 jwt, "");
+    }
+
+    public static UserModel convertLoginUserToUserModel(CurateAPILoginUser.User loginUser, String jwt){
+
+        int id = loginUser.getID();
+        String username = loginUser.getUsername()== null ? "" : loginUser.getUsername();
+        String email = loginUser.getEmail() == null ? "" : loginUser.getEmail();
+        Integer loyaltyPoints = loginUser.getLoyaltyPoints() == null ? 0 : (int) loginUser.getLoyaltyPoints();
+        String fullName = loginUser.getFullName()== null ? "" : loginUser.getFullName();
+        String firstName = loginUser.getFirstName() == null ? "" : loginUser.getFirstName();
+        String lastName = loginUser.getLastName() == null ? "" : loginUser.getLastName();
+        String DOB = loginUser.getDOB() == null ? "" : loginUser.getDOB();
+        Integer age = loginUser.getAge() == null ? 0 : loginUser.getAge();
+        String gender = loginUser.getGender() == null ? "" : loginUser.getGender();
+        String profilePicture = loginUser.getPicture() == null ? "" : loginUser.getPicture();
+        String facebookToken = loginUser.getFacebookToken() == null ? "" : loginUser.getFacebookToken();
+        String googleToken = loginUser.getGoogleToken() == null ? "" : loginUser.getGoogleToken();
+        String stripeId = loginUser.getStripeId() == null ? "" : loginUser.getStripeId();
+        return new UserModel(id, username, email,
+                loyaltyPoints, fullName, firstName,
+                lastName, DOB, age, gender,
+                profilePicture, facebookToken, googleToken,
+                jwt, stripeId);
     }
 }

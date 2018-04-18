@@ -30,7 +30,7 @@ public class FacebookUserConverter {
             String profilePictureUrl = "https://graph.facebook.com/" + facebookId + "/picture?width=500&height=500";
             //userData.getJSONObject("picture").getJSONObject("data").getString("url");
             return new UserModel(0, "", email, 0, full_name, first_name, last_name,
-                    birthday, 0, gender, profilePictureUrl, "", accessToken, "", "");
+                    birthday, 0, gender, profilePictureUrl, accessToken, "", "", "");
         } catch (JSONException e){
             Log.d("EXCEPTION", e.getLocalizedMessage());
         }

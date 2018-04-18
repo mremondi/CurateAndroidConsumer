@@ -6,10 +6,13 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import curatetechnologies.com.curate.network.model.CurateAPILoginUser;
 import curatetechnologies.com.curate.network.model.CurateAPIPreferencePost;
+import curatetechnologies.com.curate.network.model.CurateAPISimpleWrapper;
 import curatetechnologies.com.curate.network.model.CurateAPIUserGet;
 import curatetechnologies.com.curate.network.model.CurateAPIUserPost;
 import curatetechnologies.com.curate.network.model.CurateRegisterUser;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -31,13 +34,20 @@ public interface UserService {
     @POST("register")
     Call<CurateRegisterUser> registerUserEmail(@Field("email") String email, @Field("password") String password);
 
+    @FormUrlEncoded
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @POST("login")
+    Call<CurateAPILoginUser> loginUserEmail(@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("facebookLogin")
-    Call<String> loginUserFacebook(@Body String facebookToken);
+    Call<JsonObject> loginUserFacebook(@Field("facebookToken") String facebookToken);
 
+    @FormUrlEncoded
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("googleLogin")
-    Call<String> loginUserGoogle(@Body String googleToken);
+    Call<JsonObject> loginUserGoogle(@Field("googleToken") String googleToken);
 
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("createUser")
@@ -55,5 +65,9 @@ public interface UserService {
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @GET("account/profile")
     Call<CurateAPIUserGet> getUserById(@Query("userId") Integer userId);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @GET("user/doesUserWithEmailExist")
+    Call<JsonObject> getUserIdByEmail(@Query("email") String email);
 
 }

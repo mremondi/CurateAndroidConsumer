@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate.R;
 import curatetechnologies.com.curate.presentation.ui.views.activities.CreateAccountActivity;
+import curatetechnologies.com.curate.presentation.ui.views.activities.LoginOrSignUpActivity;
 import curatetechnologies.com.curate.storage.UserRepository;
 
 /**
@@ -79,7 +80,7 @@ public class SettingsFragment extends Fragment {
 
     private void signOutUser(){
         UserRepository.getInstance(getContext()).signOutUser();
-        Intent i = new Intent(getContext(), CreateAccountActivity.class);
+        Intent i = new Intent(getContext(), LoginOrSignUpActivity.class);
         startActivity(i);
         getActivity().finish();
     }

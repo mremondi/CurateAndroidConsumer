@@ -15,8 +15,8 @@ public interface CreateAccountWithEmailInteractor extends Interactor{
 
     interface Callback {
 
-        void onLoginUserRetrieved(UserModel user);
+        void onRegisterUser(UserModel user);
 
-        void onLoginRetrievalFailed(String error);
+        void onRegisterFailed(String error);
     }
 }
