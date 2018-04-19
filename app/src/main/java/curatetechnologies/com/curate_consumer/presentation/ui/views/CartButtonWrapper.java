@@ -10,8 +10,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import curatetechnologies.com.curate_consumer.manager.CartManager;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CartActivity;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CreateAccountActivity;
+import curatetechnologies.com.curate_consumer.modules.cart.CartActivity;
+import curatetechnologies.com.curate_consumer.modules.create_account.CreateAccountActivity;
 import curatetechnologies.com.curate_consumer.storage.UserRepository;
 
 /**

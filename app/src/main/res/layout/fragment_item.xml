@@ -10,7 +10,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context="curatetechnologies.com.curate_consumer.presentation.ui.views.fragments.ItemFragment"
+            tools:context="curatetechnologies.com.curate_consumer.modules.item.ItemFragment"
             android:background="@color/greyBackground">
 
             <ImageView

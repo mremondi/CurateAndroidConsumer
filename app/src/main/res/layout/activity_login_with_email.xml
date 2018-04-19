@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginWithEmailActivity"
+    tools:context="curatetechnologies.com.curate_consumer.modules.login_with_email.LoginWithEmailActivity"
     android:background="#F6F6F6">
 
     <EditText

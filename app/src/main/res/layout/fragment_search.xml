@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="curatetechnologies.com.curate_consumer.presentation.ui.views.fragments.SearchFragment">
+    tools:context="curatetechnologies.com.curate_consumer.modules.search.SearchFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/fragment_search_toolbar"

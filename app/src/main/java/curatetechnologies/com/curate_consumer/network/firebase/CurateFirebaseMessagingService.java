@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import curatetechnologies.com.curate_consumer.R;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.activities.MainActivity;
+import curatetechnologies.com.curate_consumer.modules.main.MainActivity;
 
 /**
  * Created by mremondi on 4/2/18.

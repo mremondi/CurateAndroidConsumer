@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:aandroid="http://schemas.android.com/apk/res-auto"
-    tools:context="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CreateAccountActivity">
+    tools:context="curatetechnologies.com.curate_consumer.modules.create_account.CreateAccountActivity">
 
     <ImageView
         android:id="@+id/activity_create_account_bg"

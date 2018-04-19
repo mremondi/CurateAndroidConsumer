@@ -23,8 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import curatetechnologies.com.curate_consumer.R;
 import curatetechnologies.com.curate_consumer.domain.model.PostModel;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.fragments.ItemFragment;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.fragments.RestaurantFragment;
+import curatetechnologies.com.curate_consumer.modules.item.ItemFragment;
+import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.views.subclasses.RoundedCornerTransformation;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;

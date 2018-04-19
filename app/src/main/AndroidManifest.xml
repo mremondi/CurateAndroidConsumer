@@ -66,7 +66,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.SplashActivity"
+            android:name="curatetechnologies.com.curate_consumer.modules.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,25 +75,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.MainActivity"
+            android:name="curatetechnologies.com.curate_consumer.modules.main.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CreateAccountActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.create_account.CreateAccountActivity" />
         <activity
-            android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CreateAccountWithEmailActivity"
+            android:name="curatetechnologies.com.curate_consumer.modules.create_account_with_email.CreateAccountWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.OnBoardingWorkflowActivity" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CartActivity" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.GetCardActivity" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.EditImageActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.onboarding_workflow.OnBoardingWorkflowActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.cart.CartActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.edit_image.EditImageActivity" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginOrSignUpActivity" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginActivity" />
-        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginWithEmailActivity"
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.login_or_signup.LoginOrSignUpActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.login.LoginActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.modules.login_with_email.LoginWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
     </application>
 
