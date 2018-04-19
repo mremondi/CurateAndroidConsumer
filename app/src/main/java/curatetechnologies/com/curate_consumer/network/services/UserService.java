@@ -42,7 +42,7 @@ public interface UserService {
     @FormUrlEncoded
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("googleLogin")
-    Call<JsonObject> loginUserGoogle(@Field("googleToken") String googleToken);
+    Call<JsonObject> loginUserGoogle(@Field("googleIdToken") String googleIdToken);
 
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @POST("createUser")
