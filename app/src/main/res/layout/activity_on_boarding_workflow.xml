@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.OnBoardingWorkflowActivity"
+    tools:context="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.OnBoardingWorkflowActivity"
     android:background="@drawable/onboarding_background">
 
-    <curatetechnologies.com.curate.presentation.ui.views.subclasses.NonSwipableViewPager
+    <curatetechnologies.com.curate_consumer.presentation.ui.views.subclasses.NonSwipableViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
 
-    </curatetechnologies.com.curate.presentation.ui.views.subclasses.NonSwipableViewPager>
+    </curatetechnologies.com.curate_consumer.presentation.ui.views.subclasses.NonSwipableViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/view_pager_indicator"

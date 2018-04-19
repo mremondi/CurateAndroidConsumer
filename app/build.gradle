@@ -3,9 +3,10 @@ apply plugin: 'com.google.gms.oss.licenses.plugin'
 
 
 android {
+    flavorDimensions "default"
     compileSdkVersion 27
     defaultConfig {
-        applicationId "curatetechnologies.com.curate"
+        applicationId "curatetechnologies.com.curate_consumer"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -19,6 +20,40 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        development {
+            minSdkVersion 16
+            applicationId 'curatetechnologies.com.curate.development'
+            targetSdkVersion 26
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 1
+            versionName '1.0'
+
+            getProps('./src/development/config.props').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
+        }
+        production {
+            minSdkVersion 16
+            applicationId 'curatetechnologies.com.curate_consumer'
+            targetSdkVersion 26
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 1
+            versionName '1.0'
+
+            production {
+                getProps('./src/production/config.props').each { p ->
+                    buildConfigField 'String', p.key, p.value
+                }
+            }
+        }
+    }
+}
+
+def getProps(path) {
+    Properties props = new Properties()
+    props.load(new FileInputStream(file(path)))
+    return props
 }
 
 dependencies {

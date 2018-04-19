@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="curatetechnologies.com.curate">
+    package="curatetechnologies.com.curate_consumer">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -32,18 +32,18 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service android:name=".network.firebase.CurateFirebaseMessagingService">
+        <service android:name="curatetechnologies.com.curate_consumer.network.firebase.CurateFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".network.firebase.CurateFirebaseInstanceIDService">
+        <service android:name="curatetechnologies.com.curate_consumer.network.firebase.CurateFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".network.firebase.CurateFirebaseMessageReceiver">
+        <receiver android:name="curatetechnologies.com.curate_consumer.network.firebase.CurateFirebaseMessageReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -66,7 +66,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.ui.views.activities.SplashActivity"
+            android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,25 +75,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.ui.views.activities.MainActivity"
+            android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".presentation.ui.views.activities.CreateAccountActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CreateAccountActivity" />
         <activity
-            android:name=".presentation.ui.views.activities.CreateAccountWithEmailActivity"
+            android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CreateAccountWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
-        <activity android:name=".presentation.ui.views.activities.OnBoardingWorkflowActivity" />
-        <activity android:name=".presentation.ui.views.activities.CartActivity" />
-        <activity android:name=".presentation.ui.views.activities.GetCardActivity" />
-        <activity android:name=".presentation.ui.views.activities.EditImageActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.OnBoardingWorkflowActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.CartActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.GetCardActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.EditImageActivity" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".presentation.ui.views.activities.LoginOrSignUpActivity" />
-        <activity android:name=".presentation.ui.views.activities.LoginActivity" />
-        <activity android:name=".presentation.ui.views.activities.LoginWithEmailActivity"
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginOrSignUpActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginActivity" />
+        <activity android:name="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
     </application>
 

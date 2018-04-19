@@ -1,0 +1,101 @@
+{
+  "project_info": {
+    "project_number": "855249522296",
+    "firebase_url": "https://curate-staging.firebaseio.com",
+    "project_id": "curate-staging",
+    "storage_bucket": "curate-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855249522296:android:e6a65b9e070b1c67",
+        "android_client_info": {
+          "package_name": "curatetechnologies.com.curate.development"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855249522296-uaffr57rie99f5q7esqq5cdkfp83r1mm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "855249522296-68kmo4utnc36kc9j935rar07f6gk766c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFfqLJbVAqt5PIn6BhS0KWA_BKK7HyCjw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855249522296:android:30904814744bbbf7",
+        "android_client_info": {
+          "package_name": "curatetechnologies.com.curate_consumer.development"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855249522296-s9if0f8sjph6lsl0avo84inspp0uioi3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "curatetechnologies.com.curate_consumer.development",
+            "certificate_hash": "de08574c1e2709a2904f7016aac29805db4ae735"
+          }
+        },
+        {
+          "client_id": "855249522296-uaffr57rie99f5q7esqq5cdkfp83r1mm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "855249522296-68kmo4utnc36kc9j935rar07f6gk766c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFfqLJbVAqt5PIn6BhS0KWA_BKK7HyCjw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855249522296-8e3vb8hg9ok6i61060s845lidd05mlg5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.curatetechnologies.Curate-Dev"
+              }
+            },
+            {
+              "client_id": "855249522296-uaffr57rie99f5q7esqq5cdkfp83r1mm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="curatetechnologies.com.curate.presentation.ui.views.activities.LoginOrSignUpActivity">
+    tools:context="curatetechnologies.com.curate_consumer.presentation.ui.views.activities.LoginOrSignUpActivity">
 
 
     <ImageView
