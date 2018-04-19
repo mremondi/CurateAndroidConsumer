@@ -37,6 +37,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import curatetechnologies.com.curate_consumer.BuildConfig;
 import curatetechnologies.com.curate_consumer.R;
 import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
@@ -108,7 +109,7 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
         setUpFacebookLoginCallback();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("855249522296-uaffr57rie99f5q7esqq5cdkfp83r1mm.apps.googleusercontent.com")
+                .requestIdToken(BuildConfig.GOOGLE_OAUTH_SERVER_CLIENT_ID)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -200,6 +201,8 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
             mCreateAccountPresenter.signUpWithGoogle(userModel);
         } catch (ApiException e) {
             Log.d("Error Google Account", e.getLocalizedMessage());
+            Log.d("ERROR Google Account", e.getMessage());
+            Log.d("ERROR Google Account", "" + e.getStatusCode());
         }
     }
     // -- END: GOOGLE LOGIN METHODS
