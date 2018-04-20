@@ -37,6 +37,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import curatetechnologies.com.curate_consumer.BuildConfig;
 import curatetechnologies.com.curate_consumer.R;
 import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
@@ -114,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         setUpFacebookLoginCallback();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(BuildConfig.GOOGLE_OAUTH_SERVER_CLIENT_ID)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);

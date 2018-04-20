@@ -81,7 +81,6 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
 
     @Override
     public void onLoginWithGoogle(String jwt) {
-        // TODO:
         mUserModel.setCurateToken(jwt);
 
         GetUserIdByEmailInteractor getUserIdByEmailInteractor = new GetUserIdByEmailInteractorImpl(
