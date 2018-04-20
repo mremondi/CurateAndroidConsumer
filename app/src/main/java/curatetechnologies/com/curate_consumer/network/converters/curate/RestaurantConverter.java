@@ -30,6 +30,6 @@ public class RestaurantConverter {
         return new RestaurantModel(apiRestaurant.getRestaurantID(), apiRestaurant.getRestaurantName(),
                 apiRestaurant.getRestaurantLogoURL(), "0.0mi",
                 menus, apiRestaurant.getRestaurantMealTaxRate(), apiRestaurant.getRestaurantPhoneNumber(),
-                apiRestaurant.getRestaurantURL(), latLng);
+                apiRestaurant.getRestaurantURL(), latLng, apiRestaurant.getRestaurantAddress());
     }
 }

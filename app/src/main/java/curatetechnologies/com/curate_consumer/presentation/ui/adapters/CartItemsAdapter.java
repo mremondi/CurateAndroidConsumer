@@ -21,7 +21,7 @@ import curatetechnologies.com.curate_consumer.presentation.ui.views.listeners.Re
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.ViewHolder>{
 
-    List<ItemModel> orderItems;
+    public List<ItemModel> orderItems;
 
     public CartItemsAdapter(List<ItemModel> orderItems){
         this.orderItems = orderItems;

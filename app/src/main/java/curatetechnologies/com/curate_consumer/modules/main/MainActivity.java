@@ -38,7 +38,7 @@ import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate_consumer.domain.model.OrderModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
 import curatetechnologies.com.curate_consumer.manager.CartManager;
-import curatetechnologies.com.curate_consumer.modules.cart.CartActivity;
+import curatetechnologies.com.curate_consumer.modules.cart.CartFragment;
 import curatetechnologies.com.curate_consumer.modules.create_account.CreateAccountActivity;
 import curatetechnologies.com.curate_consumer.presentation.Utils;
 import curatetechnologies.com.curate_consumer.modules.rate_previous_order.RatePreviousOrderDialog;
@@ -111,9 +111,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                         transaction.commit();
                         return true;
                     } else {
-                        Intent i = new Intent(getApplicationContext(), CartActivity.class);
-                        startActivity(i);
-                        finish();
+                        Fragment cartFragment = new CartFragment();
+                        transaction.replace(R.id.content_frame, cartFragment);
+                        transaction.commit();
+                        return true;
                     }
             }
             return false;

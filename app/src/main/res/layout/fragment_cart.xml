@@ -1,32 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/greyBackground">
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/greyBackground">
 
-
-        <ImageView
-            android:id="@+id/activity_cart_restaurant_logo"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_cart_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@color/white"/>
+            android:background="@color/white">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="30sp"
+                android:textColor="#000000"
+                android:text="Order"/>
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout
+            android:id="@+id/activity_cart_restaurant_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:padding="16dp"
+            android:layout_below="@id/activity_cart_toolbar"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/activity_cart_restaurant_logo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/activity_cart_restaurant_logo"
+                android:layout_toEndOf="@id/activity_cart_restaurant_logo"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_cart_restaurant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/textDark"
+                    android:text="Sofa Cafe"/>
+
+                <TextView
+                    android:id="@+id/activity_cart_restaurant_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/lightGray"
+                    android:text="181 Concord St, Framingham MA 01720"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/activity_cart_payment_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_cart_restaurant_logo"
-            android:layout_marginBottom="1dp"
-            android:padding="10dp"
+            android:layout_below="@id/activity_cart_restaurant_info"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:background="@color/white">
+
+            <TextView
+                android:id="@+id/activity_cart_payment_please_add_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADD CARD"
+                android:layout_centerInParent="true"
+                android:textColor="@color/activeBlue"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/activity_cart_payment_label"
@@ -35,20 +97,20 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/textDark"
-                android:text="PAYMENT"/>
+                android:textColor="@color/activeBlue"
+                android:textSize="18sp"
+                android:text="CHANGE"/>
 
             <TextView
                 android:id="@+id/activity_cart_payment_session_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:textColor="#000000"
-                android:text="VISA 4242"/>
+                android:textSize="18sp"
+                android:textColor="@color/textDark"/>
 
         </RelativeLayout>
 

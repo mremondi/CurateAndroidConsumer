@@ -82,7 +82,6 @@
             android:name="curatetechnologies.com.curate_consumer.modules.create_account_with_email.CreateAccountWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme" />
         <activity android:name="curatetechnologies.com.curate_consumer.modules.onboarding_workflow.OnBoardingWorkflowActivity" />
-        <activity android:name="curatetechnologies.com.curate_consumer.modules.cart.CartActivity" />
         <activity android:name="curatetechnologies.com.curate_consumer.modules.edit_image.EditImageActivity" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
