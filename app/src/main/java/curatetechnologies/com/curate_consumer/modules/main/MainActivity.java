@@ -1,6 +1,9 @@
 package curatetechnologies.com.curate_consumer.modules.main;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -36,7 +39,8 @@ import curatetechnologies.com.curate_consumer.domain.model.OrderModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
 import curatetechnologies.com.curate_consumer.manager.CartManager;
 import curatetechnologies.com.curate_consumer.modules.cart.CartActivity;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.BottomNavigationViewHelper;
+import curatetechnologies.com.curate_consumer.modules.create_account.CreateAccountActivity;
+import curatetechnologies.com.curate_consumer.presentation.Utils;
 import curatetechnologies.com.curate_consumer.modules.rate_previous_order.RatePreviousOrderDialog;
 import curatetechnologies.com.curate_consumer.modules.cart.EmptyCartFragment;
 import curatetechnologies.com.curate_consumer.modules.feed.FeedFragment;
@@ -84,10 +88,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     transaction.commit();
                     return true;
                 case R.id.navigation_user_activity:
-                    Fragment profileFragment = new ProfileFragment();
-                    transaction.replace(R.id.content_frame, profileFragment);
-                    transaction.commit();
-                    return true;
+                    if (UserRepository.getInstance(getApplicationContext()).getCurrentUser() == null){
+                        presentMustBeLoggedInAlert();
+                        return false;
+                    } else {
+                        Fragment profileFragment = new ProfileFragment();
+                        transaction.replace(R.id.content_frame, profileFragment);
+                        transaction.commit();
+                        return true;
+                    }
+
                 case R.id.navigation_more:
                     Fragment moreFragment = new MoreFragment();
                     transaction.replace(R.id.content_frame, moreFragment);
@@ -142,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
             mMainActivityPresenter.getUserById(user.getId());
         }
 
-        BottomNavigationViewHelper.disableShiftMode(navigation);
+        Utils.disableShiftMode(navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_search);
@@ -392,5 +402,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void showError(String message) {
 
+    }
+
+    private void presentMustBeLoggedInAlert(){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        final Context context = this;
+        builder.setTitle("Please Log In")
+                .setMessage("You need to be logged in to use this feature.")
+                .setPositiveButton("Register", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(context, CreateAccountActivity.class);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }

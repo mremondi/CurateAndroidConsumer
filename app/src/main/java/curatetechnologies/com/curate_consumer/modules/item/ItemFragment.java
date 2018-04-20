@@ -118,40 +118,49 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     RecyclerView photosRecyclerView;
 
     @OnClick(R.id.fragment_item_thumbs_down) void onDislike(){
-        if (mLike == null){
-            mLike = false;
-        } else{
-            mLike = !mLike;
+        if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
+            presentMustBeLoggedInAlert();
+        } else {
+            if (mLike == null) {
+                mLike = false;
+            } else {
+                mLike = !mLike;
+            }
+            updateRatingButtons();
+            UserModel user = UserRepository
+                    .getInstance(getApplicationContext())
+                    .getCurrentUser();
+            mItemPresenter.createRatingPost(user.getCurateToken(),
+                    new PostModel(0, "RATING", mItem.getRestaurantId(),
+                            mItem.getId(), "", false, 0, 0, "",
+                            "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
+                            mItem.getName(), mItem.getRestaurantName(), 0.0, null)
+            );
         }
-        updateRatingButtons();
-        UserModel user = UserRepository
-                .getInstance(getApplicationContext())
-                .getCurrentUser();
-        mItemPresenter.createRatingPost(user.getCurateToken(),
-                new PostModel(0, "RATING", mItem.getRestaurantId(),
-                        mItem.getId(), "", false, 0, 0, "",
-                        "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
-                        mItem.getName(), mItem.getRestaurantName(), 0.0, null)
-                );
     }
 
     @OnClick(R.id.fragment_item_thumbs_up) void onLike(){
-        if (mLike == null){
-            mLike = true;
-        } else{
-            mLike = !mLike;
-        }
-        updateRatingButtons();
+        if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
+            presentMustBeLoggedInAlert();
+        } else {
 
-        UserModel user = UserRepository
-                .getInstance(getApplicationContext())
-                .getCurrentUser();
-        mItemPresenter.createRatingPost(user.getCurateToken(),
-                new PostModel(0, "RATING", mItem.getRestaurantId(),
-                        mItem.getId(), "", true, 0, 0, "",
-                        "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
-                        mItem.getName(), mItem.getRestaurantName(), 0.0, null)
-        );
+            if (mLike == null) {
+                mLike = true;
+            } else {
+                mLike = !mLike;
+            }
+            updateRatingButtons();
+
+            UserModel user = UserRepository
+                    .getInstance(getApplicationContext())
+                    .getCurrentUser();
+            mItemPresenter.createRatingPost(user.getCurateToken(),
+                    new PostModel(0, "RATING", mItem.getRestaurantId(),
+                            mItem.getId(), "", true, 0, 0, "",
+                            "", user.getId(), user.getUsername(), user.getProfilePictureURL(),
+                            mItem.getName(), mItem.getRestaurantName(), 0.0, null)
+            );
+        }
     }
 
     private void updateRatingButtons(){
@@ -166,22 +175,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     @OnClick(R.id.fragment_item_add_to_cart_button) void onAddToCartClick(View view){
         if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
-            AlertDialog.Builder builder;
-            builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Feature Unavailable")
-                    .setMessage("You need to be logged in to use this feature.")
-                    .setPositiveButton("Register", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(getContext(), CreateAccountActivity.class);
-                            startActivity(i);
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
+            presentMustBeLoggedInAlert();
         } else {
             CartManager.getInstance().addItemToCart(mItem);
         }
@@ -309,33 +303,16 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 new RecyclerViewClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                        // present dialog asking if they want to add a photo from camera or from gallery
-
-                        if (!checkWritePermission())
-                            requestWritePermission();
-                        if (!checkReadPermission())
-                            requestReadPermission();
-
-                        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
-                        alertDialog.setTitle("Add Photo");
-                        alertDialog.setMessage("How would you like to add a new photo?");
-                        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "Camera",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // CAMERA
-                                        captureCameraImage();
-                                    }
-                                });
-                        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "Gallery",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        // GALLERY
-                                        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                        startActivityForResult(i, RESULT_LOAD_IMAGE);
-                                    }
-                                });
-                        alertDialog.show();
+                        if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
+                            presentMustBeLoggedInAlert();
+                        } else {
+                            if (!checkWritePermission())
+                                requestWritePermission();
+                            if (!checkReadPermission())
+                                requestReadPermission();
+                            // present dialog asking if they want to add a photo from camera or from gallery
+                            presentPhotoChoiceDialog();
+                        }
                     }
                 }));
     }
@@ -418,5 +395,47 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
 
         }
+    }
+
+    private void presentMustBeLoggedInAlert(){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Please Log In")
+                .setMessage("You need to be logged in to use this feature.")
+                .setPositiveButton("Register", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(getContext(), CreateAccountActivity.class);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void presentPhotoChoiceDialog(){
+        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("Add Photo");
+        alertDialog.setMessage("How would you like to add a new photo?");
+        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "Camera",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // CAMERA
+                        captureCameraImage();
+                    }
+                });
+        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "Gallery",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // GALLERY
+                        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+                    }
+                });
+        alertDialog.show();
     }
 }

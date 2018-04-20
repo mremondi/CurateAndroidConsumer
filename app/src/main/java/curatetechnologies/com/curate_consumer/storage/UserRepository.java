@@ -130,6 +130,11 @@ public class UserRepository implements UserModelRepository {
                 userModel.setId(-1);
                 userModel.setGender("");
                 CurateAPIUserPost user = UserConverter.convertUserModelToCurateUserPost(userModel);
+
+                // NOTE: Don't save google id_token on our server. Too big currently for our schema
+                // and isn't really used again
+                user.setGoogleToken("");
+
                 String bearerToken = "Bearer " + userModel.getCurateToken();
                 Call<JsonObject> saveUser = userService.createUser(bearerToken, user);
                 Response<JsonObject> response = saveUser.execute();

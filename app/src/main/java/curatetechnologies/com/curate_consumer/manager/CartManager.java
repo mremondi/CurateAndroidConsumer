@@ -8,7 +8,7 @@ import java.util.List;
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.OrderModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.CartButtonWrapper;
+import curatetechnologies.com.curate_consumer.modules.cart.CartButtonWrapper;
 
 /**
  * Created by mremondi on 2/26/18.

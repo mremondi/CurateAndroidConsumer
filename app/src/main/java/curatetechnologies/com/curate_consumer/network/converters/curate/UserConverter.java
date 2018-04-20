@@ -32,7 +32,7 @@ public class UserConverter {
         return new CurateAPIUserPost(userModel.getId(), userModel.getUsername(), userModel.getEmail(),
                 userModel.getLoyaltyPoints(), userModel.getFirstName(), userModel.getFullName(),
                 userModel.getLastName(), userModel.getBirthday(), userModel.getAge(), userModel.getGender(),
-                userModel.getProfilePictureURL(), userModel.getFacebookToken(), userModel.getGoogleToken(),
+                userModel.getProfilePictureURL(), userModel.getFacebookToken(), "",
                 "");
     }
 
