@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +39,7 @@ import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
 import curatetechnologies.com.curate_consumer.manager.CartManager;
-import curatetechnologies.com.curate_consumer.modules.main.MainActivity;
+import curatetechnologies.com.curate_consumer.modules.receipt.ReceiptFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.CartItemsAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeController;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeControllerActions;
@@ -59,6 +60,9 @@ public class CartFragment extends Fragment implements CartContract.View {
 
     private PaymentSession mPaymentSession;
     private Customer mCustomer;
+
+    @BindView(R.id.fragment_cart_progress_bar)
+    ProgressBar progressBar;
 
     @BindView(R.id.activity_cart_payment_session_data)
     TextView mResultTextView;
@@ -223,9 +227,11 @@ public class CartFragment extends Fragment implements CartContract.View {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent i = new Intent(context, MainActivity.class);
-                        i.putExtra(MainActivity.GOTO_FRAGMENT_TAG, MainActivity.SEARCH_FRAGMENT_TAG);
-                        startActivity(i);
+                        Fragment receiptFragment = new ReceiptFragment();
+                        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+                        fm.beginTransaction()
+                                .replace(R.id.content_frame, receiptFragment)
+                                .commit();
                     }
                 });
         alertDialog.show();
@@ -233,11 +239,13 @@ public class CartFragment extends Fragment implements CartContract.View {
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
     }
 
     @Override
     public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
 
     }
 

@@ -204,6 +204,13 @@
                 />
 
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/fragment_cart_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
         
         <Button
             android:id="@+id/activity_cart_complete_button"
