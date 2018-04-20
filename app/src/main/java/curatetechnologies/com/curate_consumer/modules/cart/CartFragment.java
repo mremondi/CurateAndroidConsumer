@@ -84,7 +84,6 @@ public class CartFragment extends Fragment implements CartContract.View {
     @BindView(R.id.activity_cart_complete_button)
     Button completePurchaseButton;
     @OnClick(R.id.activity_cart_complete_button) void completePurchase(){
-        // TODO:
         UserModel user = UserRepository.getInstance(getContext()).getCurrentUser();
         String email = user.getEmail();
         mCartPresenter.completeCharge(mPaymentSession, email);
@@ -226,6 +225,7 @@ public class CartFragment extends Fragment implements CartContract.View {
                         dialog.dismiss();
                         Intent i = new Intent(context, MainActivity.class);
                         i.putExtra(MainActivity.GOTO_FRAGMENT_TAG, MainActivity.SEARCH_FRAGMENT_TAG);
+                        startActivity(i);
                     }
                 });
         alertDialog.show();

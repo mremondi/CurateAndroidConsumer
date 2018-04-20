@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate_consumer.domain.interactor;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,6 +59,7 @@ public class SendOrderToRestaurantInteractorImpl extends AbstractInteractor impl
         mOrderModelRepository.sendOrderToFirebase(mOrder).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("FIREBASE ERROR", e.getLocalizedMessage());
                 notifyError();
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
