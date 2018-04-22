@@ -52,16 +52,5 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"/>
 
-        <TextView
-            android:id="@+id/rating_post_liked_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/rating_post_liked_image"
-            android:layout_toEndOf="@+id/rating_post_liked_image"
-            android:layout_centerVertical="true"
-            android:textColor="@color/lightGray"
-            android:textSize="18sp"
-            android:text="Liked"/>
-
     </RelativeLayout>
 </RelativeLayout>

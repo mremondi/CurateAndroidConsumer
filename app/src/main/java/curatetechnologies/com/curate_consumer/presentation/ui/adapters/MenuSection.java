@@ -66,7 +66,7 @@ public class MenuSection extends StatelessSection {
                 headerViewHolder.ivHeaderExpanded.setImageResource(
                         expanded ?  R.drawable.ic_expanded_black_24dp : R.drawable.ic_expand_black_24dp
                 );
-                if (mMenuSection.getItems().get(0).getName() != null) {
+                if (mMenuSection.getItems().size() > 0 && mMenuSection.getItems().get(0).getName() != null){
                     mSectionAdapter.notifyDataSetChanged();
                 }
             }

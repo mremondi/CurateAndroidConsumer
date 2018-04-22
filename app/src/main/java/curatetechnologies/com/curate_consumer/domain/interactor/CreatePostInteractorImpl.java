@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate_consumer.domain.interactor;
 
+import android.util.Log;
+
 import curatetechnologies.com.curate_consumer.domain.executor.Executor;
 import curatetechnologies.com.curate_consumer.domain.executor.MainThread;
 import curatetechnologies.com.curate_consumer.domain.model.PostModel;
@@ -27,15 +29,17 @@ public class CreatePostInteractorImpl extends AbstractInteractor implements Crea
     }
 
     private void notifyError() {
+        Log.d("ERROR CREATING", "POST");
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onCreatePostFailed("Create Post Failed");
+                //mCallback.onCreatePostFailed("Create Post Failed");
             }
         });
     }
 
     private void postSuccess() {
+        Log.d("SUCCESS CREATING", "POST");
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -47,6 +51,7 @@ public class CreatePostInteractorImpl extends AbstractInteractor implements Crea
 
     @Override
     public void run() {
+        Log.d("HERE", "RUN POST " + mPost.getPostType());
         // retrieve the message
         int insertId = mPostModelRepository.createPost(mJwt, mPost);
 

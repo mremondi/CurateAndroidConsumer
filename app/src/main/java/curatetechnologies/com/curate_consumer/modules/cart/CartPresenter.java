@@ -8,6 +8,8 @@ import curatetechnologies.com.curate_consumer.domain.executor.Executor;
 import curatetechnologies.com.curate_consumer.domain.executor.MainThread;
 import curatetechnologies.com.curate_consumer.domain.interactor.CompleteChargeInteractor;
 import curatetechnologies.com.curate_consumer.domain.interactor.CompleteChargeInteractorImpl;
+import curatetechnologies.com.curate_consumer.domain.interactor.CreatePostInteractor;
+import curatetechnologies.com.curate_consumer.domain.interactor.CreatePostInteractorImpl;
 import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantByIdInteractor;
 import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantByIdInteractorImpl;
 import curatetechnologies.com.curate_consumer.domain.interactor.PostOrderInteractor;
@@ -15,9 +17,11 @@ import curatetechnologies.com.curate_consumer.domain.interactor.PostOrderInterac
 import curatetechnologies.com.curate_consumer.domain.interactor.SendOrderToRestaurantInteractor;
 import curatetechnologies.com.curate_consumer.domain.interactor.SendOrderToRestaurantInteractorImpl;
 import curatetechnologies.com.curate_consumer.domain.model.OrderModel;
+import curatetechnologies.com.curate_consumer.domain.model.PostModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.presentation.presenters.AbstractPresenter;
 import curatetechnologies.com.curate_consumer.storage.OrderModelRepository;
+import curatetechnologies.com.curate_consumer.storage.PostModelRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantModelRepository;
 import curatetechnologies.com.curate_consumer.storage.StripeModelRepository;
 
@@ -27,22 +31,26 @@ import curatetechnologies.com.curate_consumer.storage.StripeModelRepository;
 
 public class CartPresenter extends AbstractPresenter implements CartContract,
         GetRestaurantByIdInteractor.Callback, CompleteChargeInteractor.Callback,
-        SendOrderToRestaurantInteractor.Callback, PostOrderInteractor.Callback{
+        SendOrderToRestaurantInteractor.Callback, PostOrderInteractor.Callback,
+        CreatePostInteractor.Callback{
 
     private CartContract.View mView;
     private RestaurantModelRepository mRestaurantRepository;
     private StripeModelRepository mStripeRepository;
     private OrderModelRepository mOrderRepository;
+    private PostModelRepository mPostRepository;
 
     public CartPresenter(Executor executor, MainThread mainThread,
                          View view, RestaurantModelRepository restaurantModelRepository,
                          StripeModelRepository stripeRepository,
-                         OrderModelRepository orderModelRepository) {
+                         OrderModelRepository orderModelRepository,
+                         PostModelRepository postModelRepository) {
         super(executor, mainThread);
         mView = view;
         mRestaurantRepository = restaurantModelRepository;
         mStripeRepository = stripeRepository;
         mOrderRepository = orderModelRepository;
+        mPostRepository = postModelRepository;
     }
 
     // -- BEGIN: CartContract methods
@@ -95,6 +103,23 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
                 appContext
         );
         postOrderInteractor.execute();
+
+        PostModel postModel = new PostModel(0, PostModel.ORDER_POST,
+                orderModel.getRestaurantId(), orderModel.getOrderItems().get(0).getId(),
+                "", null, 0, 0,
+                "", "", orderModel.getUser().getId(),
+                orderModel.getUser().getUsername(), orderModel.getUser().getProfilePictureURL(),
+                "","", 0.0, null);
+
+        CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mPostRepository,
+                jwt,
+                postModel
+        );
+        createPostInteractor.execute();
     }
 
     // -- END: CartContract methods
@@ -142,8 +167,8 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     }
     // -- END: SendOrderToRestaurantInteractor.Callback methods
 
-    // -- BEGIN: PostOrderInteractor.Callback methods
 
+    // -- BEGIN: PostOrderInteractor.Callback methods
     @Override
     public void onOrderPosted() {
         // TODO:
@@ -154,6 +179,19 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
         mView.hideProgress();
         onError(error);
     }
-
     // -- END: PostOrderInteractor.Callback methods
+
+
+    // -- BEGIN: CreatePostInteractor.Callback methods
+    @Override
+    public void onCreatePostSuccess() {
+
+    }
+
+    @Override
+    public void onCreatePostFailed(String error) {
+        mView.hideProgress();
+        onError(error);
+    }
+    // -- END: CreatePostInteractor.Callback methods
 }

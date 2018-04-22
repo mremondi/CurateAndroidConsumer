@@ -44,6 +44,7 @@ import curatetechnologies.com.curate_consumer.presentation.ui.adapters.CartItems
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeController;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeControllerActions;
 import curatetechnologies.com.curate_consumer.storage.OrderRepository;
+import curatetechnologies.com.curate_consumer.storage.PostRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
 import curatetechnologies.com.curate_consumer.storage.StripeRepository;
 import curatetechnologies.com.curate_consumer.storage.UserRepository;
@@ -112,7 +113,8 @@ public class CartFragment extends Fragment implements CartContract.View {
                 this,
                 new RestaurantRepository(),
                 new StripeRepository(),
-                new OrderRepository()
+                new OrderRepository(),
+                new PostRepository()
         );
         mCartPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId());
 

@@ -180,8 +180,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvUsername;
         @BindView(R.id.rating_post_time)
         TextView tvTime;
-        @BindView(R.id.rating_post_liked_text)
-        TextView tvLiked;
         @BindView(R.id.rating_post_liked_image)
         ImageView ivLiked;
 
@@ -206,8 +204,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvRestaurantName.setText(post.getRestaurantName());
             tvUsername.setText(post.getUsername());
             tvTime.setText(post.getTime());
-            String likeDislike = post.getRating() ? "Liked" : "Disliked";
-            tvLiked.setText(likeDislike);
             Drawable likeDislikeImage = post.getRating() ?
                     view.getResources().getDrawable(R.drawable.liked) :
                     view.getResources().getDrawable(R.drawable.disliked);
