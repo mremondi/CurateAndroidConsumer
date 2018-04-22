@@ -20,6 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -47,6 +50,7 @@ import curatetechnologies.com.curate_consumer.modules.feed.FeedFragment;
 import curatetechnologies.com.curate_consumer.modules.more.MoreFragment;
 import curatetechnologies.com.curate_consumer.modules.profile.ProfileFragment;
 import curatetechnologies.com.curate_consumer.modules.search.SearchFragment;
+import curatetechnologies.com.curate_consumer.presentation.ui.views.subclasses.CartButtonWrapper;
 import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.OrderRepository;
 import curatetechnologies.com.curate_consumer.storage.StripeRepository;
@@ -67,6 +71,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     FusedLocationProviderClient mFusedLocationProvider;
     protected Location mLastLocation;
+
+    @BindView(R.id.activity_main_cart_view)
+    RelativeLayout cartBtnLayout;
+    @BindView(R.id.activity_main_cart_price)
+    TextView tvCartPrice;
+    @BindView(R.id.activity_main_cart_restaurant_name)
+    TextView tvCartRestaurantName;
+    @BindView(R.id.cart_button)
+    ImageButton btnCart;
+    @BindView(R.id.cart_badge)
+    TextView tvCartBadge;
 
     @BindView(R.id.navigation) BottomNavigationView navigation;
 
@@ -97,25 +112,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                         transaction.commit();
                         return true;
                     }
-
                 case R.id.navigation_more:
                     Fragment moreFragment = new MoreFragment();
                     transaction.replace(R.id.content_frame, moreFragment);
                     transaction.commit();
                     return true;
-                case R.id.navigation_cart:
-                    if (UserRepository.getInstance(getApplicationContext()).getCurrentUser() == null
-                            || CartManager.getInstance().isEmpty()){
-                        Fragment emptyCartFragment = new EmptyCartFragment();
-                        transaction.replace(R.id.content_frame, emptyCartFragment);
-                        transaction.commit();
-                        return true;
-                    } else {
-                        Fragment cartFragment = new CartFragment();
-                        transaction.replace(R.id.content_frame, cartFragment);
-                        transaction.commit();
-                        return true;
-                    }
             }
             return false;
         }
@@ -158,6 +159,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_search);
 
+
+        CartButtonWrapper cartButtonWrapper = new CartButtonWrapper(getSupportFragmentManager(),
+                cartBtnLayout, tvCartPrice, tvCartRestaurantName,
+                btnCart, tvCartBadge);
+        CartManager.getInstance().setGlobalCartButton(cartButtonWrapper);
 
         navigateToSpecifiedFragment();
     }

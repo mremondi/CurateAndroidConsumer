@@ -1,13 +1,18 @@
 package curatetechnologies.com.curate_consumer.manager;
 
+import android.view.View;
+import android.widget.RelativeLayout;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.OrderModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
+import curatetechnologies.com.curate_consumer.presentation.ui.views.subclasses.CartButtonWrapper;
 
 /**
  * Created by mremondi on 2/26/18.
@@ -16,6 +21,8 @@ import curatetechnologies.com.curate_consumer.domain.model.UserModel;
 public class CartManager {
 
     private static CartManager instance;
+
+    private CartButtonWrapper cartButton;
 
     private ArrayList<ItemModel> orderItems = new ArrayList<>();
     private UserModel user;
@@ -36,6 +43,17 @@ public class CartManager {
         return instance;
     }
 
+    public void setGlobalCartButton(CartButtonWrapper globalCartButton) {
+        this.cartButton = globalCartButton;
+        updateCartButton();
+    }
+
+    private void updateCartButton(){
+        if (this.cartButton != null) {
+            this.cartButton.updateCartButtonCount(restaurantName, getOrderTotalString(), getOrderItemCount());
+        }
+    }
+
     public Integer getRestaurantId(){
         return this.restaurantId;
     }
@@ -53,6 +71,7 @@ public class CartManager {
         } else{
             this.orderItems.add(item);
         }
+        updateCartButton();
     }
 
     public boolean isEmpty(){
@@ -61,6 +80,7 @@ public class CartManager {
 
     public void removeItemFromCart(ItemModel item){
         this.orderItems.remove(item);
+        updateCartButton();
     }
 
     public void removeItemAtIndex(Integer index){
@@ -95,6 +115,7 @@ public class CartManager {
         this.mealTaxRate = null;
         this.restaurantName = null;
         this.restaurantLogoUrl = null;
+        updateCartButton();
     }
 
     public void setMealTax(Double mealTax){
@@ -103,7 +124,10 @@ public class CartManager {
 
     public Double getOrderTax(){
         Double price = getSubTotal();
-        return (double) Math.round((price * this.mealTaxRate) * 100) / 100;
+        if (price != null && this.mealTaxRate != null){
+            return (double) Math.round((price * this.mealTaxRate) * 100) / 100;
+        }
+        return 0.0;
     }
 
     public Double getSubTotal(){
@@ -116,6 +140,13 @@ public class CartManager {
 
     public Double getOrderTotal(){
         return (double) Math.round((getSubTotal() +  getOrderTax()) * 100) / 100;
+    }
+
+    public String getOrderTotalString(){
+        if (getOrderTotal() == null){
+            return "$0.00";
+        }
+        return "$" + String.format("%.2f", getOrderTotal());
     }
 
     public Integer getOrderTotalForStripe(){
