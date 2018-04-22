@@ -40,6 +40,7 @@ import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
 import curatetechnologies.com.curate_consumer.manager.CartManager;
 import curatetechnologies.com.curate_consumer.modules.receipt.ReceiptFragment;
+import curatetechnologies.com.curate_consumer.modules.search.SearchFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.CartItemsAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeController;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeControllerActions;
@@ -88,6 +89,19 @@ public class CartFragment extends Fragment implements CartContract.View {
 
     @BindView(R.id.activity_cart_complete_button)
     Button completePurchaseButton;
+
+
+    @OnClick(R.id.activity_cart_clear_cart_button) void clearCart(){
+        CartManager.getInstance().clearCart();
+
+        Fragment searchFragment = new SearchFragment();
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.content_frame, searchFragment)
+                .commit();
+
+    }
+
     @OnClick(R.id.activity_cart_complete_button) void completePurchase(){
         UserModel user = UserRepository.getInstance(getContext()).getCurrentUser();
         String email = user.getEmail();

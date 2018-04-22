@@ -87,18 +87,19 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/activeBlue"
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/activity_cart_payment_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:textColor="@color/activeBlue"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="CHANGE"/>
 
             <TextView
@@ -114,11 +115,24 @@
 
         </RelativeLayout>
 
+
+        <Button
+            android:id="@+id/activity_cart_clear_cart_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_cart_payment_row"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            android:background="@color/white"
+            android:textColor="@color/colorAccent"
+            android:text="CLEAR CART"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
         <LinearLayout
             android:id="@+id/activity_cart_recycler_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_cart_payment_row">
+            android:layout_below="@id/activity_cart_clear_cart_button">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/activity_cart_recycler_view"
