@@ -125,6 +125,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         searchPlaceHolderText.setText("Search for exactly what you're craving!");
         btnItem.setSelected(true);
         searchView.setIconified(false);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

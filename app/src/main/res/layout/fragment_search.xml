@@ -10,8 +10,7 @@
         android:id="@+id/fragment_search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/greyBackground"
-        android:padding="0dp">
+        android:background="@color/greyBackground">
 
         <RelativeLayout
             android:id="@+id/search_bar_input"
