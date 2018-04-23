@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     // SETS UP A CUSTOMER SESSION WITH STRIPE AND OUR BACKEND
     private void initializeStripeCustomer(final String email, final String customerId){
-        PaymentConfiguration.init("pk_test_5mf0TR8Bf9NP6fXT3Mlg6DHv");
+        PaymentConfiguration.init(BuildConfig.STRIPE_ID);
         CustomerSession.initCustomerSession(
                 new EphemeralKeyProvider() {
                     @Override

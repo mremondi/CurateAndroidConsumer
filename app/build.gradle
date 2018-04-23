@@ -17,6 +17,7 @@ android {
             storePassword 'Domuebg1!'
         }
         defaultConfig {
+            multiDexEnabled true
         }
     }
     flavorDimensions "default"
