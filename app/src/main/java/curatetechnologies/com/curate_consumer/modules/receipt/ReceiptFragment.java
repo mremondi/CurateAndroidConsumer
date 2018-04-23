@@ -148,6 +148,8 @@ public class ReceiptFragment extends Fragment implements ReceiptContract.View {
         tvSubtotal.setText("$" + String.format("%.2f", CartManager.getInstance().getSubTotal()));
         tvTax.setText("$" + String.format("%.2f",CartManager.getInstance().getOrderTax()));
         tvTotal.setText("$" + String.format("%.2f",CartManager.getInstance().getOrderTotal()));
+
+        CartManager.getInstance().clearCart();
     }
 
 }
