@@ -61,7 +61,6 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
 
     @Override
     public void onUserPreferencesSaved() {
-        Log.d("User preferences saved.", "Good");
         mView.segueToMainApp();
     }
 
