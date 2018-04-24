@@ -60,6 +60,7 @@ public class UserRepository implements UserModelRepository {
         UserService userService = CurateClient.getService(UserService.class);
         try {
             Response<CurateRegisterUser> response = userService.registerUserEmail(email, password).execute();
+            Log.d("REGISTER RESPONSE", response.body().toString());
             jwt = response.body().getToken();
             user = UserConverter.convertRegisteredUserToUserModel(response.body(), jwt);
             return user;
@@ -138,7 +139,9 @@ public class UserRepository implements UserModelRepository {
                 Call<JsonObject> saveUser = userService.createUser(bearerToken, user);
                 Response<JsonObject> response = saveUser.execute();
 
-                return true;
+                userModel.setId(response.body().get("userID").getAsInt());
+                return this.cacheUser(userModel);
+
             } catch (Exception e) {
                 Log.d("network save user", "failure " + e.getLocalizedMessage());
                 return false;

@@ -57,6 +57,7 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
                 UserRepository.getInstance(getApplicationContext())
         );
         this.user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
+        Log.d("USER JWT", this.user.getCurateToken());
 
         mPagerAdapter = new OnBoardingPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
