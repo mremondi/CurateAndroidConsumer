@@ -47,7 +47,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/fragment_onboarding_page4_label1"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/healthy"/>
+
                 <TextView
+                    android:id="@+id/fragment_onboarding_page4_label1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -70,7 +79,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/fragment_onboarding_page4_label2"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/glutenfree"/>
+
                 <TextView
+                    android:id="@+id/fragment_onboarding_page4_label2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -93,7 +111,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/fragment_onboarding_page4_label3"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/sweets"/>
+
                 <TextView
+                    android:id="@+id/fragment_onboarding_page4_label3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
