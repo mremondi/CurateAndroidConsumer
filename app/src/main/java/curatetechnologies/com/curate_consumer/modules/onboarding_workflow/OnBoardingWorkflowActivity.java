@@ -89,8 +89,7 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
 
     @Override
     public void saveUserPreferences(){
-        Log.d("SAVE PREF ONBOARD", "USERID: " + user.getId());
-        mOnBoardUserPresenter.saveUserPreferences(UserRepository.getInstance(getApplicationContext()).getCurrentUser(), preferences);
+        mOnBoardUserPresenter.saveUserPreferences(user, preferences);
     }
 
     @Override
