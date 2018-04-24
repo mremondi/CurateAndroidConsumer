@@ -119,7 +119,7 @@ public class UserRepository implements UserModelRepository {
     }
 
     @Override
-    public Boolean saveUser(final UserModel userModel, boolean remote) {
+    public Boolean saveUser(UserModel userModel, boolean remote) {
         // save user to DB
         UserService userService = CurateClient.getService(UserService.class);
         if (remote) {
