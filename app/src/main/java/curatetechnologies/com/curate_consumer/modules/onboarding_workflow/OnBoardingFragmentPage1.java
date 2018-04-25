@@ -35,8 +35,6 @@ public class OnBoardingFragmentPage1 extends Fragment implements OnBoardingFragm
 
     @OnClick(R.id.fragment_onboarding_page1_next_button) void nextClick(){
         mOnBoardUserPresenter.checkUsernameAvailable(username.getText().toString());
-        activity.mPager.setCurrentItem(2);
-
     }
 
     @Override

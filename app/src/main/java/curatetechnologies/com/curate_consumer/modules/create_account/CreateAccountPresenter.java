@@ -131,7 +131,7 @@ public class CreateAccountPresenter extends AbstractPresenter implements CreateA
         if (userId != 0){
             mUserModel.setId(userId);
             // cache the user
-            mUserRepository.saveUser(mUserModel, false);
+            mUserRepository.saveUser(mUserModel, false, true);
             // go to main activity
             mView.segueToMain();
         }
@@ -141,7 +141,7 @@ public class CreateAccountPresenter extends AbstractPresenter implements CreateA
             // cache the user so far
             Log.d("onUserId Retrieved", ""+ mUserModel.getId());
             Log.d("onUserId retrieved", mUserModel.getEmail());
-            mUserRepository.saveUser(mUserModel, false);
+            mUserRepository.saveUser(mUserModel, false, true);
 
             Log.d("AFTER SAVE" , mUserRepository.getCurrentUser().getEmail());
             // go to onboarding

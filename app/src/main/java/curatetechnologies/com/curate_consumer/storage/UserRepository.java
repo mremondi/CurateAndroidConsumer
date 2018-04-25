@@ -120,14 +120,16 @@ public class UserRepository implements UserModelRepository {
     }
 
     @Override
-    public Boolean saveUser(final UserModel userModel, boolean remote) {
+    public Boolean saveUser(final UserModel userModel, boolean remote, boolean isSocialLogin) {
         // save user to DB
         UserService userService = CurateClient.getService(UserService.class);
         if (remote) {
             try {
                 // NOTE: NEED TO PUT A NUMBER OTHER THAN 0 (returns false in bool test in JS)
                 // -1 is never used though
-                userModel.setId(-1);
+                if (isSocialLogin) {
+                    userModel.setId(-1);
+                }
                 userModel.setGender("");
                 CurateAPIUserPost user = UserConverter.convertUserModelToCurateUserPost(userModel);
 
@@ -139,7 +141,11 @@ public class UserRepository implements UserModelRepository {
                 Call<JsonObject> saveUser = userService.createUser(bearerToken, user);
                 Response<JsonObject> response = saveUser.execute();
 
-                userModel.setId(response.body().get("userID").getAsInt());
+                if (isSocialLogin){
+                    userModel.setId(response.body().get("userID").getAsInt());
+                    Log.d("RESPONSE BODY", response.body().toString());
+                    Log.d("MUST BE THE PROBLEM", "USER ID: " + response.body().get("userID").getAsInt());
+                }
                 return this.cacheUser(userModel);
 
             } catch (Exception e) {

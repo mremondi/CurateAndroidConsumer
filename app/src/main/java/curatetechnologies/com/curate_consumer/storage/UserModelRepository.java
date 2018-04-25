@@ -15,7 +15,7 @@ public interface UserModelRepository {
     UserModel registerUserEmailPassword(String email, String password);
     String loginWithFacebook(String accessToken);
     String loginWithGoogle(String accessToken);
-    Boolean saveUser(UserModel userModel, boolean remote);
+    Boolean saveUser(UserModel userModel, boolean remote, boolean isSocialLogin);
     Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences);
     UserModel getCurrentUser();
     Boolean checkUsernameAvailable(String username);

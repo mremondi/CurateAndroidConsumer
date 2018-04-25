@@ -126,7 +126,7 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
         if (userId != 0){
             mUserModel.setId(userId);
             // cache the user
-            mUserRepository.saveUser(mUserModel, false);
+            mUserRepository.saveUser(mUserModel, false, true);
             // go to main activity
             mView.segueToMainApp();
         }
@@ -134,7 +134,7 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
         // new user take through onboarding flow
         else{
             // cache the user so far
-            mUserRepository.saveUser(mUserModel, false);
+            mUserRepository.saveUser(mUserModel, false, true);
             // go to onboarding
             mView.segueToOnboarding();
         }

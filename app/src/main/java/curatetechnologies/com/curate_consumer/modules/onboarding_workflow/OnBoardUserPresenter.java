@@ -34,14 +34,15 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
     }
 
     @Override
-    public void saveUser(UserModel user) {
+    public void saveUser(UserModel user, boolean isSocialLogin) {
         SaveUserInteractor saveUserInteractor = new SaveUserInteractorImpl(
                 mExecutor,
                 mMainThread,
                 this,
                 mUserRepository,
                 user,
-                true
+                true,
+                isSocialLogin
         );
         saveUserInteractor.execute();
     }

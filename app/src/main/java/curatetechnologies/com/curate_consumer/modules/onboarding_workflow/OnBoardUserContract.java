@@ -17,6 +17,6 @@ public interface OnBoardUserContract {
         void segueToMainApp();
     }
 
-    void saveUser(UserModel user);
+    void saveUser(UserModel user, boolean isSocialLogin);
     void saveUserPreferences(UserModel user, List<TagTypeModel> preferences);
 }

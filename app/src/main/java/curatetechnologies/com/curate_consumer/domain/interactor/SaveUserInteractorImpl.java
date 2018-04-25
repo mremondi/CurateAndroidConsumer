@@ -18,18 +18,21 @@ public class SaveUserInteractorImpl extends AbstractInteractor implements SaveUs
 
     private UserModel mUser;
     private boolean remote;
+    private boolean isSocialLogin;
 
     public SaveUserInteractorImpl(Executor threadExecutor,
                                   MainThread mainThread,
                                   SaveUserInteractor.Callback callback,
                                   UserModelRepository userModelRepository,
                                   UserModel userModel,
-                                  boolean remote) {
+                                  boolean remote,
+                                  boolean isSocialLogin) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mUserModelRepository = userModelRepository;
         mUser = userModel;
         this.remote = remote;
+        this.isSocialLogin = isSocialLogin;
     }
 
     private void notifyError() {
@@ -54,7 +57,7 @@ public class SaveUserInteractorImpl extends AbstractInteractor implements SaveUs
     @Override
     public void run() {
         // retrieve the message
-        boolean success = mUserModelRepository.saveUser(mUser, remote);
+        boolean success = mUserModelRepository.saveUser(mUser, remote, isSocialLogin);
 
         // check if we have failed to retrieve our message
         if (!success) {
