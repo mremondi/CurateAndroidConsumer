@@ -143,8 +143,6 @@ public class UserRepository implements UserModelRepository {
 
                 if (isSocialLogin){
                     userModel.setId(response.body().get("userID").getAsInt());
-                    Log.d("RESPONSE BODY", response.body().toString());
-                    Log.d("MUST BE THE PROBLEM", "USER ID: " + response.body().get("userID").getAsInt());
                 }
                 return this.cacheUser(userModel);
 
