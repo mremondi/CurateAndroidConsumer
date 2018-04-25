@@ -230,7 +230,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 new ItemRepository(),
                 new PostRepository());
 
-        mItemPresenter.getItemById(itemId, getLocation());
+        mItemPresenter.getItemById(itemId, getLocation(), getRadius());
         mItemPresenter.getItemPosts(20, itemId);
         return v;
     }
@@ -277,6 +277,10 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         if (item.getImageURL() != null){
             Glide.with(this)
                     .load(item.getImageURL())
+                    .into(ivItemPhotoMain);
+        } else {
+            Glide.with(this)
+                    .load(getResources().getDrawable(R.drawable.item_search_holder))
                     .into(ivItemPhotoMain);
         }
         tvItemDescription.setText(item.getDescription());
@@ -438,4 +442,9 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 });
         alertDialog.show();
     }
+
+    private Float getRadius(){
+        return LocationRepository.getInstance(getContext()).getRadius();
+    }
+
 }

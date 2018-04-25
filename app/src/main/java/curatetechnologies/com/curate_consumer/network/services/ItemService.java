@@ -35,6 +35,7 @@ public interface ItemService {
     @GET("items")
     Call<List<CurateAPIItem>> getItemById(@Query("itemId") Integer itemId,
                                           @Query("lat") Double lat,
-                                          @Query("lon") Double lon);
+                                          @Query("lon") Double lon,
+                                          @Query("radiusMiles") Float radiusMiles);
 
 }

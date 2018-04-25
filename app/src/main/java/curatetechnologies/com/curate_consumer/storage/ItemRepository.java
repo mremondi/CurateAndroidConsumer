@@ -35,16 +35,16 @@ public class ItemRepository implements ItemModelRepository {
     }
 
     @Override
-    public ItemModel getItemById(Integer itemId, Location location) {
+    public ItemModel getItemById(Integer itemId, Location location, Float radiusMiles) {
         ItemModel item = null;
         ItemService itemService = CurateClient.getService(ItemService.class);
         try {
             Response<List<CurateAPIItem>> response = itemService
-                    .getItemById(itemId, location.getLatitude(), location.getLongitude())
+                    .getItemById(itemId, location.getLatitude(), location.getLongitude(), radiusMiles)
                     .execute();
             item = ItemConverter.convertCurateItemToItemModel(response.body().get(0));
         } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
+            Log.d("FAILURE1", e.getMessage());
         }
         return item;
     }

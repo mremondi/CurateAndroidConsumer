@@ -42,7 +42,7 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
 
     // -- BEGIN: ItemContract methods
     @Override
-    public void getItemById(Integer itemId, Location location) {
+    public void getItemById(Integer itemId, Location location, Float radius) {
         mView.showProgress();
         GetItemByIdInteractor itemInteractor = new GetItemByIdInteractorImpl(
                 mExecutor,
@@ -50,7 +50,8 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
                 this,
                 mItemRepository,
                 itemId,
-                location
+                location,
+                radius
         );
         itemInteractor.execute();
     }

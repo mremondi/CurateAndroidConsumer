@@ -24,7 +24,7 @@ public interface ItemContract {
 
     }
 
-    void getItemById(Integer itemId, Location location);
+    void getItemById(Integer itemId, Location location, Float radiusMiles);
     void getItemPosts(Integer limit, Integer itemId);
     void createRatingPost(String jwt, PostModel postModel);
 }

@@ -19,18 +19,21 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor implements Get
 
     private Integer mItemId;
     private Location mLocation;
+    private Float mRadius;
 
     public GetItemByIdInteractorImpl(Executor threadExecutor,
                                      MainThread mainThread,
                                      Callback callback,
                                      ItemModelRepository itemModelRepository,
                                      Integer itemId,
-                                     Location location) {
+                                     Location location,
+                                     Float radius) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mItemModelRepository = itemModelRepository;
         mItemId = itemId;
         mLocation = location;
+        mRadius = radius;
     }
 
     private void notifyError() {
@@ -60,7 +63,7 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor implements Get
         // retrieve the message
         Log.d("getItemById", "interactor impl");
 
-        final ItemModel item = mItemModelRepository.getItemById(mItemId, mLocation);
+        final ItemModel item = mItemModelRepository.getItemById(mItemId, mLocation, mRadius);
 
         // check if we have failed to retrieve our message
         if (item == null) {
