@@ -107,6 +107,9 @@
         <activity android:name="curatetechnologies.com.curate_consumer.modules.login_with_email.LoginWithEmailActivity"
             android:theme="@style/LoginWithEmailTheme"
             android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="057dc69f518efa5cd394a63a1dc7224fa7664e37" />
     </application>
 
 </manifest>

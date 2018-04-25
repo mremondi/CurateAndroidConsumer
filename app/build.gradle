@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'com.google.gms.oss.licenses.plugin'
 
 
@@ -26,8 +41,8 @@ android {
         applicationId "curatetechnologies.com.curate_consumer"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 2
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -43,26 +58,28 @@ android {
             applicationId 'curatetechnologies.com.curate_consumer.development'
             targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 2
-            versionName '1.0'
+            versionCode 3
+            versionName '1.1'
             getProps('./src/development/config.props').each { p ->
                 buildConfigField 'String', p.key, p.value
             }
             signingConfig signingConfigs.development
+            resValue "string", "app_name", "Curate Dev"
         }
         production {
             minSdkVersion 16
             applicationId 'curatetechnologies.com.curate_consumer'
             targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 2
-            versionName '1.0'
+            versionCode 3
+            versionName '1.1'
             production {
                 getProps('./src/production/config.props').each { p ->
                     buildConfigField 'String', p.key, p.value
                 }
             }
             signingConfig signingConfigs.production
+            resValue "string", "app_name", "Curate"
         }
     }
 }
@@ -110,6 +127,9 @@ dependencies {
 
 
     compile 'com.google.code.gson:gson:2.8.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+        transitive = true;
+    }
 
 }
 
