@@ -29,6 +29,11 @@
   *;
 }
 
+-keepclassmembers class curatetechnologies.com.curate_consumer.network.firebase.model.** {
+  *;
+}
+
+
 
 ###---------------Begin: proguard configuration for ButterKnife  ----------
 # For Butterknife:

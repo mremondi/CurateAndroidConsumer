@@ -41,8 +41,8 @@ android {
         applicationId "curatetechnologies.com.curate_consumer"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.1"
+        versionCode 4
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -58,8 +58,8 @@ android {
             applicationId 'curatetechnologies.com.curate_consumer.development'
             targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 3
-            versionName '1.1'
+            versionCode 4
+            versionName '1.2'
             getProps('./src/development/config.props').each { p ->
                 buildConfigField 'String', p.key, p.value
             }
@@ -71,8 +71,8 @@ android {
             applicationId 'curatetechnologies.com.curate_consumer'
             targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 3
-            versionName '1.1'
+            versionCode 4
+            versionName '1.2'
             production {
                 getProps('./src/production/config.props').each { p ->
                     buildConfigField 'String', p.key, p.value

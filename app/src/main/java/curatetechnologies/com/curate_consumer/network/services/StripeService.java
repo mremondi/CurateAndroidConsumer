@@ -27,10 +27,15 @@ public interface StripeService {
      * @param {string} req.body.token - REQUIRED Token for payment
      * @param {string} req.body.stripeId - OPTIONAL User's stripeId if exists
      * @param {boolean} req.body.saveInfo */
+
+    // NOTE: the itemIds[] param needs the [] for retrofit reasons. Very weird
+    // here's the link clarifying a bit https://johnsonsu.com/android-retrofit-posting-array/
+
     @FormUrlEncoded
     @POST("payment/charge")
-    Call<ResponseBody> createCharge(@Field("itemIds") List<Integer> itemIds,
-                                    @Field("email") String email, @Field("token") String token,
+    Call<ResponseBody> createCharge(@Field("itemIds[]") List<Integer> itemIds,
+                                    @Field("email") String email,
+                                    @Field("token") String token,
                                     @Field("restaurantId") Integer restaurantId,
                                     @Field("description") String description);
 }
