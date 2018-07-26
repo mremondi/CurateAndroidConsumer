@@ -22,6 +22,10 @@ public class CurateAPIItem {
     @Expose
     private Integer restaurantID;
 
+    @SerializedName("Restaurant_StripeID")
+    @Expose
+    private String restaurantStripeID;
+
     @SerializedName("distance_in_miles")
     @Expose
     private Double distanceInMiles;
@@ -214,4 +218,11 @@ public class CurateAPIItem {
         this.itemDescription = itemDescription;
     }
 
+    public String getRestaurantStripeID() {
+        return restaurantStripeID;
+    }
+
+    public void setRestaurantStripeID(String restaurantStripeID) {
+        this.restaurantStripeID = restaurantStripeID;
+    }
 }

@@ -13,16 +13,18 @@ public class ItemModel{
     private String distance_in_mi;
     private String price;
     private Double numericPrice;
-    private String rating;
+    private Double rating;
     private String restaurantName;
     private Integer restaurantId;
+    private String restaurantStripeId;
     private String menuName;
     private Integer menuId;
     private String menuSectionName;
+    private boolean isItemAvailable;
 
     public ItemModel(Integer id, String name, String description, String imageURL, String distance_in_mi,
-                     String price, Double numericPrice, String rating, String restaurantName, String menuName,
-                     String menuSectionName, Integer restaurantId, Integer menuId){
+                     String price, Double numericPrice, Double rating, String restaurantName, String menuName,
+                     String menuSectionName, Integer restaurantId, Integer menuId, String restaurantStripeId, boolean isItemAvailable){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,6 +38,8 @@ public class ItemModel{
         this.menuSectionName = menuSectionName;
         this.restaurantId = restaurantId;
         this.menuId = menuId;
+        this.restaurantStripeId = restaurantStripeId;
+        this.isItemAvailable = isItemAvailable;
     }
 
     public String getName() {
@@ -86,11 +90,11 @@ public class ItemModel{
         this.price = price;
     }
 
-    public String getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -140,5 +144,21 @@ public class ItemModel{
 
     public void setNumericPrice(Double numericPrice){
         this.numericPrice = numericPrice;
+    }
+
+    public String getRestaurantStripeId() {
+        return restaurantStripeId;
+    }
+
+    public void setRestaurantStripeId(String restaurantStripeId) {
+        this.restaurantStripeId = restaurantStripeId;
+    }
+
+    public boolean isItemAvailable() {
+        return isItemAvailable;
+    }
+
+    public void setItemAvailable(boolean itemAvailable) {
+        isItemAvailable = itemAvailable;
     }
 }

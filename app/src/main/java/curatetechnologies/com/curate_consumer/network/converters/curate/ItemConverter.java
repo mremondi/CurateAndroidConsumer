@@ -14,17 +14,23 @@ public class ItemConverter {
 
     // Converts the outward facing data item model to the view model
     public static ItemModel convertCurateItemToItemModel(CurateAPIItem apiItem){
-        String rating = "0";
+        Double rating = 0.0;
         if (apiItem.getItemSumOfOverallRatings() != null && apiItem.getItemNumberOfOverallRatings() != null
                 && apiItem.getItemNumberOfOverallRatings() != 0) {
-            Double ratingDouble = apiItem.getItemSumOfOverallRatings().doubleValue() / apiItem.getItemNumberOfOverallRatings();
-           rating = (ratingDouble.isNaN()) ? "" : String.format("%.2f", ratingDouble);
+            rating = apiItem.getItemSumOfOverallRatings().doubleValue() / apiItem.getItemNumberOfOverallRatings();
         }
+        String stripeID;
+        if (apiItem.getRestaurantStripeID().equals("undefined")) {
+            stripeID = null;
+        } else {
+            stripeID = apiItem.getRestaurantStripeID();
+        }
+
         ItemModel itemModel = new ItemModel(apiItem.getItemID(), apiItem.getItemName(), apiItem.getItemDescription(),
                 apiItem.getItemImageURL(), String.format("%.2f", apiItem.getDistanceInMiles()) + "mi",
                 "$" + String.format(Locale.US, "%.2f", apiItem.getItemPrice()), apiItem.getItemPrice(),
                rating, apiItem.getRestaurantName(), apiItem.getMenuName(), apiItem.getMenuSectionName(),
-                apiItem.getRestaurantID(), apiItem.getMenuID());
+                apiItem.getRestaurantID(), apiItem.getMenuID(), stripeID, apiItem.getItemAvailable());
         return itemModel;
     }
 
