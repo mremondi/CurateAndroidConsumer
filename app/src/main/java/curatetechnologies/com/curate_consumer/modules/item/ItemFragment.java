@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,9 +31,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -106,6 +112,11 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     @BindView(R.id.fragment_item_item_info_distance)
     TextView tvDistance;
 
+    @BindView(R.id.fragment_item_add_to_cart_button)
+    RelativeLayout addToCartButton;
+    @BindView(R.id.fragment_item_add_to_cart_label)
+    TextView tvAddToCartLabel;
+
     @BindView(R.id.fragment_item_item_price)
     TextView tvItemPrice;
 
@@ -116,6 +127,9 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     @BindView(R.id.fragment_item_photos_recyclerview)
     RecyclerView photosRecyclerView;
+
+    @BindView(R.id.fragment_item_rating_pie)
+    PieChart ratingPie;
 
     @OnClick(R.id.fragment_item_thumbs_down) void onDislike(){
         if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
@@ -288,6 +302,28 @@ public class ItemFragment extends Fragment implements ItemContract.View {
         tvDistance.setText(item.getDistance_in_mi());
         tvMenuName.setText(item.getMenuName() + " - " + item.getMenuSectionName());
         tvItemPrice.setText(item.getPrice());
+
+        // greater than 0 because testing equivalence in floats/doubles is weird
+        if (item.getRating()>0){
+            ratingPie.setVisibility(View.VISIBLE);
+            configurePieChart(item);
+        } else{
+            ratingPie.setVisibility(View.INVISIBLE);
+        }
+
+        if (item.getRestaurantStripeId() != null && item.isItemAvailable()){
+            addToCartButton.setBackgroundColor(getResources().getColor(R.color.activeBlue));
+            tvAddToCartLabel.setText("Add to Cart");
+            addToCartButton.setEnabled(true);
+        } else if (item.getRestaurantStripeId() != null && !item.isItemAvailable()){
+            addToCartButton.setBackgroundColor(getResources().getColor(R.color.inactiveBlue));
+            tvAddToCartLabel.setText("Item Currently Unavailable");
+            addToCartButton.setEnabled(false);
+        } else {
+            addToCartButton.setBackgroundColor(getResources().getColor(R.color.colorAccentLight));
+            tvAddToCartLabel.setText("Ordering Not Enabled");
+            addToCartButton.setEnabled(false);
+        }
     }
 
     @Override
@@ -445,6 +481,41 @@ public class ItemFragment extends Fragment implements ItemContract.View {
 
     private Float getRadius(){
         return LocationRepository.getInstance(getContext()).getRadius();
+    }
+
+    private void configurePieChart(ItemModel item) {
+        List<PieEntry> entries = calculateRatingEntries(item.getRating());
+        PieDataSet set = new PieDataSet(entries, "");
+        set.setDrawIcons(false);
+        set.setDrawValues(false);
+        List<Integer> colors = new ArrayList<Integer>();
+        colors.add(Color.LTGRAY);
+        colors.add(getResources().getColor(R.color.selectedGreen));
+        set.setColors(colors);
+        set.setSelectionShift(0);
+        PieData data = new PieData(set);
+
+        ratingPie.setRotationEnabled(false);
+        ratingPie.setHighlightPerTapEnabled(false);
+        ratingPie.getLegend().setEnabled(false);
+        ratingPie.setUsePercentValues(false);
+        ratingPie.setDrawSlicesUnderHole(false);
+        ratingPie.setDrawHoleEnabled(true);
+        ratingPie.setHoleRadius(80f);
+        ratingPie.getDescription().setEnabled(false);
+        ratingPie.setDrawCenterText(true);
+        double percentRating = item.getRating() * 100;
+        ratingPie.setCenterText(String.format("%.0f", percentRating));
+        ratingPie.setData(data);
+        ratingPie.invalidate(); // refresh
+    }
+
+    private List<PieEntry> calculateRatingEntries(Double rating) {
+        float ratingf = rating.floatValue();
+        List<PieEntry> entries = new ArrayList<PieEntry>();
+        entries.add(new PieEntry(1.0f - ratingf));
+        entries.add(new PieEntry(ratingf));
+        return entries;
     }
 
 }
