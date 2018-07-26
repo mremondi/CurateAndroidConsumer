@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":4},"path":"app-production-release.apk","properties":{"packageId":"curatetechnologies.com.curate_consumer","split":"","minSdkVersion":"16"}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":5,"versionName":"1.3","enabled":true,"outputFile":"app-production-release.apk","fullName":"productionRelease","baseName":"production-release"},"path":"app-production-release.apk","properties":{}}]
