@@ -15,9 +15,12 @@ public interface RestaurantContract {
     interface View extends BaseView {
         void displayRestaurant(RestaurantModel restaurant);
         void displayRestaurantPosts(List<PostModel> posts);
+        void displayOpenClosed(boolean isOpen);
     }
 
     void getRestaurantById(Integer restaurantId);
 
     void getRestaurantPosts(Integer limit, Integer restaurantId);
+
+    void isRestaurantOpen(Integer restaurantId);
 }

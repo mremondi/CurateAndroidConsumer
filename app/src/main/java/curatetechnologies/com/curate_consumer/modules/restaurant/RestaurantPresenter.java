@@ -8,6 +8,8 @@ import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantByI
 import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantByIdInteractorImpl;
 import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantPostsInteractor;
 import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantPostsInteractorImpl;
+import curatetechnologies.com.curate_consumer.domain.interactor.IsRestaurantOpenInteractor;
+import curatetechnologies.com.curate_consumer.domain.interactor.IsRestaurantOpenInteractorImpl;
 import curatetechnologies.com.curate_consumer.domain.model.PostModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.presentation.presenters.AbstractPresenter;
@@ -15,8 +17,11 @@ import curatetechnologies.com.curate_consumer.storage.PostModelRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantModelRepository;
 
 
-public class RestaurantPresenter extends AbstractPresenter implements RestaurantContract,
-        GetRestaurantByIdInteractor.Callback, GetRestaurantPostsInteractor.Callback {
+public class RestaurantPresenter extends AbstractPresenter implements
+        RestaurantContract,
+        GetRestaurantByIdInteractor.Callback,
+        GetRestaurantPostsInteractor.Callback,
+        IsRestaurantOpenInteractor.Callback {
 
     private RestaurantContract.View mView;
     private RestaurantModelRepository mRestaurantRepository;
@@ -58,6 +63,18 @@ public class RestaurantPresenter extends AbstractPresenter implements Restaurant
         restaurantPostsInteractor.execute();
     }
 
+    @Override
+    public void isRestaurantOpen(Integer restaurantId) {
+        IsRestaurantOpenInteractor isRestaurantOpenInteractor = new IsRestaurantOpenInteractorImpl(
+          mExecutor,
+          mMainThread,
+          this,
+          mRestaurantRepository,
+          restaurantId
+        );
+        isRestaurantOpenInteractor.execute();
+    }
+
     // -- END: RestaurantContract methods
 
 
@@ -84,5 +101,15 @@ public class RestaurantPresenter extends AbstractPresenter implements Restaurant
     @Override
     public void onPostsRetrieved(List<PostModel> posts) {
         mView.displayRestaurantPosts(posts);
+    }
+
+    @Override
+    public void onOpenClosedRetrieved(boolean isOpen) {
+        mView.displayOpenClosed(isOpen);
+    }
+
+    @Override
+    public void onRetrieveOpenClosedFailed(String error) {
+        mView.showError(error);
     }
 }

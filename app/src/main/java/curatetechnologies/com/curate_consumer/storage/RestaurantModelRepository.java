@@ -14,4 +14,5 @@ public interface RestaurantModelRepository {
 
     List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles);
     RestaurantModel getRestaurantById(Integer restaurantId);
+    boolean getRestaurantOpen(Integer restaurantId);
 }

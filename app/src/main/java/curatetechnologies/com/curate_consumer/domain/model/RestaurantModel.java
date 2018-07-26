@@ -19,10 +19,13 @@ public class RestaurantModel {
     private String websiteURL;
     private LatLng restaurantLocation;
     private String streetAddress;
+    private String stripeID;
+    private Double rating;
 
     public RestaurantModel(Integer id, String name, String logoURL, String distance_in_mi,
                            List<MenuModel> menus, Double mealTaxRate, String phoneNumber,
-                           String websiteURL, LatLng restaurantLocation, String streetAddress) {
+                           String websiteURL, LatLng restaurantLocation, String streetAddress,
+                           String stripeID, Double rating) {
         this.id = id;
         this.name = name;
         this.logoURL = logoURL;
@@ -33,6 +36,8 @@ public class RestaurantModel {
         this.websiteURL = websiteURL;
         this.restaurantLocation = restaurantLocation;
         this.streetAddress = streetAddress;
+        this.stripeID = stripeID;
+        this.rating = rating;
     }
 
     public Integer getId() {
@@ -113,5 +118,21 @@ public class RestaurantModel {
 
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
+    }
+
+    public String getStripeID() {
+        return stripeID;
+    }
+
+    public void setStripeID(String stripeID) {
+        this.stripeID = stripeID;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

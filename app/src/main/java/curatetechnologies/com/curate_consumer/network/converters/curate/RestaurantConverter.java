@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate_consumer.network.converters.curate;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -27,9 +29,17 @@ public class RestaurantConverter {
         CurateAPICoordinates coordinates = apiRestaurant.getRestaurantCoordinates();
         LatLng latLng = new LatLng(coordinates.getX(), coordinates.getY());
 
+        Double rating = 0.0;
+        Log.d("Conver", "sum " + apiRestaurant.getRestaurantSumOfItemRatings());
+        Log.d("CONVERT", " number " + apiRestaurant.getRestaurantNumberOfItemRatings());
+        if (apiRestaurant.getRestaurantSumOfItemRatings() != null && apiRestaurant.getRestaurantNumberOfItemRatings() != null
+                && apiRestaurant.getRestaurantNumberOfItemRatings() != 0) {
+            rating = apiRestaurant.getRestaurantSumOfItemRatings().doubleValue() / apiRestaurant.getRestaurantNumberOfItemRatings();
+        }
         return new RestaurantModel(apiRestaurant.getRestaurantID(), apiRestaurant.getRestaurantName(),
                 apiRestaurant.getRestaurantLogoURL(), "0.0mi",
                 menus, apiRestaurant.getRestaurantMealTaxRate(), apiRestaurant.getRestaurantPhoneNumber(),
-                apiRestaurant.getRestaurantURL(), latLng, apiRestaurant.getRestaurantAddress());
+                apiRestaurant.getRestaurantURL(), latLng, apiRestaurant.getRestaurantAddress(),
+                apiRestaurant.getRestaurantStripeID(),  rating);
     }
 }

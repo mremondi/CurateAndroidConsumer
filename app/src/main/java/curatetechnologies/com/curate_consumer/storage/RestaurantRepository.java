@@ -10,6 +10,7 @@ import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.network.CurateClient;
 import curatetechnologies.com.curate_consumer.network.converters.curate.RestaurantConverter;
 import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurant;
+import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurantOpen;
 import curatetechnologies.com.curate_consumer.network.services.RestaurantService;
 import retrofit2.Response;
 
@@ -32,7 +33,6 @@ public class RestaurantRepository implements RestaurantModelRepository {
                             userId,
                             radiusMiles)
                     .execute();
-            Log.d("BODY", response.body().toString());
             for (CurateAPIRestaurant restaurant: response.body()){
                 restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
             }
@@ -48,12 +48,27 @@ public class RestaurantRepository implements RestaurantModelRepository {
         RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
         try {
             Response<List<CurateAPIRestaurant>> response = restaurantService.getRestaurantById(restaurantId).execute();
-            Log.d("BODY", response.body().toString());
             restaurant = RestaurantConverter.convertCurateRestaurantToRestaurantModel(response.body().get(0));
         } catch (Exception e){
             Log.d("FAILURE", e.getMessage());
             return null;
         }
         return restaurant;
+    }
+
+    @Override
+    public boolean getRestaurantOpen(Integer restaurantId) {
+        final boolean isOpen;
+        RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
+        try {
+            Response<List<CurateAPIRestaurantOpen>> response = restaurantService.getIsRestaurantOpen(restaurantId).execute();
+            Log.d("BODY OPEN", response.body().toString());
+
+            isOpen = response.body().get(0).getOpen();
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+            return false;
+        }
+        return isOpen;
     }
 }

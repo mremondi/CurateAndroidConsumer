@@ -39,10 +39,10 @@ public class CurateAPIRestaurant {
     private String restaurantLogoURL;
     @SerializedName("Restaurant_NumberOfItemRatings")
     @Expose
-    private Object restaurantNumberOfItemRatings;
+    private Integer restaurantNumberOfItemRatings;
     @SerializedName("Restaurant_SumOfItemRatings")
     @Expose
-    private Object restaurantSumOfItemRatings;
+    private Integer restaurantSumOfItemRatings;
     @SerializedName("Restaurant_MealTaxRate")
     @Expose
     private Double restaurantMealTaxRate;
@@ -136,19 +136,19 @@ public class CurateAPIRestaurant {
         this.restaurantLogoURL = restaurantLogoURL;
     }
 
-    public Object getRestaurantNumberOfItemRatings() {
+    public Integer getRestaurantNumberOfItemRatings() {
         return restaurantNumberOfItemRatings;
     }
 
-    public void setRestaurantNumberOfItemRatings(Object restaurantNumberOfItemRatings) {
+    public void setRestaurantNumberOfItemRatings(Integer restaurantNumberOfItemRatings) {
         this.restaurantNumberOfItemRatings = restaurantNumberOfItemRatings;
     }
 
-    public Object getRestaurantSumOfItemRatings() {
+    public Integer getRestaurantSumOfItemRatings() {
         return restaurantSumOfItemRatings;
     }
 
-    public void setRestaurantSumOfItemRatings(Object restaurantSumOfItemRatings) {
+    public void setRestaurantSumOfItemRatings(Integer restaurantSumOfItemRatings) {
         this.restaurantSumOfItemRatings = restaurantSumOfItemRatings;
     }
 

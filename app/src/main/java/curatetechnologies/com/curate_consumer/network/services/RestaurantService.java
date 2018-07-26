@@ -3,6 +3,7 @@ package curatetechnologies.com.curate_consumer.network.services;
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurant;
+import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurantOpen;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -30,5 +31,9 @@ public interface RestaurantService {
     @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
     @GET("restaurants")
     Call<List<CurateAPIRestaurant>> getRestaurantById(@Query("restaurantId") Integer restaurantId);
+
+    @Headers("api_authorization: 613f1d29-0dc9-428a-b636-794d1ce2f1a3")
+    @GET("restaurantOpen")
+    Call<List<CurateAPIRestaurantOpen>> getIsRestaurantOpen(@Query("restaurantId") Integer restaurantId);
 
 }
