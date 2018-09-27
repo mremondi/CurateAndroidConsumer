@@ -10,13 +10,14 @@
         android:id="@+id/fragment_search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/greyBackground">
+        android:background="@color/white">
 
         <RelativeLayout
             android:id="@+id/search_bar_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/search_placeholder_text"
+            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
@@ -24,14 +25,29 @@
                 android:id="@+id/fragment_search_search_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
-                app:queryHint="Search for meals or restaurants" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/fragment_search_map_button"
+                android:layout_alignEnd="@id/fragment_search_map_button"
+                android:layout_marginRight="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="#eaeaea"
+                app:queryHint="Search" />
+
+            <ImageButton
+                android:id="@+id/fragment_search_map_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:src="@drawable/location"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-
-
-
     <LinearLayout
         android:id="@+id/fragment_search_scope_buttons"
         android:layout_width="match_parent"

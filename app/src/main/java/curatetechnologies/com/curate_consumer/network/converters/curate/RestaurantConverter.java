@@ -22,16 +22,16 @@ public class RestaurantConverter {
     public static RestaurantModel convertCurateRestaurantToRestaurantModel(CurateAPIRestaurant apiRestaurant){
         List<CurateAPIMenu> apiMenus = apiRestaurant.getMenus();
         List<MenuModel> menus = new ArrayList<>();
-        for (CurateAPIMenu apiMenu: apiMenus){
-            menus.add(MenuConverter.convertCurateMenuToMenuModel(apiMenu));
+        if (apiMenus != null){
+            for (CurateAPIMenu apiMenu: apiMenus){
+                menus.add(MenuConverter.convertCurateMenuToMenuModel(apiMenu));
+            }
         }
 
         CurateAPICoordinates coordinates = apiRestaurant.getRestaurantCoordinates();
         LatLng latLng = new LatLng(coordinates.getX(), coordinates.getY());
 
         Double rating = 0.0;
-        Log.d("Conver", "sum " + apiRestaurant.getRestaurantSumOfItemRatings());
-        Log.d("CONVERT", " number " + apiRestaurant.getRestaurantNumberOfItemRatings());
         if (apiRestaurant.getRestaurantSumOfItemRatings() != null && apiRestaurant.getRestaurantNumberOfItemRatings() != null
                 && apiRestaurant.getRestaurantNumberOfItemRatings() != 0) {
             rating = apiRestaurant.getRestaurantSumOfItemRatings().doubleValue() / apiRestaurant.getRestaurantNumberOfItemRatings();

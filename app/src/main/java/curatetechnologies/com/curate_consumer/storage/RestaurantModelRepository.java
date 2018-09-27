@@ -13,6 +13,7 @@ import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 public interface RestaurantModelRepository {
 
     List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles);
+    List<RestaurantModel> getNearbyRestaurants(Location location, Integer userId, Float radiusMiles);
     RestaurantModel getRestaurantById(Integer restaurantId);
     boolean getRestaurantOpen(Integer restaurantId);
 }

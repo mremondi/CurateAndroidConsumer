@@ -22,7 +22,6 @@ public class RestaurantRepository implements RestaurantModelRepository {
     @Override
     public List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles) {
         final List<RestaurantModel> restaurants = new ArrayList<>();
-
         // make network call
         RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
         try {
@@ -32,6 +31,26 @@ public class RestaurantRepository implements RestaurantModelRepository {
                             location.getLongitude(),
                             userId,
                             radiusMiles)
+                    .execute();
+            for (CurateAPIRestaurant restaurant: response.body()){
+                restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
+            }
+        } catch (Exception e){
+            Log.d("FAILURE", e.getMessage());
+        }
+        return restaurants;
+    }
+
+    @Override
+    public List<RestaurantModel> getNearbyRestaurants(Location location, Integer userId, Float radiusMiles) {
+        final List<RestaurantModel> restaurants = new ArrayList<>();
+        // make network call
+        RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
+        try {
+            Response<List<CurateAPIRestaurant>> response = restaurantService
+                    .getNearbyRestaurants(
+                            location.getLatitude(),
+                            location.getLongitude())
                     .execute();
             for (CurateAPIRestaurant restaurant: response.body()){
                 restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
@@ -62,8 +81,6 @@ public class RestaurantRepository implements RestaurantModelRepository {
         RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
         try {
             Response<List<CurateAPIRestaurantOpen>> response = restaurantService.getIsRestaurantOpen(restaurantId).execute();
-            Log.d("BODY OPEN", response.body().toString());
-
             isOpen = response.body().get(0).getOpen();
         } catch (Exception e){
             Log.d("FAILURE", e.getMessage());

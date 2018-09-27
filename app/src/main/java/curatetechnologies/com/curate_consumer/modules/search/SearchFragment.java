@@ -31,6 +31,7 @@ import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.modules.item.ItemFragment;
+import curatetechnologies.com.curate_consumer.modules.map.MapFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.ItemSearchAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.RestaurantSearchAdapter;
 import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
@@ -100,6 +101,17 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         searchResults.setAdapter(null);
     }
 
+    @OnClick(R.id.fragment_search_map_button) void mapButtonClick(){
+        Fragment mapFragment = new MapFragment();
+
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.beginTransaction()
+                .add(mapFragment, "MAP")
+                .addToBackStack("MAP")
+                .replace(R.id.content_frame, mapFragment)
+                .commit();
+    }
+
     // -- BEGIN: Fragment methods
     @Nullable
     @Override
@@ -125,7 +137,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
         searchPlaceHolderText.setText("Search for exactly what you're craving!");
         btnItem.setSelected(true);
         searchView.setIconified(false);
-        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

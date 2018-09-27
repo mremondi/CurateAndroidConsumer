@@ -20,7 +20,8 @@ import curatetechnologies.com.curate_consumer.storage.RestaurantModelRepository;
  * Created by mremondi on 2/9/18.
  */
 
-public class SearchPresenter extends AbstractPresenter implements SearchContract, SearchItemsInteractor.Callback, SearchRestaurantsInteractor.Callback {
+public class SearchPresenter extends AbstractPresenter implements SearchContract,
+        SearchItemsInteractor.Callback, SearchRestaurantsInteractor.Callback {
 
     private SearchContract.View mView;
     private ItemModelRepository mItemRepository;
