@@ -16,9 +16,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +34,14 @@ import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
 import curatetechnologies.com.curate_consumer.storage.UserRepository;
 import curatetechnologies.com.curate_consumer.threading.MainThreadImpl;
 
-public class MapFragment extends Fragment implements MapPresenter.View, OnMapReadyCallback {
+public class MapFragment extends Fragment implements
+        MapPresenter.View,
+        OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener{
 
     private MapContract mMapPresenter;
+
+    Map<Marker, RestaurantModel> markerRestaurantMap;
 
     Unbinder unbinder;
 
@@ -61,7 +69,6 @@ public class MapFragment extends Fragment implements MapPresenter.View, OnMapRea
                 MainThreadImpl.getInstance(),
                 this,
                 new RestaurantRepository());
-        mMapPresenter.getNearbyRestaurants(getLocation(), getUserId(), getRadius());
         return v;
     }
 
@@ -112,8 +119,11 @@ public class MapFragment extends Fragment implements MapPresenter.View, OnMapRea
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         LatLng latLng = new LatLng(getLocation().getLatitude(), getLocation().getLongitude());
-        mGoogleMap.addMarker(new MarkerOptions().position(latLng));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+
+        mGoogleMap.setOnMarkerClickListener(this);
+
+        mMapPresenter.getNearbyRestaurants(getLocation(), getUserId(), getRadius());
     }
 
     // -- BEGIN: MapContract.View methods
@@ -121,14 +131,28 @@ public class MapFragment extends Fragment implements MapPresenter.View, OnMapRea
     public void displayRestaurants(List<RestaurantModel> restaurants) {
         addRestaurantsToMap(restaurants);
     }
+    // -- END: MapContract.View methods
 
     private void addRestaurantsToMap(List<RestaurantModel> restaurants){
+        markerRestaurantMap = new HashMap<>();
         for (RestaurantModel restaurant: restaurants) {
             LatLng latLng = restaurant.getRestaurantLocation();
-            mGoogleMap.addMarker(new MarkerOptions().position(latLng));
+            Marker m = mGoogleMap.addMarker(new MarkerOptions().position(latLng));
+            markerRestaurantMap.put(m, restaurant);
         }
     }
-    // -- END: MapContract.View methods
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        RestaurantModel restaurantModel = markerRestaurantMap.get(marker);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(restaurantModel.getRestaurantLocation(), 12);
+        mGoogleMap.animateCamera(cameraUpdate);
+
+        MapPreviewBottomSheet bottomSheetFragment = new MapPreviewBottomSheet();
+        bottomSheetFragment.setRestaurant(restaurantModel);
+        bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
+        return true;
+    }
 
     // -- BEGIN: BaseView methods
     @Override
