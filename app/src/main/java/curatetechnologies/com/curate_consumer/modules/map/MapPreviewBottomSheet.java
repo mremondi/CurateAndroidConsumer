@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,8 +17,6 @@ import butterknife.Unbinder;
 import curatetechnologies.com.curate_consumer.R;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class MapPreviewBottomSheet  extends BottomSheetDialogFragment {
 
@@ -88,8 +84,6 @@ public class MapPreviewBottomSheet  extends BottomSheetDialogFragment {
         if (mRestaurant != null) {
             Glide.with(this)
                     .load(mRestaurant.getLogoURL())
-                    .apply(bitmapTransform(new MultiTransformation(
-                            new CenterCrop())))
                     .into(ivRestaurantLogo);
             tvRestaurantName.setText(mRestaurant.getName());
             if (mRestaurant.getStripeID() != null && !mRestaurant.getStripeID().equals("")){
