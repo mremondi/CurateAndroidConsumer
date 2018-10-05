@@ -15,8 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "525211592615-eaebsjrknmh3alnndf070dhukih227su.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "525211592615-0a8audjeeum3mr3dj2eidbo10tno401b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "curatetechnologies.com.curate",
+            "certificate_hash": "de08574c1e2709a2904f7016aac29805db4ae735"
+          }
         },
         {
           "client_id": "525211592615-kv0n0uu5opra72omritjv92lva9pquhj.apps.googleusercontent.com",
@@ -36,15 +40,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "525211592615-eaebsjrknmh3alnndf070dhukih227su.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "525211592615-jgjve4t21urv355egqp9l69oe4uald81.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.curatetechnologies.Curate"
               }
-            },
-            {
-              "client_id": "525211592615-eaebsjrknmh3alnndf070dhukih227su.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },
@@ -70,10 +74,6 @@
           }
         },
         {
-          "client_id": "525211592615-eaebsjrknmh3alnndf070dhukih227su.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
           "client_id": "525211592615-kv0n0uu5opra72omritjv92lva9pquhj.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -91,15 +91,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "525211592615-eaebsjrknmh3alnndf070dhukih227su.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "525211592615-jgjve4t21urv355egqp9l69oe4uald81.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.curatetechnologies.Curate"
               }
-            },
-            {
-              "client_id": "525211592615-eaebsjrknmh3alnndf070dhukih227su.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },
