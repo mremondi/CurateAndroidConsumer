@@ -20,17 +20,30 @@ public class ItemConverter {
             rating = apiItem.getItemSumOfOverallRatings().doubleValue() / apiItem.getItemNumberOfOverallRatings();
         }
         String stripeID;
-        if (apiItem.getRestaurantStripeID().equals("undefined")) {
+        if (apiItem.getRestaurantStripeID() == null) {
+            stripeID = null;
+        } else if (apiItem.getRestaurantStripeID().equals("undefined") || apiItem.getRestaurantStripeID().equals("")) {
             stripeID = null;
         } else {
             stripeID = apiItem.getRestaurantStripeID();
         }
 
-        ItemModel itemModel = new ItemModel(apiItem.getItemID(), apiItem.getItemName(), apiItem.getItemDescription(),
-                apiItem.getItemImageURL(), String.format("%.2f", apiItem.getDistanceInMiles()) + "mi",
-                "$" + String.format(Locale.US, "%.2f", apiItem.getItemPrice()), apiItem.getItemPrice(),
-               rating, apiItem.getRestaurantName(), apiItem.getMenuName(), apiItem.getMenuSectionName(),
-                apiItem.getRestaurantID(), apiItem.getMenuID(), stripeID, apiItem.getItemAvailable());
+        String itemName = (apiItem.getItemName() != null) ? apiItem.getItemName() : "";
+        String itemDescription = (apiItem.getItemDescription() != null) ? apiItem.getItemDescription() : "";
+        String itemImageUrl = (apiItem.getItemImageURL() != null) ? apiItem.getItemImageURL() : "";
+        String distance = (apiItem.getDistanceInMiles() != null) ? String.format("%.2f", apiItem.getDistanceInMiles())+ "mi" : "";
+        Double numericPrice = (apiItem.getItemPrice() != null) ? apiItem.getItemPrice() : 0.0;
+        String price = (apiItem.getItemPrice() != null) ? "$" + String.format(Locale.US, "%.2f", apiItem.getItemPrice()) : "";
+        String restaurantName = (apiItem.getRestaurantName() != null) ? apiItem.getRestaurantName() : "";
+        String menuName = (apiItem.getMenuName() != null) ? apiItem.getMenuName() : "";
+        String menuSectionName = (apiItem.getMenuSectionName() != null) ? apiItem.getMenuSectionName() : "";
+        Integer restaurantId = (apiItem.getRestaurantID() != null) ? apiItem.getRestaurantID() : -1;
+        Integer menuId = (apiItem.getMenuID() != null) ? apiItem.getMenuID() : -1;
+        Boolean available = (apiItem.getItemAvailable() != null) ? apiItem.getItemAvailable() : false;
+
+        ItemModel itemModel = new ItemModel(apiItem.getItemID(), itemName, itemDescription,
+                itemImageUrl,  distance, price, numericPrice, rating, restaurantName, menuName,
+                menuSectionName, restaurantId, menuId, stripeID, available);
         return itemModel;
     }
 
