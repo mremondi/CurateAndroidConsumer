@@ -83,12 +83,15 @@ public class MenuFragment extends Fragment implements MenuContract.View {
         tvTitle.setText(menu.getName());
 
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        int sectionOffset = 0;
         for (final MenuSectionModel menuSection: menu.getMenuSections()){
+            sectionOffset++;
+            final int offset = sectionOffset;
             RecyclerViewClickListener listener = new RecyclerViewClickListener() {
                 @Override
                 public void onClick(View view, int position) {
-                    // - 1 because the header row counts as a position item
-                    Integer itemId = menuSection.getItems().get(position - 1).getId();
+                    // minus the offset because the header row counts as a position item
+                    Integer itemId = menuSection.getItems().get(position - offset).getId();
                     Fragment itemFragment = new ItemFragment();
 
                     Bundle bundle = new Bundle();
