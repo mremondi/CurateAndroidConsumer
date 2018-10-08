@@ -18,4 +18,6 @@ public interface FeedContract {
     }
 
     void getPostsByLocation(Integer limit, Location location, Float radius);
+
+    void interruptThreadToCancelNetworkRequest();
 }

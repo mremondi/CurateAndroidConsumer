@@ -1,8 +1,11 @@
 package curatetechnologies.com.curate_consumer.modules.feed;
 
 import android.location.Location;
+import android.util.Log;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
 
 import curatetechnologies.com.curate_consumer.domain.executor.Executor;
 import curatetechnologies.com.curate_consumer.domain.executor.MainThread;
@@ -51,17 +54,28 @@ public class FeedPresenter extends AbstractPresenter implements FeedContract, Ge
         mView.showError(message);
     }
 
+    public void interruptThreadToCancelNetworkRequest() {
+        //Need to interrupt the thread in case Lifecycle changes; if we don't, we'll reach
+        //onPostsRetrieved or onPostsFailed and updated mView.hideProgress, which is no longer alive.
+        Thread.currentThread().interrupt();
+        return;
+    }
+
     // -- BEGIN: GetPostsByLocationInteractor.Callback methods
     @Override
     public void onPostsRetrieved(List<PostModel> posts) {
-        mView.hideProgress();
-        mView.displayPosts(posts);
+        if (!Thread.currentThread().isInterrupted()) {
+            mView.hideProgress();
+            mView.displayPosts(posts);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (!Thread.currentThread().isInterrupted()) {
+            mView.hideProgress();
+            onError(error);
+        }
     }
     // -- END: GetPostsByLocationInteractor.Callback methods
 }

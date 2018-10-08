@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,22 @@ public class FeedFragment extends Fragment implements FeedContract.View {
     public void onStart() {
         super.onStart();
     }
+
+    // --- BEGIN Override of Activity methods in case Async network request happens when activity falls out of view
+    //TODO: Check which of these
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFeedPresenter.interruptThreadToCancelNetworkRequest();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mFeedPresenter.interruptThreadToCancelNetworkRequest();
+    }
+
+    ///////
 
     @Override public void onDestroyView() {
         super.onDestroyView();

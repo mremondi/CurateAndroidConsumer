@@ -15,5 +15,6 @@ public interface GetPostsByLocationInteractor extends Interactor {
         void onPostsRetrieved(List<PostModel> restaurant);
 
         void onRetrievalFailed(String error);
+
     }
 }
