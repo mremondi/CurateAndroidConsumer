@@ -30,7 +30,9 @@
             android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="@+id/restaurant_search_view_holder_restaurant_logo"
             app:layout_constraintStart_toEndOf="@+id/restaurant_search_view_holder_restaurant_logo"
-            app:layout_constraintEnd_toEndOf="@id/restaurant_search_view_holder_restaurant_rating_pie"
+            app:layout_constraintEnd_toStartOf="@id/restaurant_search_view_holder_restaurant_rating_pie"
+            android:lines="1"
+            android:ellipsize="end"
             android:textColor="@color/textDark"
             android:textSize="20sp" />
 

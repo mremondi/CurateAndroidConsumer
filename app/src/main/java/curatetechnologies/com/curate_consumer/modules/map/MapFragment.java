@@ -107,11 +107,6 @@ public class MapFragment extends Fragment implements
         mMapView.onPause();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
     // -- END: Fragment Methods
 
     @Override

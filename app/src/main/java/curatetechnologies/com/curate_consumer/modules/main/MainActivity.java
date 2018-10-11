@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
-                            mLastLocation = LocationRepository.getInstance(getApplicationContext()).getTestingLocation();
+                            mLastLocation = LocationRepository.getInstance(getApplicationContext()).getLastLocation();
                             LocationRepository.getInstance(getApplicationContext()).setLastLocation(mLastLocation);
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
@@ -403,8 +403,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         UserRepository.getInstance(getApplicationContext()).saveUser(userModel, false, false);
         UserModel user = UserRepository.getInstance(getApplicationContext()).getCurrentUser();
         if (user != null){
-            Log.d("HERE", user.getEmail());
-            Log.d("STRIPE ID", user.getStripeId());
             if (!user.getEmail().equals("") || user.getEmail() != null){
                 initializeStripeCustomer(user.getEmail(), user.getStripeId());
             }
