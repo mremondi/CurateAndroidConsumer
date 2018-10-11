@@ -206,6 +206,10 @@ public class CartFragment extends Fragment implements CartContract.View {
         }
     }
 
+    public boolean isActive(){
+        return isAdded();
+    }
+
     @Override
     public void displayRestaurant(RestaurantModel restaurant) {
         Glide.with(this).load(restaurant.getLogoURL()).into(ivRestaurantLogo);

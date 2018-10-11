@@ -60,24 +60,32 @@ public class LoginWithEmailPresenter extends AbstractPresenter implements LoginW
     // -- BEGIN LOGIN USER CALLBACK METHODS
     @Override
     public void onLoginUserRetrieved(UserModel user) {
-        mView.saveUser(user);
+        if (mView.isActive()) {
+            mView.saveUser(user);
+        }
     }
 
     @Override
     public void onLoginRetrievalFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
     // -- END LOGIN USER CALLBACK METHODS
 
     // -- BEGIN SAVE USER CALLBACK METHODS
     @Override
     public void onUserSaved() {
-        mView.updateUI();
+        if (mView.isActive()) {
+            mView.updateUI();
+        }
     }
 
     @Override
     public void onSaveFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
     // -- END SAVE USER CALLBACK METHODS
 }

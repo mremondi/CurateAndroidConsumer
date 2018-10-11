@@ -76,6 +76,14 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         profileRecyclerView.setAdapter(new ProfileAdapter(posts, getContext() ));
     }
 
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
         // Start the lengthy operation in a background thread

@@ -52,6 +52,8 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
+    private static boolean isActive = false;
+
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
     private static final Integer RC_SIGN_IN = 0;
@@ -121,9 +123,17 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     @Override
@@ -209,6 +219,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
     // -- END: GOOGLE LOGIN METHODS
 
+
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
 
     @Override
     public void showProgress() {

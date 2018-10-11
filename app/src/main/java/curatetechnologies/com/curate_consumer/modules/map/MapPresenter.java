@@ -26,28 +26,34 @@ public class MapPresenter extends AbstractPresenter implements MapContract,
     }
     @Override
     public void getNearbyRestaurants(Location location, Integer userId, Float radius) {
-        mView.showProgress();
-        GetNearbyRestaurantsInteractor nearbyRestaurantsInteractor = new GetNearbyRestaurantsInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRestaurantRepository,
-                location,
-                userId,
-                radius
-        );
-        nearbyRestaurantsInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetNearbyRestaurantsInteractor nearbyRestaurantsInteractor = new GetNearbyRestaurantsInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mRestaurantRepository,
+                    location,
+                    userId,
+                    radius
+            );
+            nearbyRestaurantsInteractor.execute();
+        }
     }
 
     @Override
     public void onRestaurantsRetrieved(List<RestaurantModel> restaurants) {
-        mView.displayRestaurants(restaurants);
-        mView.hideProgress();
+        if (mView.isActive()) {
+            mView.displayRestaurants(restaurants);
+            mView.hideProgress();
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.showError(error);
-        mView.hideProgress();
+        if (mView.isActive()) {
+            mView.showError(error);
+            mView.hideProgress();
+        }
     }
 }

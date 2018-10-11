@@ -30,6 +30,8 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class LoginOrSignUpActivity extends AppCompatActivity implements LoginOrSignUpContract.View {
 
+    private static boolean isActive = false;
+
     private LoginOrSignUpContract mLoginOrSignUpPresenter;
 
     @BindView(R.id.activity_login_or_signup_bg)
@@ -63,10 +65,30 @@ public class LoginOrSignUpActivity extends AppCompatActivity implements LoginOrS
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
+    @Override
     public void segueToMainApp() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    //BEGIN BaseView contract methods
+
+
+    @Override
+    public boolean isActive() {
+        return isActive;
     }
 
     @Override

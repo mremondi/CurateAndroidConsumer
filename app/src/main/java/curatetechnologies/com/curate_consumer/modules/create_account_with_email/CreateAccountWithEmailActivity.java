@@ -20,6 +20,8 @@ import curatetechnologies.com.curate_consumer.threading.MainThreadImpl;
 
 public class CreateAccountWithEmailActivity extends AppCompatActivity implements CreateAccountWithEmailPresenter.View{
 
+    private static boolean isActive = false;
+
     private CreateAccountWithEmailContract mConnectWithEmailPresenter;
 
     @BindView(R.id.create_account_with_email_et_email)
@@ -58,6 +60,18 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
         );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
     // -- BEGIN LOGIN CONTRACT METHODS
     @Override
     public void updateUI() {
@@ -72,6 +86,10 @@ public class CreateAccountWithEmailActivity extends AppCompatActivity implements
         mConnectWithEmailPresenter.saveUser(user);
     }
     // -- END LOGIN CONTRACT METHODS
+
+    public boolean isActive(){
+        return isActive;
+    }
 
     @Override
     public void showProgress() {

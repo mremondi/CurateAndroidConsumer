@@ -43,17 +43,19 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
     // -- BEGIN: ItemContract methods
     @Override
     public void getItemById(Integer itemId, Location location, Float radius) {
-        mView.showProgress();
-        GetItemByIdInteractor itemInteractor = new GetItemByIdInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mItemRepository,
-                itemId,
-                location,
-                radius
-        );
-        itemInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetItemByIdInteractor itemInteractor = new GetItemByIdInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mItemRepository,
+                    itemId,
+                    location,
+                    radius
+            );
+            itemInteractor.execute();
+        }
     }
 
     @Override
@@ -71,57 +73,65 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
 
     @Override
     public void createRatingPost(String jwt, PostModel postModel) {
-        mView.showProgress();
-        CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                jwt,
-                postModel
-        );
-        createPostInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mPostRepository,
+                    jwt,
+                    postModel
+            );
+            createPostInteractor.execute();
+        }
     }
 
     // -- END: ItemContract methods
 
-    public void onError(String message) {
-        mView.showError(message);
-    }
-
     // -- BEGIN: GetItemByIdInteractor.Callback methods
     @Override
     public void onGetItemByIdRetrieved(ItemModel item) {
-        mView.hideProgress();
-        mView.displayItem(item);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayItem(item);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: GetItemByIdInteractor.Callback methods
 
     // -- BEGIN: GetItemPostsInteractor.Callback methods
     @Override
     public void onPostsRetrieved(List<PostModel> posts) {
-        mView.hideProgress();
-        mView.displayItemPosts(posts);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayItemPosts(posts);
+        }
     }
     // -- END: GetItemPostsInteractor.Callback methods
 
     // -- BEGIN: CreatePostInteractor.Callback methods
     @Override
     public void onCreatePostSuccess() {
-        mView.hideProgress();
-        mView.postCreatedSuccessfully();
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.postCreatedSuccessfully();
+        }
     }
 
     @Override
     public void onCreatePostFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: CreatePostInteractor.Callback methods
 }

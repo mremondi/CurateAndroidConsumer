@@ -26,6 +26,8 @@ import curatetechnologies.com.curate_consumer.threading.MainThreadImpl;
 
 public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBoardUserPresenter.View{
 
+    private static boolean isActive = false;
+
     private static final int NUM_PAGES = 5;
 
     private ArrayList<TagTypeModel> preferences = new ArrayList<>();
@@ -69,6 +71,18 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
     public void addPreference(TagTypeModel preference){
         this.preferences.add(preference);
     }
@@ -101,6 +115,14 @@ public class OnBoardingWorkflowActivity extends FragmentActivity implements OnBo
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isActive;
     }
 
     @Override

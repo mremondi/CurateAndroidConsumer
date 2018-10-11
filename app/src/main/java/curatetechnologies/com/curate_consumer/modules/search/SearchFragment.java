@@ -180,6 +180,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     // -- END: Fragment methods
 
     // -- BEGIN: BaseView methods
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
         // Start the lengthy operation in a background thread

@@ -63,7 +63,9 @@ public class MainActivityPresenter extends AbstractPresenter implements MainActi
 
     @Override
     public void onUserRetrieved(UserModel userModel) {
-        mView.updateUser(userModel);
+        if (mView.isActive()) {
+            mView.updateUser(userModel);
+        }
     }
 
     @Override
@@ -73,6 +75,8 @@ public class MainActivityPresenter extends AbstractPresenter implements MainActi
 
     @Override
     public void onOrderModelRetrieved(OrderModel orderModel) {
-        mView.rateLastOrder(orderModel);
+        if (mView.isActive()) {
+            mView.rateLastOrder(orderModel);
+        }
     }
 }

@@ -95,7 +95,9 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
 
     @Override
     public void onLoginWithGoogleFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
 
     @Override
@@ -116,27 +118,30 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
 
     @Override
     public void onLoginWithFacebookFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
 
     @Override
     public void onUserIdRetrieved(Integer userId) {
+        if (mView.isActive()) {
+            // The user has previously logged in
+            if (userId != 0) {
+                mUserModel.setId(userId);
+                // cache the user
+                mUserRepository.saveUser(mUserModel, false, true);
+                // go to main activity
+                mView.segueToMainApp();
+            }
 
-        // The user has previously logged in
-        if (userId != 0){
-            mUserModel.setId(userId);
-            // cache the user
-            mUserRepository.saveUser(mUserModel, false, true);
-            // go to main activity
-            mView.segueToMainApp();
-        }
-
-        // new user take through onboarding flow
-        else{
-            // cache the user so far
-            mUserRepository.saveUser(mUserModel, false, true);
-            // go to onboarding
-            mView.segueToOnboarding();
+            // new user take through onboarding flow
+            else {
+                // cache the user so far
+                mUserRepository.saveUser(mUserModel, false, true);
+                // go to onboarding
+                mView.segueToOnboarding();
+            }
         }
     }
 
@@ -149,14 +154,16 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
 
     @Override
     public void onUserRetrieved(UserModel user) {
-        if (user != null) {
+        if (user != null && mView.isActive()) {
             mView.segueToMainApp();
         }
     }
 
     @Override
     public void onRetrieveUserFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
 
     // -- END GET USER CALLBACK METHODS
@@ -164,12 +171,16 @@ public class LoginPresenter extends AbstractPresenter implements LoginContract,
     // -- BEGIN SAVE USER CALLBACK METHODS
     @Override
     public void onUserSaved() {
-        mView.segueToOnboarding();
+        if (mView.isActive()) {
+            mView.segueToOnboarding();
+        }
     }
 
     @Override
     public void onSaveFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
     // -- END SAVE USER CALLBACK METHODS
 }

@@ -56,89 +56,93 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     // -- BEGIN: CartContract methods
     @Override
     public void getRestaurantById(Integer restaurantId) {
-        mView.showProgress();
-        GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRestaurantRepository,
-                restaurantId
-        );
-        restaurantInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mRestaurantRepository,
+                    restaurantId
+            );
+            restaurantInteractor.execute();
+        }
     }
 
     @Override
     public void completeCharge(PaymentSession paymentSession, final String email) {
-        mView.showProgress();
-        CompleteChargeInteractor completeChargeInteractor = new CompleteChargeInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mStripeRepository,
-                paymentSession,
-                email);
-        completeChargeInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            CompleteChargeInteractor completeChargeInteractor = new CompleteChargeInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mStripeRepository,
+                    paymentSession,
+                    email);
+            completeChargeInteractor.execute();
+        }
     }
 
     @Override
     public void processOrder(String jwt, OrderModel orderModel, Context appContext) {
-        mView.showProgress();
-        SendOrderToRestaurantInteractor sendOrderToRestaurantInteractor =
-                new SendOrderToRestaurantInteractorImpl(
-                        mExecutor,
-                        mMainThread,
-                        this,
-                        mOrderRepository,
-                        orderModel
-                );
-        sendOrderToRestaurantInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            SendOrderToRestaurantInteractor sendOrderToRestaurantInteractor =
+                    new SendOrderToRestaurantInteractorImpl(
+                            mExecutor,
+                            mMainThread,
+                            this,
+                            mOrderRepository,
+                            orderModel
+                    );
+            sendOrderToRestaurantInteractor.execute();
 
-        PostOrderInteractor postOrderInteractor = new PostOrderInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mOrderRepository,
-                jwt,
-                orderModel,
-                appContext
-        );
-        postOrderInteractor.execute();
+            PostOrderInteractor postOrderInteractor = new PostOrderInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mOrderRepository,
+                    jwt,
+                    orderModel,
+                    appContext
+            );
+            postOrderInteractor.execute();
 
-        PostModel postModel = new PostModel(0, PostModel.ORDER_POST,
-                orderModel.getRestaurantId(), orderModel.getOrderItems().get(0).getId(),
-                "", null, 0, 0,
-                "", "", orderModel.getUser().getId(),
-                orderModel.getUser().getUsername(), orderModel.getUser().getProfilePictureURL(),
-                "","", 0.0, null);
+            PostModel postModel = new PostModel(0, PostModel.ORDER_POST,
+                    orderModel.getRestaurantId(), orderModel.getOrderItems().get(0).getId(),
+                    "", null, 0, 0,
+                    "", "", orderModel.getUser().getId(),
+                    orderModel.getUser().getUsername(), orderModel.getUser().getProfilePictureURL(),
+                    "", "", 0.0, null);
 
-        CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                jwt,
-                postModel
-        );
-        createPostInteractor.execute();
+            CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mPostRepository,
+                    jwt,
+                    postModel
+            );
+            createPostInteractor.execute();
+        }
     }
 
     // -- END: CartContract methods
 
-    public void onError(String message) {
-        mView.showError(message);
-    }
-
     // -- BEGIN: GetItemByIdInteractor.Callback methods
     @Override
     public void onRestaurantRetrieved(RestaurantModel restaurant) {
-        mView.hideProgress();
-        mView.displayRestaurant(restaurant);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayRestaurant(restaurant);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
         mView.hideProgress();
-        onError(error);
+        mView.showError(error);
     }
     // -- END: GetItemByIdInteractor.Callback methods
 
@@ -146,14 +150,18 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     // -- BEGIN: CompleteChargeInteractor.Callback methods
     @Override
     public void onChargeSuccessful() {
-        mView.hideProgress();
-        mView.chargeCompleted(true);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.chargeCompleted(true);
+        }
     }
 
     @Override
     public void onChargeFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
 
     // -- END: CompleteChargeInteractor.Callback methods
@@ -162,8 +170,10 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     @Override
     public void onOrderSent() {
         // TODO:
-        mView.hideProgress();
-        mView.orderProcessed();
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.orderProcessed();
+        }
     }
     // -- END: SendOrderToRestaurantInteractor.Callback methods
 
@@ -176,8 +186,10 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
 
     @Override
     public void onOrderPostFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: PostOrderInteractor.Callback methods
 
@@ -190,8 +202,10 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
 
     @Override
     public void onCreatePostFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: CreatePostInteractor.Callback methods
 }

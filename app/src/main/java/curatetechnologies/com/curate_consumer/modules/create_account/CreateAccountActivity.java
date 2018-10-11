@@ -56,6 +56,8 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     private static final String PUBLIC_PROFILE = "public_profile";
     private static final Integer RC_SIGN_IN = 0;
 
+    private static boolean isActive = false;
+
     private CreateAccountContract mCreateAccountPresenter;
 
     CallbackManager callbackManager = CallbackManager.Factory.create();
@@ -119,10 +121,16 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     @Override
     protected void onStart() {
         super.onStart();
-
+        isActive = true;
         // TODO: I don't think we need this. We can check our locally save db. Keeping for now
 //        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 //        segueToOnboarding(GoogleUserConverter.apply(account));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     @Override
@@ -208,6 +216,9 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     }
     // -- END: GOOGLE LOGIN METHODS
 
+    public boolean isActive(){
+        return isActive;
+    }
 
     @Override
     public void showProgress() {

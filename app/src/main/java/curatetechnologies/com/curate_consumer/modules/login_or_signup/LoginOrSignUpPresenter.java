@@ -43,7 +43,7 @@ public class LoginOrSignUpPresenter extends AbstractPresenter implements LoginOr
 
     @Override
     public void onUserRetrieved(UserModel user) {
-        if (user != null) {
+        if (user != null && mView.isActive()) {
             mView.segueToMainApp();
         }
     }

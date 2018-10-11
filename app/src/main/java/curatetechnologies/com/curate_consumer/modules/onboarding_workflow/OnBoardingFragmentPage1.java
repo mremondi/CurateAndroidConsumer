@@ -79,6 +79,14 @@ public class OnBoardingFragmentPage1 extends Fragment implements OnBoardingFragm
         }
     }
 
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
 

@@ -39,52 +39,56 @@ public class SearchPresenter extends AbstractPresenter implements SearchContract
     // -- BEGIN: SearchContract methods
     @Override
     public void searchItems(String query, Location location, Integer userId, Float radius) {
-        mView.showProgress();
-        SearchItemsInteractor searchItemsInteractor = new SearchItemsInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mItemRepository,
-                query,
-                location,
-                userId,
-                radius
-        );
-        searchItemsInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            SearchItemsInteractor searchItemsInteractor = new SearchItemsInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mItemRepository,
+                    query,
+                    location,
+                    userId,
+                    radius
+            );
+            searchItemsInteractor.execute();
+        }
     }
 
     @Override
     public void searchRestaurants(String query, Location location, Integer userId, Float radius) {
-        mView.showProgress();
-        SearchRestaurantsInteractorImpl searchRestaurantsInteractor = new SearchRestaurantsInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRestaurantRepository,
-                query,
-                location,
-                userId,
-                radius
-        );
-        searchRestaurantsInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            SearchRestaurantsInteractorImpl searchRestaurantsInteractor = new SearchRestaurantsInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mRestaurantRepository,
+                    query,
+                    location,
+                    userId,
+                    radius
+            );
+            searchRestaurantsInteractor.execute();
+        }
     }
     // -- END: SearchContract methods
-
-    public void onError(String message) {
-        mView.showError(message);
-    }
 
     // -- BEGIN: SearchItemsInteractor.Callback methods
     @Override
     public void onSearchItemsRetrieved(List<ItemModel> items) {
-        mView.hideProgress();
-        mView.displayItems(items);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayItems(items);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: SearchItemsInteractor.Callback methods
 

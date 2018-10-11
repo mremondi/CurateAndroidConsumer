@@ -94,6 +94,14 @@ public class ReceiptFragment extends Fragment implements ReceiptContract.View {
         updateUI();
     }
 
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
 

@@ -38,43 +38,44 @@ public class RatePreviousOrderPresenter extends AbstractPresenter implements Rat
 
     @Override
     public void createRatingPost(String jwt, PostModel postModel, Context context) {
-        mView.showProgress();
-        CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                jwt,
-                postModel
-        );
-        createPostInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            CreatePostInteractor createPostInteractor = new CreatePostInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mPostRepository,
+                    jwt,
+                    postModel
+            );
+            createPostInteractor.execute();
 
-        ClearLastOrderInteractor clearLastOrderInteractor = new ClearLastOrderInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mOrderRepository,
-                context
-        );
-        clearLastOrderInteractor.execute();
-    }
-
-
-    public void onError(String message) {
-        mView.showError(message);
+            ClearLastOrderInteractor clearLastOrderInteractor = new ClearLastOrderInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mOrderRepository,
+                    context
+            );
+            clearLastOrderInteractor.execute();
+        }
     }
 
     // -- BEGIN: CreatePostInteractor.Callback methods
     @Override
     public void onCreatePostSuccess() {
-        mView.hideProgress();
-        mView.postCreatedSuccessfully();
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.postCreatedSuccessfully();
+        }
     }
 
     @Override
     public void onCreatePostFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: CreatePostInteractor.Callback methods
 

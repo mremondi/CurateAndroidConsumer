@@ -351,6 +351,14 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         }
     }
 
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);

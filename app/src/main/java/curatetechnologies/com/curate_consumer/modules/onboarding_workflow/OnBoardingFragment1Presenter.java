@@ -39,11 +39,15 @@ public class OnBoardingFragment1Presenter extends AbstractPresenter implements O
 
     @Override
     public void onAvailableRetrieved(boolean available) {
-        mView.usernameAvailable(available);
+        if (mView.isActive()) {
+            mView.usernameAvailable(available);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
 }

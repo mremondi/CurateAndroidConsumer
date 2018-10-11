@@ -27,33 +27,35 @@ public class MenuPresenter extends AbstractPresenter implements MenuContract, Ge
     // -- BEGIN: MenuContract methods
     @Override
     public void getMenuById(Integer menuId) {
-        mView.showProgress();
-        GetMenuByIdInteractor menuInteractor = new GetMenuByIdInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mMenuRepository,
-                menuId
-        );
-        menuInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetMenuByIdInteractor menuInteractor = new GetMenuByIdInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mMenuRepository,
+                    menuId
+            );
+            menuInteractor.execute();
+        }
     }
     // -- END: ItemContract methods
-
-    public void onError(String message) {
-        mView.showError(message);
-    }
 
     // -- BEGIN: GetItemByIdInteractor.Callback methods
     @Override
     public void onMenuRetrieved(MenuModel menu) {
-        mView.hideProgress();
-        mView.displayMenu(menu);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayMenu(menu);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: GetItemByIdInteractor.Callback methods
 }

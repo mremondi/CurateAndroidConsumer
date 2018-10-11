@@ -39,15 +39,17 @@ public class RestaurantPresenter extends AbstractPresenter implements
     // -- BEGIN: RestaurantContract methods
     @Override
     public void getRestaurantById(Integer restaurantId) {
-        mView.showProgress();
-        GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRestaurantRepository,
-                restaurantId
-        );
-        restaurantInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mRestaurantRepository,
+                    restaurantId
+            );
+            restaurantInteractor.execute();
+        }
     }
 
     @Override
@@ -78,38 +80,43 @@ public class RestaurantPresenter extends AbstractPresenter implements
     // -- END: RestaurantContract methods
 
 
-
-    public void onError(String message) {
-        mView.showError(message);
-    }
-
     // -- BEGIN: GetRestaurantByIdInteractor.Callback methods
     @Override
     public void onRestaurantRetrieved(RestaurantModel restaurant) {
-        mView.hideProgress();
-        mView.displayRestaurant(restaurant);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayRestaurant(restaurant);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: GetRestaurantByIdInteractor.Callback methods
 
 
     @Override
     public void onPostsRetrieved(List<PostModel> posts) {
-        mView.displayRestaurantPosts(posts);
+        if (mView.isActive()) {
+            mView.displayRestaurantPosts(posts);
+        }
     }
 
     @Override
     public void onOpenClosedRetrieved(boolean isOpen) {
-        mView.displayOpenClosed(isOpen);
+        if (mView.isActive()) {
+            mView.displayOpenClosed(isOpen);
+        }
     }
 
     @Override
     public void onRetrieveOpenClosedFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
 }

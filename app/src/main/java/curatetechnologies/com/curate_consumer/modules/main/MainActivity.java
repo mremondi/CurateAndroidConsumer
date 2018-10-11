@@ -58,6 +58,9 @@ import curatetechnologies.com.curate_consumer.storage.UserRepository;
 import curatetechnologies.com.curate_consumer.threading.MainThreadImpl;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
+
+    private static boolean isActive = false;
+
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
@@ -166,6 +169,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         CartManager.getInstance().setGlobalCartButton(cartButtonWrapper);
 
         navigateToSpecifiedFragment();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     private void navigateToSpecifiedFragment(){
@@ -394,6 +409,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 initializeStripeCustomer(user.getEmail(), user.getStripeId());
             }
         }
+    }
+
+    // -- BEGIN BaseView CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isActive;
     }
 
     @Override

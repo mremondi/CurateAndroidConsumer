@@ -261,6 +261,13 @@ public class ItemFragment extends Fragment implements ItemContract.View {
     // -- END Fragment methods
 
     // -- BEGIN BaseView methods
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
         itemInfoSecondary.setVisibility(View.GONE);

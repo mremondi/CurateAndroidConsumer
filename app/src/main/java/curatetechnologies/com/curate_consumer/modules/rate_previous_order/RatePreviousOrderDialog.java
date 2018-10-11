@@ -139,6 +139,14 @@ public class RatePreviousOrderDialog extends Dialog implements RatePreviousOrder
         dismiss();
     }
 
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isShowing();
+    }
+
     @Override
     public void showProgress() {
 

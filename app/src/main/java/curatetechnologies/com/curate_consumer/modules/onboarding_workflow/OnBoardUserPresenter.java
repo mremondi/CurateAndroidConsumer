@@ -63,7 +63,9 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
     @Override
     public void onUserPreferencesSaved() {
         Log.d("User preferences saved.", "Good");
-        mView.segueToMainApp();
+        if (mView.isActive()) {
+            mView.segueToMainApp();
+        }
     }
 
     @Override
@@ -74,12 +76,16 @@ public class OnBoardUserPresenter extends AbstractPresenter implements OnBoardUs
 
     @Override
     public void onUserSaved() {
-        mView.saveUserPreferences();
+        if (mView.isActive()) {
+            mView.saveUserPreferences();
+        }
     }
 
     @Override
     public void onSaveFailed(String error) {
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.showError(error);
+        }
     }
 
 }

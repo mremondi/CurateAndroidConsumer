@@ -31,34 +31,36 @@ public class ProfilePresenter extends AbstractPresenter implements ProfileContra
     // -- BEGIN: FeedContract methods
     @Override
     public void getUserPosts(Integer limit, Integer userId) {
-        mView.showProgress();
-        GetPostsByUserIdInteractor getPostsInteractor = new GetPostsByUserIdInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                limit,
-                userId
-        );
-        getPostsInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetPostsByUserIdInteractor getPostsInteractor = new GetPostsByUserIdInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mPostRepository,
+                    limit,
+                    userId
+            );
+            getPostsInteractor.execute();
+        }
     }
     // -- END: FeedContract methods
-
-    public void onError(String message) {
-        mView.showError(message);
-    }
 
     // -- BEGIN: GetPostsByUserIdInteractor.Callback methods
     @Override
     public void onPostsRetrieved(List<PostModel> posts) {
-        mView.hideProgress();
-        mView.displayPosts(posts);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayPosts(posts);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: GetPostsByUserIdInteractor.Callback methods
 }

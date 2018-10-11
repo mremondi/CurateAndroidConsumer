@@ -15,6 +15,7 @@ import curatetechnologies.com.curate_consumer.storage.PostModelRepository;
 public class EditImagePresenter extends AbstractPresenter implements EditImageContract,
         CreatePostInteractor.Callback{
 
+    private static boolean isActive = false;
 
     private EditImageContract.View mView;
     private PostModelRepository mPostRepository;
@@ -29,30 +30,36 @@ public class EditImagePresenter extends AbstractPresenter implements EditImageCo
     @Override
     public void postImagePost(PostModel postModel, String jwt) {
 
-        mView.showProgress();
-        CreatePostInteractor postInteractor = new CreatePostInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                jwt,
-                postModel
+        if (mView.isActive()) {
+            mView.showProgress();
+            CreatePostInteractor postInteractor = new CreatePostInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mPostRepository,
+                    jwt,
+                    postModel
 
-        );
-        postInteractor.execute();
+            );
+            postInteractor.execute();
+        }
     }
     // -- END: EditImageContract methods
 
 
     @Override
     public void onCreatePostSuccess() {
-        mView.hideProgress();
-        mView.postSuccessful();
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.postSuccessful();
+        }
     }
 
     @Override
     public void onCreatePostFailed(String error) {
-        mView.hideProgress();
-        mView.showError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
 }

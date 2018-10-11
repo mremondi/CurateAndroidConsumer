@@ -15,8 +15,6 @@ public interface FeedContract {
 
     interface View extends BaseView {
         void displayPosts(List<PostModel> items);
-
-        boolean isActive();
     }
 
     void getPostsByLocation(Integer limit, Location location, Float radius);

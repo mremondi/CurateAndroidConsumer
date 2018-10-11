@@ -155,6 +155,13 @@ public class MapFragment extends Fragment implements
     }
 
     // -- BEGIN: BaseView methods
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
         // Start the lengthy operation in a background thread

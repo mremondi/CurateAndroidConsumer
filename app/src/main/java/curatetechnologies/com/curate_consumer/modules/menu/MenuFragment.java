@@ -113,6 +113,14 @@ public class MenuFragment extends Fragment implements MenuContract.View {
         menuRecyclerView.setAdapter(sectionAdapter);
     }
 
+    // -- BEGIN BASEVIEW CONTRACT METHODS
+
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);

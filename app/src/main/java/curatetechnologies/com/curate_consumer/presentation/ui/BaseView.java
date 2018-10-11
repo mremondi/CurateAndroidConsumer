@@ -25,4 +25,11 @@ public interface BaseView {
      */
     void showError(String message);
 
+
+    /**
+     * This method is used for checking whether a view is in the foreground.
+     */
+    boolean isActive();
+
+
 }

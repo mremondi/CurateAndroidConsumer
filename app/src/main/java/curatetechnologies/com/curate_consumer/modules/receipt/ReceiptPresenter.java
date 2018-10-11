@@ -28,33 +28,35 @@ public class ReceiptPresenter extends AbstractPresenter implements ReceiptContra
     // -- BEGIN: ReceiptContract methods
     @Override
     public void getRestaurantById(Integer restaurantId) {
-        mView.showProgress();
-        GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mRestaurantRepository,
-                restaurantId
-        );
-        restaurantInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mRestaurantRepository,
+                    restaurantId
+            );
+            restaurantInteractor.execute();
+        }
     }
     // -- END: ReceiptContract methods
-
-    public void onError(String message) {
-        mView.showError(message);
-    }
 
     // -- BEGIN: GetItemByIdInteractor.Callback methods
     @Override
     public void onRestaurantRetrieved(RestaurantModel restaurant) {
-        mView.hideProgress();
-        mView.displayRestaurant(restaurant);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayRestaurant(restaurant);
+        }
     }
 
     @Override
     public void onRetrievalFailed(String error) {
-        mView.hideProgress();
-        onError(error);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.showError(error);
+        }
     }
     // -- END: GetItemByIdInteractor.Callback methods
 }

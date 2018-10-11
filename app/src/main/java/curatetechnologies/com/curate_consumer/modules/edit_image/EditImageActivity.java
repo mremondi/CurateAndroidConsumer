@@ -54,6 +54,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     public static final String ITEM_ID = "ITEM_ID";
     public static final String RESTAURANT_ID = "RESTAURANT_ID";
 
+    private static boolean isActive = false;
 
     private Bitmap mBitmap;
     private int mItemId;
@@ -121,6 +122,18 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
         imageView.setImageBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth(), mBitmap.getHeight(), false));
         initHorizontalList();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     private void initHorizontalList() {
@@ -338,6 +351,13 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     // -- BEGIN BaseView methods
+
+
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
+
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
