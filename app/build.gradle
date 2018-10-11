@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-
 apply plugin: 'com.google.gms.oss.licenses.plugin'
+apply plugin: 'com.apollographql.android'
 
 
 android {
@@ -119,6 +119,8 @@ dependencies {
 
 
     implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.apollographql.apollo:apollo-runtime:1.0.0-alpha2'
+
 }
 
 
