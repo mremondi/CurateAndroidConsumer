@@ -48,8 +48,8 @@ android {
             applicationId 'curatetechnologies.com.curate_consumer.development'
             targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 5
-            versionName '1.3'
+            versionCode 7
+            versionName '1.5'
             getProps('./src/development/config.props').each { p ->
                 buildConfigField 'String', p.key, p.value
             }
@@ -61,8 +61,8 @@ android {
             applicationId 'curatetechnologies.com.curate_consumer'
             targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 5
-            versionName '1.3'
+            versionCode 7
+            versionName '1.5'
             production {
                 getProps('./src/production/config.props').each { p ->
                     buildConfigField 'String', p.key, p.value
