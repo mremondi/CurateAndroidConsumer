@@ -74,6 +74,10 @@ android {
     }
 }
 
+apollo {
+    outputPackageName = "curatetechnologies.com.curate_consumer.graphql.api"
+}
+
 def getProps(path) {
     Properties props = new Properties()
     props.load(new FileInputStream(file(path)))
