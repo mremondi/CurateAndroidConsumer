@@ -36,35 +36,32 @@ public class FeedPresenter extends AbstractPresenter implements FeedContract, Ge
     // -- BEGIN: FeedContract methods
     @Override
     public void getPostsByLocation(Integer limit, Location location, Float radius) {
-        mView.showProgress();
-        GetPostsByLocationInteractor getPostsInteractor = new GetPostsByLocationInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                limit,
-                location,
-                radius
-        );
-        getPostsInteractor.execute();
+        if (mView.isActive()) {
+            mView.showProgress();
+            GetPostsByLocationInteractor getPostsInteractor = new GetPostsByLocationInteractorImpl(
+                    mExecutor,
+                    mMainThread,
+                    this,
+                    mPostRepository,
+                    limit,
+                    location,
+                    radius
+            );
+            getPostsInteractor.execute();
+        }
     }
     // -- END: FeedContract methods
 
     public void onError(String message) {
-        mView.showError(message);
-    }
-
-    public void interruptThreadToCancelNetworkRequest() {
-        //Need to interrupt the thread in case Lifecycle changes; if we don't, we'll reach
-        //onPostsRetrieved or onPostsFailed and updated mView.hideProgress, which is no longer alive.
-        Thread.currentThread().interrupt();
-        return;
+        if (mView.isActive()) {
+            mView.showError(message);
+        }
     }
 
     // -- BEGIN: GetPostsByLocationInteractor.Callback methods
     @Override
     public void onPostsRetrieved(List<PostModel> posts) {
-        if (!Thread.currentThread().isInterrupted()) {
+        if (mView.isActive()) {
             mView.hideProgress();
             mView.displayPosts(posts);
         }
@@ -72,7 +69,7 @@ public class FeedPresenter extends AbstractPresenter implements FeedContract, Ge
 
     @Override
     public void onRetrievalFailed(String error) {
-        if (!Thread.currentThread().isInterrupted()) {
+        if (mView.isActive()) {
             mView.hideProgress();
             onError(error);
         }

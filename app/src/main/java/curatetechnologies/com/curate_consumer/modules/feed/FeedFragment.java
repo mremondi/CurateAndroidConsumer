@@ -66,22 +66,6 @@ public class FeedFragment extends Fragment implements FeedContract.View {
         super.onStart();
     }
 
-    // --- BEGIN Override of Activity methods in case Async network request happens when activity falls out of view
-    //TODO: Check which of these
-    @Override
-    public void onStop() {
-        super.onStop();
-        mFeedPresenter.interruptThreadToCancelNetworkRequest();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mFeedPresenter.interruptThreadToCancelNetworkRequest();
-    }
-
-    ///////
-
     @Override public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -93,6 +77,11 @@ public class FeedFragment extends Fragment implements FeedContract.View {
 
     private Float getRadius(){
         return LocationRepository.getInstance(getContext()).getRadius();
+    }
+
+
+    public boolean isActive(){
+        return isAdded();
     }
 
     @Override
