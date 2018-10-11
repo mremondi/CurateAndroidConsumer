@@ -1,0 +1,16 @@
+query SearchItems($itemName: String, $userLocation: UserLocation) {
+    items(userDistance: $userLocation, name: $itemName) {
+        id
+        name
+        description
+        rating
+        price
+        available
+        distance
+        ...MenuInfo
+        posts {
+            id
+            imageUrl
+        }
+    }
+}

@@ -1,7 +1,0 @@
-query GetItemByID($itemID: Int, $userLocation: UserLocation) {
-    items(id: $itemID, userDistance: $userLocation) {
-        id
-        name
-
-     }
-}

@@ -1,0 +1,8 @@
+query LoadFeed($limit: Int) {
+    # posts($userLocation: UserLocation, ...)
+    posts(limit: $limit) {
+        ...PostsInfoFragment
+    }
+}
+
+#TODO: In future, LoadFeed will take parameters UserLocation and UserID

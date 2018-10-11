@@ -1,0 +1,41 @@
+fragment RestaurantLocation on Restaurant {
+    longitude
+    latitude
+    address
+    zipcode
+}
+
+query GetRestaurantById($restaurantID: Int, $userLocation: UserLocation) {
+    restaurants(id: $restaurantID, userDistance: $userLocation) {
+        id
+        name
+        description
+        ...RestaurantLocation
+        isOpen
+        hours {
+            dayOfWeek
+            open
+            close
+        }
+        stripeId
+        logoUrl
+        rating
+        url
+        mealTaxRate
+        distance
+        menus {
+            id
+            name
+        }
+        posts{
+            id
+            item{
+                id
+                name
+            }
+            imageUrl
+            rating
+            time
+        }
+    }
+}

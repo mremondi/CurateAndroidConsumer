@@ -1,0 +1,21 @@
+query GetMenuById($menuID: Int) {
+    menus(id: $menuID) {
+        id
+        restaurantId
+        name
+        menuSections {
+            id
+            section
+            items {
+                id
+                name
+                price
+                rating
+                description
+                posts {
+                    imageUrl
+                }
+            }
+        }
+    }
+}

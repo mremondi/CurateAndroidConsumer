@@ -1,0 +1,27 @@
+fragment PostsInfoFragment on Post {
+    id
+    postType
+    description
+    
+    rating
+    numberOfLikes
+    numberOfSaves
+    
+    imageUrl
+    
+    time
+    
+    user {
+        id
+        username
+        picture
+    }
+    item {
+        id
+        name
+    }
+    restaurant {
+        id
+        name
+    }
+}

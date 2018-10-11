@@ -1,0 +1,25 @@
+query GetItemByID($itemID: Int, $userLocation: UserLocation) {
+    items(id: $itemID, userDistance: $userLocation) {
+        id
+        name
+        description
+        rating
+        price
+        available
+        distance
+        ...MenuInfo
+        posts {
+            id
+            restaurant{
+                id
+                name
+            }
+            user {
+                id
+            }
+            imageUrl
+            rating
+            time
+        }
+    }
+}

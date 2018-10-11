@@ -1,0 +1,5 @@
+query GetPostsByUserId($userId: Int) {
+    posts(userId: $userId) {
+        ...PostsInfoFragment
+    }
+}

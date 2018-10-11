@@ -1,0 +1,12 @@
+query GetNearbyRestaurants($location: UserLocation) {
+    restaurants(userDistance: $location) {
+        id
+        name
+        description
+        latitude
+        longitude
+        distance
+        stripeId
+        logoUrl
+    }
+}

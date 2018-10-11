@@ -1,0 +1,16 @@
+fragment MenuInfo on Item {
+    menu {
+        id
+        name
+        restaurant {
+            id
+            name
+            stripeId
+            isOpen
+        }
+    }
+    menuSection {
+        id
+        section
+    }
+}

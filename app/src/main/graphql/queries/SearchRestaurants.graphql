@@ -1,0 +1,17 @@
+query SearchRestaurant($restaurantName: String $userLocation: UserLocation) {
+    restaurants(name: $restaurantName, userDistance: $userLocation) {
+        id
+        name
+        description
+        
+        address
+        distance
+        
+        rating
+        
+        logoUrl
+        cuisineTags
+       
+        stripeId
+    }
+}
