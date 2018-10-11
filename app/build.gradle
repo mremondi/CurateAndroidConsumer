@@ -74,6 +74,10 @@ android {
     }
 }
 
+task downloadApolloSchema(type: Exec) {
+    commandLine 'apollo-codegen', 'download-schema', 'http://curate-staging.appspot.com/graphql', '--output', './src/main/graphql/schema.json'
+}
+
 apollo {
     outputPackageName = "curatetechnologies.com.curate_consumer.graphql.api"
 }
