@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
+import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
 import curatetechnologies.com.curate_consumer.network.CurateClient;
+import curatetechnologies.com.curate_consumer.network.CurateAPI;
 import curatetechnologies.com.curate_consumer.network.converters.curate.ItemConverter;
 import curatetechnologies.com.curate_consumer.network.model.CurateAPIItem;
 import curatetechnologies.com.curate_consumer.network.services.ItemService;
 import retrofit2.Response;
 
-public class ItemRepository implements ItemModelRepository {
+public class ItemRepositoryCallback implements ItemModelRepository, CurateAPI.GetItemByIdCallback {
 
     @Override
     public List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius) {
@@ -37,6 +39,10 @@ public class ItemRepository implements ItemModelRepository {
     @Override
     public ItemModel getItemById(Integer itemId, Location location, Float radiusMiles) {
         ItemModel item = null;
+
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.getItemById(this, itemId, location, Math.round(radiusMiles));
+
         ItemService itemService = CurateClient.getService(ItemService.class);
         try {
             Response<List<CurateAPIItem>> response = itemService
@@ -47,5 +53,17 @@ public class ItemRepository implements ItemModelRepository {
             Log.d("FAILURE1", e.getMessage());
         }
         return item;
+    }
+
+
+    @Override
+    public void onItemRetrieved(ItemModel itemModel){
+        Log.d("ITEM RETRIEVED", itemModel.getName());
+        Log.d("ITEM RETRIEVED", itemModel.getMenuName());
+    }
+
+    @Override
+    public void onFailure(String message) {
+        Log.d("ITEM RETRIEVAL FAILURE", message);
     }
 }

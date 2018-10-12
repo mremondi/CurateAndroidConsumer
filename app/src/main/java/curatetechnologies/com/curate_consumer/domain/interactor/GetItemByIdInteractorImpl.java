@@ -12,7 +12,8 @@ import curatetechnologies.com.curate_consumer.storage.ItemModelRepository;
  * Created by mremondi on 2/10/18.
  */
 
-public class GetItemByIdInteractorImpl extends AbstractInteractor implements GetItemByIdInteractor {
+public class GetItemByIdInteractorImpl extends AbstractInteractor
+        implements GetItemByIdInteractor, ItemModelRepository.GetItemByIdCallback {
 
     private GetItemByIdInteractor.Callback mCallback;
     private ItemModelRepository mItemModelRepository;
@@ -46,13 +47,10 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor implements Get
         });
     }
 
-    private void postItem(final ItemModel item) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("ABOUT TO CALL BACK", "CALL BACK");
-                mCallback.onGetItemByIdRetrieved(item);
-            }
+    public void postItem(final ItemModel item) {
+        mMainThread.post(() -> {
+            Log.d("ABOUT TO CALL BACK", "CALL BACK");
+            mCallback.onGetItemByIdRetrieved(item);
         });
     }
 

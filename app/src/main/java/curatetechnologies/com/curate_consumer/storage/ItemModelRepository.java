@@ -14,4 +14,8 @@ public interface ItemModelRepository {
 
     List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius);
     ItemModel getItemById(Integer itemId, Location location, Float radiusMiles);
+
+    interface GetItemByIdCallback{
+        void postItem(final ItemModel item);
+    }
 }

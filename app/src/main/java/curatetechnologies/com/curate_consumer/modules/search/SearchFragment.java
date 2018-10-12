@@ -36,7 +36,7 @@ import curatetechnologies.com.curate_consumer.presentation.ui.adapters.ItemSearc
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.RestaurantSearchAdapter;
 import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.views.listeners.RecyclerViewClickListener;
-import curatetechnologies.com.curate_consumer.storage.ItemRepository;
+import curatetechnologies.com.curate_consumer.storage.ItemRepositoryCallback;
 import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
 import curatetechnologies.com.curate_consumer.storage.UserRepository;
@@ -125,7 +125,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                new ItemRepository(),
+                new ItemRepositoryCallback(),
                 new RestaurantRepository());
 
         // SET DEFAULTS

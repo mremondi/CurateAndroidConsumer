@@ -58,7 +58,7 @@ import curatetechnologies.com.curate_consumer.modules.item_preview_bottom_sheet.
 import curatetechnologies.com.curate_consumer.modules.menu.MenuFragment;
 import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.views.listeners.RecyclerViewClickListener;
-import curatetechnologies.com.curate_consumer.storage.ItemRepository;
+import curatetechnologies.com.curate_consumer.storage.ItemRepositoryCallback;
 import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.PostRepository;
 import curatetechnologies.com.curate_consumer.storage.UserRepository;
@@ -241,7 +241,7 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                new ItemRepository(),
+                new ItemRepositoryCallback(),
                 new PostRepository());
 
         mItemPresenter.getItemById(itemId, getLocation(), getRadius());
