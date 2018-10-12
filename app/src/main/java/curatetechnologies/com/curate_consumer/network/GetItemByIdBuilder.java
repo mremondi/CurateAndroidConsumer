@@ -35,7 +35,7 @@ public class GetItemByIdBuilder {
         itemModel = new ItemModel(item.id(), item.name(), item.description(), posts.get(0).getImageURL(),
                 String.format("%.2f", item.distance())+ "mi", "$" + String.format("%.2f", item.price()), item.price(), item.rating(),
                 restaurantModel.getName(), menuModel.getName(), menuSectionModel.getName(), restaurantModel.getId(),
-                menuModel.getId(), restaurantModel.getStripeID(), item.available());
+                menuModel.getId(), restaurantModel.getStripeID(), item.available(), posts);
 
         return itemModel;
 

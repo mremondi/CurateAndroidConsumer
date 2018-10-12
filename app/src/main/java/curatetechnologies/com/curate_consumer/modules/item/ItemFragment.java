@@ -57,7 +57,6 @@ import curatetechnologies.com.curate_consumer.modules.create_account.CreateAccou
 import curatetechnologies.com.curate_consumer.modules.item_preview_bottom_sheet.ItemPreviewBottomSheetFragment;
 import curatetechnologies.com.curate_consumer.modules.menu.MenuFragment;
 import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
-import curatetechnologies.com.curate_consumer.presentation.ui.views.listeners.RecyclerViewClickListener;
 import curatetechnologies.com.curate_consumer.storage.ItemRepository;
 import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.PostRepository;
@@ -245,7 +244,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                 new PostRepository());
 
         mItemPresenter.getItemById(itemId, getLocation(), getRadius());
-        mItemPresenter.getItemPosts(20, itemId);
         return v;
     }
 
@@ -331,25 +329,20 @@ public class ItemFragment extends Fragment implements ItemContract.View {
             tvAddToCartLabel.setText("Ordering Not Enabled");
             addToCartButton.setEnabled(false);
         }
+        displayItemPosts(item.getPosts());
     }
 
-    @Override
-    public void displayItemPosts(final List<PostModel> posts) {
+    private void displayItemPosts(final List<PostModel> posts) {
         // add a null post to create a add photo button
         posts.add(null);
         final ItemFragment self = this;
         photosRecyclerView.setAdapter(new ImagePostAdapter(posts,
-                new RecyclerViewClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        ItemPreviewBottomSheetFragment bottomSheetFragment = new ItemPreviewBottomSheetFragment();
-                        bottomSheetFragment.setPost(posts.get(position));
-                        bottomSheetFragment.show(self.getFragmentManager(), bottomSheetFragment.getTag());
-                    }
+                (view, position) -> {
+                    ItemPreviewBottomSheetFragment bottomSheetFragment = new ItemPreviewBottomSheetFragment();
+                    bottomSheetFragment.setPost(posts.get(position));
+                    bottomSheetFragment.show(self.getFragmentManager(), bottomSheetFragment.getTag());
                 },
-                new RecyclerViewClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
+                (view, position) ->{
                         if (UserRepository.getInstance(getContext()).getCurrentUser() == null){
                             presentMustBeLoggedInAlert();
                         } else {
@@ -360,7 +353,6 @@ public class ItemFragment extends Fragment implements ItemContract.View {
                             // present dialog asking if they want to add a photo from camera or from gallery
                             presentPhotoChoiceDialog();
                         }
-                    }
                 }));
     }
 

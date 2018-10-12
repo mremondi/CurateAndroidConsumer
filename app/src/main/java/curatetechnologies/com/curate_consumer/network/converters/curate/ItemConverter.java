@@ -43,7 +43,7 @@ public class ItemConverter {
 
         ItemModel itemModel = new ItemModel(apiItem.getItemID(), itemName, itemDescription,
                 itemImageUrl,  distance, price, numericPrice, rating, restaurantName, menuName,
-                menuSectionName, restaurantId, menuId, stripeID, available);
+                menuSectionName, restaurantId, menuId, stripeID, available, null);
         return itemModel;
     }
 

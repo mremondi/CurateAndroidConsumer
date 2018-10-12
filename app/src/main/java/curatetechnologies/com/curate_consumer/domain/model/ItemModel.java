@@ -1,10 +1,13 @@
 package curatetechnologies.com.curate_consumer.domain.model;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Created by mremondi on 2/9/18.
  */
 
-public class ItemModel{
+public class ItemModel {
 
     private Integer id;
     private String name;
@@ -22,9 +25,13 @@ public class ItemModel{
     private String menuSectionName;
     private boolean isItemAvailable;
 
-    public ItemModel(Integer id, String name, String description, String imageURL, String distance_in_mi,
-                     String price, Double numericPrice, Double rating, String restaurantName, String menuName,
-                     String menuSectionName, Integer restaurantId, Integer menuId, String restaurantStripeId, boolean isItemAvailable){
+    private List<PostModel> posts;
+
+    public ItemModel(Integer id, String name, String description, String imageURL,
+                     String distance_in_mi, String price, Double numericPrice, Double rating,
+                     String restaurantName, String menuName, String menuSectionName,
+                     Integer restaurantId, Integer menuId, String restaurantStripeId,
+                     boolean isItemAvailable, List<PostModel> posts) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,6 +47,8 @@ public class ItemModel{
         this.menuId = menuId;
         this.restaurantStripeId = restaurantStripeId;
         this.isItemAvailable = isItemAvailable;
+
+        this.posts = posts;
     }
 
     public String getName() {
@@ -138,11 +147,11 @@ public class ItemModel{
         this.menuId = menuId;
     }
 
-    public Double getNumericPrice(){
+    public Double getNumericPrice() {
         return this.numericPrice;
     }
 
-    public void setNumericPrice(Double numericPrice){
+    public void setNumericPrice(Double numericPrice) {
         this.numericPrice = numericPrice;
     }
 
@@ -160,5 +169,13 @@ public class ItemModel{
 
     public void setItemAvailable(boolean itemAvailable) {
         isItemAvailable = itemAvailable;
+    }
+
+    public List<PostModel> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostModel> posts) {
+        this.posts = posts;
     }
 }

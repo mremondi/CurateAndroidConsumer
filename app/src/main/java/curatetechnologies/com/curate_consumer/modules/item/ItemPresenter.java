@@ -24,7 +24,6 @@ import curatetechnologies.com.curate_consumer.storage.PostModelRepository;
 
 public class ItemPresenter extends AbstractPresenter implements ItemContract,
         GetItemByIdInteractor.Callback,
-        GetItemPostsInteractor.Callback,
         CreatePostInteractor.Callback {
 
     private ItemContract.View mView;
@@ -56,19 +55,6 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
             );
             itemInteractor.execute();
         }
-    }
-
-    @Override
-    public void getItemPosts(Integer limit, Integer itemId) {
-        GetItemPostsInteractor restaurantPostsInteractor = new GetItemPostsInteractorImpl(
-                mExecutor,
-                mMainThread,
-                this,
-                mPostRepository,
-                limit,
-                itemId
-        );
-        restaurantPostsInteractor.execute();
     }
 
     @Override
@@ -106,16 +92,6 @@ public class ItemPresenter extends AbstractPresenter implements ItemContract,
         }
     }
     // -- END: GetItemByIdInteractor.Callback methods
-
-    // -- BEGIN: GetItemPostsInteractor.Callback methods
-    @Override
-    public void onPostsRetrieved(List<PostModel> posts) {
-        if (mView.isActive()) {
-            mView.hideProgress();
-            mView.displayItemPosts(posts);
-        }
-    }
-    // -- END: GetItemPostsInteractor.Callback methods
 
     // -- BEGIN: CreatePostInteractor.Callback methods
     @Override
