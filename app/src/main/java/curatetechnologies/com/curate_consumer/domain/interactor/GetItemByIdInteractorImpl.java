@@ -54,6 +54,6 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor
 
     @Override
     public void run() {
-        mItemModelRepository.getItemById(mItemId, mLocation, mRadius);
+        mItemModelRepository.getItemById(this, mItemId, mLocation, mRadius);
     }
 }

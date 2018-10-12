@@ -17,6 +17,8 @@ import retrofit2.Response;
 
 public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByIdCallback {
 
+    private ItemModelRepository.GetItemByIdCallback mGetItemByIdCallback;
+
     @Override
     public List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius) {
         final List<ItemModel> items = new ArrayList<>();
@@ -36,23 +38,14 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
         return items;
     }
 
+
     @Override
-    public ItemModel getItemById(Integer itemId, Location location, Float radiusMiles) {
+    public void getItemById(ItemModelRepository.GetItemByIdCallback callback, Integer itemId, Location location, Float radiusMiles) {
+        mGetItemByIdCallback = callback;
         ItemModel item = null;
 
         CurateAPIClient apiClient = new CurateAPIClient();
         apiClient.getItemById(this, itemId, location, Math.round(radiusMiles));
-
-        ItemService itemService = CurateClient.getService(ItemService.class);
-        try {
-            Response<List<CurateAPIItem>> response = itemService
-                    .getItemById(itemId, location.getLatitude(), location.getLongitude(), radiusMiles)
-                    .execute();
-            item = ItemConverter.convertCurateItemToItemModel(response.body().get(0));
-        } catch (Exception e){
-            Log.d("FAILURE1", e.getMessage());
-        }
-        return item;
     }
 
 
@@ -60,10 +53,17 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
     public void onItemRetrieved(ItemModel itemModel){
         Log.d("ITEM RETRIEVED", itemModel.getName());
         Log.d("ITEM RETRIEVED", itemModel.getMenuName());
+
+        if (mGetItemByIdCallback != null){
+            mGetItemByIdCallback.postItem(itemModel);
+        }
     }
 
     @Override
     public void onFailure(String message) {
         Log.d("ITEM RETRIEVAL FAILURE", message);
+        if (mGetItemByIdCallback != null){
+            mGetItemByIdCallback.notifyError(message);
+        }
     }
 }
