@@ -17,5 +17,6 @@ public interface ItemModelRepository {
 
     interface GetItemByIdCallback{
         void postItem(final ItemModel item);
+        void notifyError(String message);
     }
 }

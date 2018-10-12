@@ -2,7 +2,6 @@ package curatetechnologies.com.curate_consumer.network;
 
 
 import android.location.Location;
-import android.util.Log;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
@@ -32,7 +31,7 @@ public class CurateAPIClient implements CurateAPI{
                 .longitude(location.getLongitude())
                 .radiusLimit(radius)
                 .build();
-c
+
         mClient.query(GetItemByIDQuery.builder()
                 .itemID(itemId)
                 .userLocation(userLocation)

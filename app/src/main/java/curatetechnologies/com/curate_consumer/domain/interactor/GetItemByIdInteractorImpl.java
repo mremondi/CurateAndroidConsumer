@@ -37,13 +37,10 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor
         mRadius = radius;
     }
 
-    private void notifyError() {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("get item by id", "notifyError");
-                mCallback.onRetrievalFailed("Get Item By Id Failed");
-            }
+    public void notifyError(String message) {
+        mMainThread.post(() -> {
+            Log.d("get item by id", message);
+            mCallback.onRetrievalFailed("Get Item By Id Failed " + message);
         });
     }
 
@@ -57,21 +54,6 @@ public class GetItemByIdInteractorImpl extends AbstractInteractor
 
     @Override
     public void run() {
-
-        // retrieve the message
-        Log.d("getItemById", "interactor impl");
-
-        final ItemModel item = mItemModelRepository.getItemById(mItemId, mLocation, mRadius);
-
-        // check if we have failed to retrieve our message
-        if (item == null) {
-
-            // notify the failure on the main thread
-            notifyError();
-            return;
-        }
-
-        // we have retrieved our message, notify the UI on the main thread
-        this.postItem(item);
+        mItemModelRepository.getItemById(mItemId, mLocation, mRadius);
     }
 }
