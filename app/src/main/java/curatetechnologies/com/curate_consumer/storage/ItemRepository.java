@@ -15,7 +15,7 @@ import curatetechnologies.com.curate_consumer.network.model.CurateAPIItem;
 import curatetechnologies.com.curate_consumer.network.services.ItemService;
 import retrofit2.Response;
 
-public class ItemRepositoryCallback implements ItemModelRepository, CurateAPI.GetItemByIdCallback {
+public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByIdCallback {
 
     @Override
     public List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius) {
