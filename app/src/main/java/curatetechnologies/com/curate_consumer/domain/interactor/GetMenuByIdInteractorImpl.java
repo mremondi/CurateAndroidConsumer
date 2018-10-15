@@ -11,7 +11,7 @@ import curatetechnologies.com.curate_consumer.storage.MenuModelRepository;
  * Created by mremondi on 2/23/18.
  */
 
-public class GetMenuByIdInteractorImpl extends AbstractInteractor implements GetMenuByIdInteractor {
+public class GetMenuByIdInteractorImpl extends AbstractInteractor implements GetMenuByIdInteractor, MenuModelRepository.GetMenuByIdCallback {
 
     private GetMenuByIdInteractor.Callback mCallback;
     private MenuModelRepository mMenuModelRepository;
@@ -29,42 +29,22 @@ public class GetMenuByIdInteractorImpl extends AbstractInteractor implements Get
         mMenuId = menuId;
     }
 
-    private void notifyError() {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onRetrievalFailed("Get Item By Id Failed");
-            }
+    public void notifyError(String message) {
+        mMainThread.post(() -> {
+            Log.d("get menu by id", message);
+            mCallback.onRetrievalFailed("Get Menu By Id Failed " + message);
         });
     }
 
-    private void postMenu(final MenuModel menu) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onMenuRetrieved(menu);
-            }
+    public void postMenu(final MenuModel menu) {
+
+        mMainThread.post(() -> {
+            Log.d("ABOUT TO CALL BACK", "CALL BACK");
+            mCallback.onMenuRetrieved(menu);
         });
     }
 
 
     @Override
-    public void run() {
-
-        // retrieve the message
-        Log.d("getItemById", "interactor impl");
-
-        final MenuModel menu = mMenuModelRepository.getMenuById(mMenuId);
-
-        // check if we have failed to retrieve our message
-        if (menu == null) {
-
-            // notify the failure on the main thread
-            notifyError();
-            return;
-        }
-
-        // we have retrieved our message, notify the UI on the main thread
-        this.postMenu(menu);
-    }
+    public void run() { mMenuModelRepository.getMenuById(this, mMenuId); }
 }

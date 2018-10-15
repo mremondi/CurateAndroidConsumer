@@ -8,5 +8,10 @@ import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
 
 public interface MenuModelRepository {
 
-    MenuModel getMenuById(Integer menuId);
+    void getMenuById(GetMenuByIdCallback callback, Integer menuId);
+
+    interface GetMenuByIdCallback{
+        void postMenu(final MenuModel menu);
+        void notifyError(String message);
+    }
 }

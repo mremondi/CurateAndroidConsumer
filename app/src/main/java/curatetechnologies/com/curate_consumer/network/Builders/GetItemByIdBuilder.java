@@ -1,4 +1,4 @@
-package curatetechnologies.com.curate_consumer.network;
+package curatetechnologies.com.curate_consumer.network.Builders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +22,26 @@ public class GetItemByIdBuilder {
 
         GetItemByIDQuery.Item item = data.items().get(0);
 
+
         menuModel = buildMenu(item.fragments().menuInfo().menu());
 
         restaurantModel = buildRestaurant(item.fragments().menuInfo().menu().restaurant());
 
         menuSectionModel = buildMenuSection(item.fragments().menuInfo().menuSection());
+
         posts = buildPosts(item.posts());
 
+        String imageURL;
+
+        //Have to check if the posts array actually contain a post to grab an image from.
+        if (item.posts().size() > 0) {
+            imageURL = item.posts().get(0).imageUrl();
+        } else {
+            imageURL = null;
+        }
 
 
-
-        itemModel = new ItemModel(item.id(), item.name(), item.description(), posts.get(0).getImageURL(),
+        itemModel = new ItemModel(item.id(), item.name(), item.description(), imageURL,
                 String.format("%.2f", item.distance())+ "mi", "$" + String.format("%.2f", item.price()), item.price(), item.rating(),
                 restaurantModel.getName(), menuModel.getName(), menuSectionModel.getName(), restaurantModel.getId(),
                 menuModel.getId(), restaurantModel.getStripeID(), item.available(), posts);

@@ -11,8 +11,12 @@ import com.apollographql.apollo.exception.ApolloException;
 import org.jetbrains.annotations.NotNull;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
+import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
 import curatetechnologies.com.curate_consumer.graphql.api.GetItemByIDQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.type.UserLocation;
+import curatetechnologies.com.curate_consumer.network.Builders.GetItemByIdBuilder;
+import curatetechnologies.com.curate_consumer.network.Builders.GetMenuByIdBuilder;
 
 public class CurateAPIClient implements CurateAPI{
 
@@ -50,5 +54,24 @@ public class CurateAPIClient implements CurateAPI{
                 });
     }
 
+    @Override
+    public void getMenuById(GetMenuByIdCallback menuModelRepository, int menuId) {
+       mClient.query(GetMenuByIdQuery.builder()
+               .menuID(menuId)
+               .build())
+               .enqueue(new ApolloCall.Callback<GetMenuByIdQuery.Data>() {
+                   @Override
+                   public void onResponse(@NotNull Response<GetMenuByIdQuery.Data> response) {
+                       MenuModel menuModel = GetMenuByIdBuilder.buildMenu(response.data());
+                       menuModelRepository.onMenuRetrieved(menuModel);
+                   }
 
+                   @Override
+                   public void onFailure(@NotNull ApolloException e) {
+                        menuModelRepository.onFailure(e.getMessage());
+                   }
+               });
+
+
+    }
 }
