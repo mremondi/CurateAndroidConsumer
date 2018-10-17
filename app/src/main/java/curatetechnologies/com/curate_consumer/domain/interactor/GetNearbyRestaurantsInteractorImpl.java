@@ -8,9 +8,10 @@ import curatetechnologies.com.curate_consumer.domain.executor.Executor;
 import curatetechnologies.com.curate_consumer.domain.executor.MainThread;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.storage.RestaurantModelRepository;
+import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
 
 public class GetNearbyRestaurantsInteractorImpl extends AbstractInteractor
-        implements GetNearbyRestaurantsInteractor  {
+        implements GetNearbyRestaurantsInteractor, RestaurantRepository.GetNearbyRestaurantsCallback {
 
     private GetNearbyRestaurantsInteractor.Callback mCallback;
     private RestaurantModelRepository mRestaurantModelRepository;
@@ -34,39 +35,23 @@ public class GetNearbyRestaurantsInteractorImpl extends AbstractInteractor
         mRadius = radius;
     }
 
-    private void notifyError() {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onRetrievalFailed("Get Nearby Restaurants Failed");
-            }
+
+    // BEGIN RestaurantRepository.GetNearbyRestaurantsCallback methods
+    @Override
+    public void notifyError(String message) {
+        mMainThread.post(() -> {
+            mCallback.onRetrievalFailed(message);
         });
     }
-
-    private void postRestaurants(final List<RestaurantModel> restaurants) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onRestaurantsRetrieved(restaurants);
-            }
-        });
-    }
-
 
     @Override
-    public void run() {
-        // retrieve the message
-        final List<RestaurantModel> restaurants = mRestaurantModelRepository
-                .getNearbyRestaurants(mLocation, mUserId, mRadius);
-
-        // check if we have failed to retrieve our message
-        if (restaurants == null || restaurants.size() == 0) {
-            // notify the failure on the main thread
-            notifyError();
-
-            return;
-        }
-        // we have retrieved our message, notify the UI on the main thread
-        postRestaurants(restaurants);
+    public void postNearbyRestaurants(List<RestaurantModel> restaurantModels) {
+        mMainThread.post(() -> {
+                mCallback.onRestaurantsRetrieved(restaurantModels);
+        });
     }
+    // END RestaurantRepository.GetNearbyRestaurantsCallback methods
+
+    @Override
+    public void run() { mRestaurantModelRepository.getNearbyRestaurants(this, mLocation, mRadius); }
 }

@@ -3,15 +3,12 @@ package curatetechnologies.com.curate_consumer.storage;
 import android.location.Location;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.network.CurateAPI;
 import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
 import curatetechnologies.com.curate_consumer.network.CurateClient;
-import curatetechnologies.com.curate_consumer.network.converters.curate.RestaurantConverter;
-import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurant;
 import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurantOpen;
 import curatetechnologies.com.curate_consumer.network.services.RestaurantService;
 import retrofit2.Response;
@@ -21,10 +18,13 @@ import retrofit2.Response;
  */
 
 public class RestaurantRepository implements RestaurantModelRepository,
-        CurateAPI.GetRestaurantByIdCallback, CurateAPI.SearchRestaurantsCallback {
+        CurateAPI.GetRestaurantByIdCallback,
+        CurateAPI.SearchRestaurantsCallback,
+        CurateAPI.GetNearbyRestaurantsCallback{
 
     private RestaurantRepository.GetRestaurantByIdCallback mGetRestaurantByIdCallback;
     private RestaurantRepository.SearchRestaurantsCallback mSearchRestaurantsCallback;
+    private RestaurantRepository.GetNearbyRestaurantsCallback mGetNearbyRestaurantsCallback;
 
     @Override
     public void searchRestaurants(RestaurantRepository.SearchRestaurantsCallback callback,
@@ -36,23 +36,12 @@ public class RestaurantRepository implements RestaurantModelRepository,
     }
 
     @Override
-    public List<RestaurantModel> getNearbyRestaurants(Location location, Integer userId, Float radiusMiles) {
-        final List<RestaurantModel> restaurants = new ArrayList<>();
-        // make network call
-        RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
-        try {
-            Response<List<CurateAPIRestaurant>> response = restaurantService
-                    .getNearbyRestaurants(
-                            location.getLatitude(),
-                            location.getLongitude())
-                    .execute();
-            for (CurateAPIRestaurant restaurant: response.body()){
-                restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
-            }
-        } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
-        }
-        return restaurants;
+    public void getNearbyRestaurants(RestaurantRepository.GetNearbyRestaurantsCallback callback,
+                                     Location location, Float radiusMiles) {
+        mGetNearbyRestaurantsCallback = callback;
+        CurateAPIClient apiClient = new CurateAPIClient();
+        Log.d("RestRepository", "About to getNearbyRestaurants");
+        apiClient.getNearbyRestaurants(this, location, radiusMiles);
     }
 
     @Override
@@ -106,4 +95,16 @@ public class RestaurantRepository implements RestaurantModelRepository,
         }
     }
     // -- END: CurateAPI.SearchRestaurantsCallback methods
+
+    // -- BEGIN: CurateAPI.GetNearbyRestaurantsCallback methods
+
+    @Override
+    public void onNearbyRestaurantsRetrieved(List<RestaurantModel> restaurantModels) {
+        if (mGetNearbyRestaurantsCallback != null) {
+            mGetNearbyRestaurantsCallback.postNearbyRestaurants(restaurantModels);
+        }
+    }
+
+
+    // END: CurateAPI.GetNearbyRestaurantsCallback methods
 }

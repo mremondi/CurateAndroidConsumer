@@ -14,7 +14,8 @@ public interface RestaurantModelRepository {
     void searchRestaurants(RestaurantRepository.SearchRestaurantsCallback callback,
                                             String query, Location location, Float radiusMiles);
 
-    List<RestaurantModel> getNearbyRestaurants(Location location, Integer userId, Float radiusMiles);
+    void getNearbyRestaurants(RestaurantRepository.GetNearbyRestaurantsCallback callback, Location location,
+                              Float radiusMiles);
 
     void getRestaurantById(GetRestaurantByIdCallback callback, Integer restaurantId,
                                       Location location, Float radiusMiles);
@@ -28,6 +29,11 @@ public interface RestaurantModelRepository {
 
     interface SearchRestaurantsCallback {
         void postRestaurants(final List<RestaurantModel> restaurantModels);
+        void notifyError(String message);
+    }
+
+    interface GetNearbyRestaurantsCallback {
+        void postNearbyRestaurants(final List<RestaurantModel> restaurantModels);
         void notifyError(String message);
     }
 }

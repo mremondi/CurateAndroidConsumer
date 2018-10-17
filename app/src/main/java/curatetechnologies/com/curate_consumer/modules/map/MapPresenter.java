@@ -25,7 +25,7 @@ public class MapPresenter extends AbstractPresenter implements MapContract,
         mRestaurantRepository = restaurantRepository;
     }
     @Override
-    public void getNearbyRestaurants(Location location, Integer userId, Float radius) {
+    public void getNearbyRestaurants(Location location, Float radius) {
         if (mView.isActive()) {
             mView.showProgress();
             GetNearbyRestaurantsInteractor nearbyRestaurantsInteractor = new GetNearbyRestaurantsInteractorImpl(
@@ -34,7 +34,7 @@ public class MapPresenter extends AbstractPresenter implements MapContract,
                     this,
                     mRestaurantRepository,
                     location,
-                    userId,
+                    -1,
                     radius
             );
             nearbyRestaurantsInteractor.execute();
@@ -44,6 +44,7 @@ public class MapPresenter extends AbstractPresenter implements MapContract,
     @Override
     public void onRestaurantsRetrieved(List<RestaurantModel> restaurants) {
         if (mView.isActive()) {
+            System.out.println("MapPresenter: About to display restaurants");
             mView.displayRestaurants(restaurants);
             mView.hideProgress();
         }

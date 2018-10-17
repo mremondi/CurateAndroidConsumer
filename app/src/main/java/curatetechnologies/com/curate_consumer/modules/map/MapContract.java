@@ -16,5 +16,5 @@ public interface MapContract {
         void displayRestaurants(List<RestaurantModel> restaurants);
     }
 
-    void getNearbyRestaurants(Location location, Integer userId, Float radius);
+    void getNearbyRestaurants(Location location, Float radius);
 }

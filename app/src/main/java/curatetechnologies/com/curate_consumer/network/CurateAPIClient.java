@@ -17,12 +17,14 @@ import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.graphql.api.GetItemByIDQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.GetNearbyRestaurantsQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetRestaurantByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.SearchItemsQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.SearchRestaurantQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.type.UserLocation;
 import curatetechnologies.com.curate_consumer.network.Builders.GetItemByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetMenuByIdBuilder;
+import curatetechnologies.com.curate_consumer.network.Builders.GetNearbyRestaurantsBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetRestaurantByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.SearchItemsBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.SearchRestaurantsBuilder;
@@ -148,6 +150,28 @@ public class CurateAPIClient implements CurateAPI{
                     }
                 });
 
+    }
+
+    public void getNearbyRestaurants(final CurateAPI.GetNearbyRestaurantsCallback restaurantModelRepository,
+                             Location location, Float radius) {
+        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+
+        mClient.query(GetNearbyRestaurantsQuery.builder()
+                .location(userLocation)
+                .build())
+                .enqueue(new ApolloCall.Callback<GetNearbyRestaurantsQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<GetNearbyRestaurantsQuery.Data> response) {
+                        List<RestaurantModel> restaurantModels = GetNearbyRestaurantsBuilder
+                                .buildRestaurants(response.data());
+                        restaurantModelRepository.onNearbyRestaurantsRetrieved(restaurantModels);
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        restaurantModelRepository.onFailure(e.getMessage());
+                    }
+                });
     }
 
 

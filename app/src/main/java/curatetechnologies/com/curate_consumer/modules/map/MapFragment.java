@@ -118,7 +118,7 @@ public class MapFragment extends Fragment implements
 
         mGoogleMap.setOnMarkerClickListener(this);
 
-        mMapPresenter.getNearbyRestaurants(getLocation(), getUserId(), getRadius());
+        mMapPresenter.getNearbyRestaurants(getLocation(), getRadius());
     }
 
     // -- BEGIN: MapContract.View methods
