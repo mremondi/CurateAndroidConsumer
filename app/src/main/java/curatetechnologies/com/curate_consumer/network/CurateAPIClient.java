@@ -19,11 +19,13 @@ import curatetechnologies.com.curate_consumer.graphql.api.GetItemByIDQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetRestaurantByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.SearchItemsQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.SearchRestaurantQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.type.UserLocation;
 import curatetechnologies.com.curate_consumer.network.Builders.GetItemByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetMenuByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetRestaurantByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.SearchItemsBuilder;
+import curatetechnologies.com.curate_consumer.network.Builders.SearchRestaurantsBuilder;
 
 public class CurateAPIClient implements CurateAPI{
 
@@ -121,6 +123,31 @@ public class CurateAPIClient implements CurateAPI{
                         itemModelRepository.onFailure(e.getMessage());
                     }
                 });
+    }
+
+    public void  searchRestaurants(final CurateAPI.SearchRestaurantsCallback restaurantModelRepository,
+                                       String query, Location location, Float radius) {
+
+        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+
+        mClient.query(SearchRestaurantQuery.builder()
+                .restaurantName(query)
+                .userLocation(userLocation)
+                .build())
+                .enqueue(new ApolloCall.Callback<SearchRestaurantQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<SearchRestaurantQuery.Data> response) {
+                        List<RestaurantModel> restaurantModels =
+                                SearchRestaurantsBuilder.buildRestaurants(response.data());
+                        restaurantModelRepository.onRestaurantsRetrieved(restaurantModels);
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        restaurantModelRepository.onFailure(e.getMessage());
+                    }
+                });
+
     }
 
 

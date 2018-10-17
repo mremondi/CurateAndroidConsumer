@@ -11,11 +11,14 @@ import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
  */
 
 public interface RestaurantModelRepository {
+    void searchRestaurants(RestaurantRepository.SearchRestaurantsCallback callback,
+                                            String query, Location location, Float radiusMiles);
 
-    List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles);
     List<RestaurantModel> getNearbyRestaurants(Location location, Integer userId, Float radiusMiles);
+
     void getRestaurantById(GetRestaurantByIdCallback callback, Integer restaurantId,
                                       Location location, Float radiusMiles);
+
     boolean getRestaurantOpen(Integer restaurantId);
 
     interface GetRestaurantByIdCallback {

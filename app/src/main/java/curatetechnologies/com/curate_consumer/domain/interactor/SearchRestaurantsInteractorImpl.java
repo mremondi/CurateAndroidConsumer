@@ -13,7 +13,8 @@ import curatetechnologies.com.curate_consumer.storage.RestaurantModelRepository;
  * Created by mremondi on 2/12/18.
  */
 
-public class SearchRestaurantsInteractorImpl extends AbstractInteractor implements SearchRestaurantsInteractor {
+public class SearchRestaurantsInteractorImpl extends AbstractInteractor implements SearchRestaurantsInteractor,
+        RestaurantModelRepository.SearchRestaurantsCallback {
 
     private SearchRestaurantsInteractor.Callback mCallback;
     private RestaurantModelRepository mRestaurantModelRepository;
@@ -49,32 +50,27 @@ public class SearchRestaurantsInteractorImpl extends AbstractInteractor implemen
         });
     }
 
-    private void postItems(final List<RestaurantModel> restaurants) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onSearchRestaurantsRetrieved(restaurants);
-            }
+    // BEGIN RestaurantModelRepository.SearchRestaurantsCallback Methods
+
+    @Override
+    public void notifyError(String message) {
+        mMainThread.post(() -> {
+            mCallback.onRetrievalFailed(message);
         });
     }
+
+    @Override
+    public void postRestaurants(List<RestaurantModel> restaurantModels) {
+        mMainThread.post(() -> {
+            mCallback.onSearchRestaurantsRetrieved(restaurantModels);
+        });
+    }
+
+    // END RestaurantModelRepository.SearchRestaurantsCallback Methods
 
 
     @Override
     public void run() {
-
-        // retrieve the message
-        final List<RestaurantModel> restaurants = mRestaurantModelRepository
-                .searchRestaurants(mQuery, mLocation, mUserId, mRadius);
-
-        // check if we have failed to retrieve our message
-        if (restaurants == null || restaurants.size() == 0) {
-            // notify the failure on the main thread
-            notifyError();
-
-            return;
-        }
-
-        // we have retrieved our message, notify the UI on the main thread
-        postItems(restaurants);
+       mRestaurantModelRepository.searchRestaurants(this, mQuery, mLocation, mRadius);
     }
 }

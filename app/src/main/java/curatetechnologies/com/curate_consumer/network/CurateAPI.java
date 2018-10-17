@@ -16,6 +16,8 @@ public interface CurateAPI {
                            int restaurantID, Location location, int radius);
     void searchItems(final CurateAPI.SearchItemsCallback itemModelRepository, String query,
                      Location location, Float radius);
+    void searchRestaurants(final CurateAPI.SearchRestaurantsCallback restaurantModelRepository,
+                           String query, Location location, Float radius);
 
     interface GetItemByIdCallback {
         void onItemRetrieved(ItemModel itemModel);
@@ -34,6 +36,11 @@ public interface CurateAPI {
 
     interface SearchItemsCallback {
         void onItemsRetrieved(List<ItemModel> itemModels);
+        void onFailure(String message);
+    }
+
+    interface SearchRestaurantsCallback {
+        void onRestaurantsRetrieved(List<RestaurantModel> restaurantModels);
         void onFailure(String message);
     }
 

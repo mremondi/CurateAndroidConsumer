@@ -20,30 +20,19 @@ import retrofit2.Response;
  * Created by mremondi on 2/12/18.
  */
 
-public class RestaurantRepository implements RestaurantModelRepository, CurateAPI.GetRestaurantByIdCallback {
+public class RestaurantRepository implements RestaurantModelRepository,
+        CurateAPI.GetRestaurantByIdCallback, CurateAPI.SearchRestaurantsCallback {
 
     private RestaurantRepository.GetRestaurantByIdCallback mGetRestaurantByIdCallback;
+    private RestaurantRepository.SearchRestaurantsCallback mSearchRestaurantsCallback;
 
     @Override
-    public List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles) {
-        final List<RestaurantModel> restaurants = new ArrayList<>();
-        // make network call
-        RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
-        try {
-            Response<List<CurateAPIRestaurant>> response = restaurantService
-                    .searchRestaurants(query,
-                            location.getLatitude(),
-                            location.getLongitude(),
-                            userId,
-                            radiusMiles)
-                    .execute();
-            for (CurateAPIRestaurant restaurant: response.body()){
-                restaurants.add(RestaurantConverter.convertCurateRestaurantToRestaurantModel(restaurant));
-            }
-        } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
-        }
-        return restaurants;
+    public void searchRestaurants(RestaurantRepository.SearchRestaurantsCallback callback,
+                                                   String query, Location location, Float radiusMiles) {
+
+        mSearchRestaurantsCallback = callback;
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.searchRestaurants(this, query, location, radiusMiles);
     }
 
     @Override
@@ -90,7 +79,7 @@ public class RestaurantRepository implements RestaurantModelRepository, CurateAP
         return isOpen;
     }
 
-    // -- BEGIN: GetRestaurantByIdInteractor.Callback methods
+    // -- BEGIN: CurateAPI.GetRestaurantByIdCallback methods
 
     @Override
     public void onRestaurantRetrieved(RestaurantModel restaurantModel) {
@@ -102,8 +91,19 @@ public class RestaurantRepository implements RestaurantModelRepository, CurateAP
 
     @Override
     public void onFailure(String message) {
-        //TODO
+        if (mGetRestaurantByIdCallback != null) {
+            mGetRestaurantByIdCallback.notifyError(message);
+        }
     }
 
     // -- END: GetRestaurantByIdInteractor.Callback methods
+
+    // -- BEGIN: CurateAPI.SearchRestaurantsCallback methods
+    @Override
+    public void onRestaurantsRetrieved(List<RestaurantModel> restaurantModels) {
+        if (mSearchRestaurantsCallback != null) {
+            mSearchRestaurantsCallback.postRestaurants(restaurantModels);
+        }
+    }
+    // -- END: CurateAPI.SearchRestaurantsCallback methods
 }
