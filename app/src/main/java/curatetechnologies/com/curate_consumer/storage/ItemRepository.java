@@ -15,12 +15,21 @@ import curatetechnologies.com.curate_consumer.network.model.CurateAPIItem;
 import curatetechnologies.com.curate_consumer.network.services.ItemService;
 import retrofit2.Response;
 
-public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByIdCallback {
+public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByIdCallback,
+        CurateAPI.SearchItemsCallback {
 
     private ItemModelRepository.GetItemByIdCallback mGetItemByIdCallback;
+    private ItemModelRepository.SearchItemsCallback mSearchItemsCallback;
 
     @Override
-    public List<ItemModel> searchItems(String query, Location location, Integer userId, Float radius) {
+    public List<ItemModel> searchItems(SearchItemsCallback callback, String query,
+                                       Location location, Integer userId, Float radius) {
+
+        mSearchItemsCallback = callback;
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.searchItems(this, query, location, radius);
+
+
         final List<ItemModel> items = new ArrayList<>();
 
         // make network call
@@ -42,12 +51,12 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
     @Override
     public void getItemById(ItemModelRepository.GetItemByIdCallback callback, Integer itemId, Location location, Float radiusMiles) {
         mGetItemByIdCallback = callback;
-        ItemModel item = null;
 
         CurateAPIClient apiClient = new CurateAPIClient();
         apiClient.getItemById(this, itemId, location, Math.round(radiusMiles));
     }
 
+    // BEGIN GetItemByIDCallback
 
     @Override
     public void onItemRetrieved(ItemModel itemModel){
@@ -66,4 +75,19 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
             mGetItemByIdCallback.notifyError(message);
         }
     }
+
+    // END GetItemByIdCallback
+
+    //BEGIN SEARCHITEMS CALLBACK
+
+    @Override
+    public void onItemsRetrieved(List<ItemModel> itemModels) {
+        if (mSearchItemsCallback != null){
+            mSearchItemsCallback.postSearchItems(itemModels);
+        }
+    }
+
+
+    //END SEARCHITEMS CALLBACK
+
 }

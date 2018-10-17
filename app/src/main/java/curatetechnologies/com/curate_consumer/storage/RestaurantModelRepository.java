@@ -22,4 +22,9 @@ public interface RestaurantModelRepository {
         void postRestaurant(final RestaurantModel restaurantModel);
         void notifyError(String message);
     }
+
+    interface SearchRestaurantsCallback {
+        void postRestaurants(final List<RestaurantModel> restaurantModels);
+        void notifyError(String message);
+    }
 }

@@ -13,7 +13,6 @@ public interface SearchRestaurantsInteractor extends Interactor {
     interface Callback {
 
         void onSearchRestaurantsRetrieved(List<RestaurantModel> restaurants);
-
         void onRetrievalFailed(String error);
     }
 }

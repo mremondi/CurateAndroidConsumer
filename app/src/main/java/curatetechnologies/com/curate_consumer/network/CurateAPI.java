@@ -2,6 +2,8 @@ package curatetechnologies.com.curate_consumer.network;
 
 import android.location.Location;
 
+import java.util.List;
+
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
@@ -12,6 +14,8 @@ public interface CurateAPI {
     void getMenuById(final CurateAPI.GetMenuByIdCallback menuModelRepository, int menuId);
     void getRestaurantById(final CurateAPI.GetRestaurantByIdCallback restaurantModelRepository,
                            int restaurantID, Location location, int radius);
+    void searchItems(final CurateAPI.SearchItemsCallback itemModelRepository, String query,
+                     Location location, Float radius);
 
     interface GetItemByIdCallback {
         void onItemRetrieved(ItemModel itemModel);
@@ -27,4 +31,10 @@ public interface CurateAPI {
         void onRestaurantRetrieved(RestaurantModel restaurantModel);
         void onFailure(String message);
     }
+
+    interface SearchItemsCallback {
+        void onItemsRetrieved(List<ItemModel> itemModels);
+        void onFailure(String message);
+    }
+
 }

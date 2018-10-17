@@ -24,9 +24,7 @@ public class GetItemByIdBuilder {
 
 
         menuModel = buildMenu(item.fragments().menuInfo().menu());
-
         restaurantModel = buildRestaurant(item.fragments().menuInfo().menu().restaurant());
-
         menuSectionModel = buildMenuSection(item.fragments().menuInfo().menuSection());
 
         posts = buildPosts(item.posts());

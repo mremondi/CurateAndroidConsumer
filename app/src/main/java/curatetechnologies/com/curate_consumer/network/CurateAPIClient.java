@@ -10,16 +10,20 @@ import com.apollographql.apollo.exception.ApolloException;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.graphql.api.GetItemByIDQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetRestaurantByIdQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.SearchItemsQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.type.UserLocation;
 import curatetechnologies.com.curate_consumer.network.Builders.GetItemByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetMenuByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetRestaurantByIdBuilder;
+import curatetechnologies.com.curate_consumer.network.Builders.SearchItemsBuilder;
 
 public class CurateAPIClient implements CurateAPI{
 
@@ -33,11 +37,7 @@ public class CurateAPIClient implements CurateAPI{
 
     @Override
     public void getItemById(final CurateAPI.GetItemByIdCallback itemModelRepository, int itemId, Location location, int radius){
-        UserLocation userLocation = UserLocation.builder()
-                .latitude(location.getLatitude())
-                .longitude(location.getLongitude())
-                .radiusLimit(radius)
-                .build();
+        UserLocation userLocation = buildUserLocation(location, radius);
 
         mClient.query(GetItemByIDQuery.builder()
                 .itemID(itemId)
@@ -79,11 +79,7 @@ public class CurateAPIClient implements CurateAPI{
     public void getRestaurantById(final CurateAPI.GetRestaurantByIdCallback restaurantModelRepository,
                                   int restaurantID, Location location, int radius) {
 
-        UserLocation userLocation = UserLocation.builder()
-                .latitude(location.getLatitude())
-                .longitude(location.getLongitude())
-                .radiusLimit(radius)
-                .build();
+        UserLocation userLocation = buildUserLocation(location, radius);
 
         mClient.query(GetRestaurantByIdQuery.builder()
                 .restaurantID(restaurantID)
@@ -103,6 +99,39 @@ public class CurateAPIClient implements CurateAPI{
                         restaurantModelRepository.onFailure(e.getMessage());
                     }
                 });
+    }
+
+    public void searchItems(final CurateAPI.SearchItemsCallback itemModelRepository, String query,
+                            Location location, Float radius) {
+
+        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+
+        mClient.query(SearchItemsQuery.builder()
+                .itemName(query)
+                .userLocation(userLocation).build())
+                .enqueue(new ApolloCall.Callback<SearchItemsQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<SearchItemsQuery.Data> response) {
+                        List<ItemModel> itemModels = SearchItemsBuilder.buildItems(response.data());
+                        itemModelRepository.onItemsRetrieved(itemModels);
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        itemModelRepository.onFailure(e.getMessage());
+                    }
+                });
+    }
+
+
+    private UserLocation buildUserLocation(Location location, int radius) {
+        UserLocation userLocation = UserLocation.builder()
+                .latitude(location.getLatitude())
+                .longitude(location.getLongitude())
+                .radiusLimit(radius)
+                .build();
+
+        return userLocation;
     }
 
 }
