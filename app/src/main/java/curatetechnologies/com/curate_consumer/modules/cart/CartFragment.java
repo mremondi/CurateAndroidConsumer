@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ import curatetechnologies.com.curate_consumer.modules.search.SearchFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.CartItemsAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeController;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeControllerActions;
+import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.OrderRepository;
 import curatetechnologies.com.curate_consumer.storage.PostRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
@@ -130,7 +132,8 @@ public class CartFragment extends Fragment implements CartContract.View {
                 new OrderRepository(),
                 new PostRepository()
         );
-        mCartPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId());
+        mCartPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId(),
+                getLocation(), getRadius());
 
         orderItemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -333,5 +336,13 @@ public class CartFragment extends Fragment implements CartContract.View {
         tvSubtotal.setText("$" + String.format("%.2f", CartManager.getInstance().getSubTotal()));
         tvTax.setText("$" + String.format("%.2f",CartManager.getInstance().getOrderTax()));
         tvTotal.setText("$" + String.format("%.2f",CartManager.getInstance().getOrderTotal()));
+    }
+
+    private Location getLocation(){
+        return LocationRepository.getInstance(getContext()).getLastLocation();
+    }
+
+    private Float getRadius(){
+        return LocationRepository.getInstance(getContext()).getRadius();
     }
 }

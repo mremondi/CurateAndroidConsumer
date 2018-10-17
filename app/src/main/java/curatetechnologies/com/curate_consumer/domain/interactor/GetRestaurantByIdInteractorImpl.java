@@ -1,5 +1,6 @@
 package curatetechnologies.com.curate_consumer.domain.interactor;
 
+import android.location.Location;
 import android.util.Log;
 
 import curatetechnologies.com.curate_consumer.domain.executor.Executor;
@@ -11,53 +12,47 @@ import curatetechnologies.com.curate_consumer.storage.RestaurantModelRepository;
  * Created by mremondi on 2/21/18.
  */
 
-public class GetRestaurantByIdInteractorImpl extends AbstractInteractor implements GetRestaurantByIdInteractor {
+public class GetRestaurantByIdInteractorImpl extends AbstractInteractor
+        implements GetRestaurantByIdInteractor, RestaurantModelRepository.GetRestaurantByIdCallback {
 
     private GetRestaurantByIdInteractor.Callback mCallback;
     private RestaurantModelRepository mRestaurantModelRepository;
 
     private Integer mRestaurantId;
+    private Location mLocation;
+    private Float mRadius;
 
     public GetRestaurantByIdInteractorImpl(Executor threadExecutor,
                                      MainThread mainThread,
                                      GetRestaurantByIdInteractor.Callback callback,
                                      RestaurantModelRepository restaurantModelRepository,
-                                     Integer restaurantId) {
+                                     Integer restaurantId,
+                                           Location location,
+                                           Float radius) {
         super(threadExecutor, mainThread);
         mCallback = callback;
         mRestaurantModelRepository = restaurantModelRepository;
         mRestaurantId = restaurantId;
+        mLocation = location;
+        mRadius = radius;
     }
 
-    private void notifyError() {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("get item by id", "notifyError");
-                mCallback.onRetrievalFailed("Get Item By Id Failed");
-            }
+    public void notifyError(String message) {
+        mMainThread.post(() -> {
+            Log.d("get menu by id", message);
+            mCallback.onRetrievalFailed("Get Menu By Id Failed " + message);
         });
     }
 
-    private void postRestaurant(final RestaurantModel restaurant) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onRestaurantRetrieved(restaurant);
-            }
+    public void postRestaurant(final RestaurantModel restaurant) {
+        mMainThread.post(()-> {
+            mCallback.onRestaurantRetrieved(restaurant);
         });
     }
 
 
     @Override
-    public void run() {
-        final RestaurantModel restaurant = mRestaurantModelRepository.getRestaurantById(mRestaurantId);
-
-        if (restaurant == null) {
-            // notify the failure on the main thread
-            notifyError();
-            return;
-        }
-        this.postRestaurant(restaurant);
+    public void run() { mRestaurantModelRepository.getRestaurantById(this, mRestaurantId,
+            mLocation, mRadius);
     }
 }

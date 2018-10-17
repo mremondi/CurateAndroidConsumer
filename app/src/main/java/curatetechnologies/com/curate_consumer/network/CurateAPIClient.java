@@ -12,11 +12,14 @@ import org.jetbrains.annotations.NotNull;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
+import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.graphql.api.GetItemByIDQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.GetRestaurantByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.type.UserLocation;
 import curatetechnologies.com.curate_consumer.network.Builders.GetItemByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetMenuByIdBuilder;
+import curatetechnologies.com.curate_consumer.network.Builders.GetRestaurantByIdBuilder;
 
 public class CurateAPIClient implements CurateAPI{
 
@@ -71,7 +74,35 @@ public class CurateAPIClient implements CurateAPI{
                         menuModelRepository.onFailure(e.getMessage());
                    }
                });
-
-
     }
+
+    public void getRestaurantById(final CurateAPI.GetRestaurantByIdCallback restaurantModelRepository,
+                                  int restaurantID, Location location, int radius) {
+
+        UserLocation userLocation = UserLocation.builder()
+                .latitude(location.getLatitude())
+                .longitude(location.getLongitude())
+                .radiusLimit(radius)
+                .build();
+
+        mClient.query(GetRestaurantByIdQuery.builder()
+                .restaurantID(restaurantID)
+                .userLocation(userLocation)
+                .build())
+                .enqueue(new ApolloCall.Callback<GetRestaurantByIdQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<GetRestaurantByIdQuery.Data> response) {
+                        RestaurantModel restaurantModel =
+                                GetRestaurantByIdBuilder.buildRestaurant(response.data());
+
+                        restaurantModelRepository.onRestaurantRetrieved(restaurantModel);
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        restaurantModelRepository.onFailure(e.getMessage());
+                    }
+                });
+    }
+
 }

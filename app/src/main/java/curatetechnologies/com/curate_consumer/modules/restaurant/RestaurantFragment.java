@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +20,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,15 +44,15 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import curatetechnologies.com.curate_consumer.R;
 import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
-import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.PostModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
+import curatetechnologies.com.curate_consumer.modules.edit_image.EditImageActivity;
 import curatetechnologies.com.curate_consumer.modules.item_preview_bottom_sheet.ItemPreviewBottomSheetFragment;
 import curatetechnologies.com.curate_consumer.modules.menu.MenuFragment;
-import curatetechnologies.com.curate_consumer.presentation.ui.adapters.RestaurantMenusAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.ImagePostAdapter;
-import curatetechnologies.com.curate_consumer.modules.edit_image.EditImageActivity;
+import curatetechnologies.com.curate_consumer.presentation.ui.adapters.RestaurantMenusAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.views.listeners.RecyclerViewClickListener;
+import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.PostRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
 import curatetechnologies.com.curate_consumer.threading.MainThreadImpl;
@@ -161,7 +161,7 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
                 new RestaurantRepository(),
                 new PostRepository());
 
-        mRestaurantPresenter.getRestaurantById(restaurantId);
+        mRestaurantPresenter.getRestaurantById(restaurantId, getLocation(), getRadius());
         mRestaurantPresenter.isRestaurantOpen(restaurantId);
         mRestaurantPresenter.getRestaurantPosts(20, restaurantId);
 
@@ -410,4 +410,15 @@ public class RestaurantFragment extends Fragment implements RestaurantContract.V
         entries.add(new PieEntry(ratingf));
         return entries;
     }
+
+    private Location getLocation(){
+        return LocationRepository.getInstance(getContext()).getLastLocation();
+    }
+
+    private Float getRadius(){
+        return LocationRepository.getInstance(getContext()).getRadius();
+    }
+
 }
+
+

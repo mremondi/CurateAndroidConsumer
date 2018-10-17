@@ -1,8 +1,7 @@
 package curatetechnologies.com.curate_consumer.modules.receipt;
 
-import android.content.Context;
+import android.location.Location;
 
-import curatetechnologies.com.curate_consumer.domain.model.OrderModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.presentation.ui.BaseView;
 
@@ -16,5 +15,5 @@ public interface ReceiptContract {
         void displayRestaurant(RestaurantModel restaurant);
     }
 
-    void getRestaurantById(Integer restaurantId);
+    void getRestaurantById(Integer restaurantId, Location location, Float radiusMiles);
 }

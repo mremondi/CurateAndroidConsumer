@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
+import curatetechnologies.com.curate_consumer.network.CurateAPI;
+import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
 import curatetechnologies.com.curate_consumer.network.CurateClient;
 import curatetechnologies.com.curate_consumer.network.converters.curate.RestaurantConverter;
 import curatetechnologies.com.curate_consumer.network.model.CurateAPIRestaurant;
@@ -18,7 +20,10 @@ import retrofit2.Response;
  * Created by mremondi on 2/12/18.
  */
 
-public class RestaurantRepository implements RestaurantModelRepository {
+public class RestaurantRepository implements RestaurantModelRepository, CurateAPI.GetRestaurantByIdCallback {
+
+    private RestaurantRepository.GetRestaurantByIdCallback mGetRestaurantByIdCallback;
+
     @Override
     public List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles) {
         final List<RestaurantModel> restaurants = new ArrayList<>();
@@ -62,17 +67,13 @@ public class RestaurantRepository implements RestaurantModelRepository {
     }
 
     @Override
-    public RestaurantModel getRestaurantById(Integer restaurantId) {
-        final RestaurantModel restaurant;
-        RestaurantService restaurantService = CurateClient.getService(RestaurantService.class);
-        try {
-            Response<List<CurateAPIRestaurant>> response = restaurantService.getRestaurantById(restaurantId).execute();
-            restaurant = RestaurantConverter.convertCurateRestaurantToRestaurantModel(response.body().get(0));
-        } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
-            return null;
-        }
-        return restaurant;
+    public void getRestaurantById(RestaurantRepository.GetRestaurantByIdCallback callback,
+                                             Integer restaurantId, Location location, Float radiusMiles) {
+        mGetRestaurantByIdCallback = callback;
+
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.getRestaurantById(this, restaurantId, location,
+                Math.round(radiusMiles));
     }
 
     @Override
@@ -88,4 +89,21 @@ public class RestaurantRepository implements RestaurantModelRepository {
         }
         return isOpen;
     }
+
+    // -- BEGIN: GetRestaurantByIdInteractor.Callback methods
+
+    @Override
+    public void onRestaurantRetrieved(RestaurantModel restaurantModel) {
+        //TODO
+        if (mGetRestaurantByIdCallback != null) {
+            mGetRestaurantByIdCallback.postRestaurant(restaurantModel);
+        }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        //TODO
+    }
+
+    // -- END: GetRestaurantByIdInteractor.Callback methods
 }

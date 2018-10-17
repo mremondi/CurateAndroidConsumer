@@ -95,8 +95,10 @@ public class SearchPresenter extends AbstractPresenter implements SearchContract
     // -- BEGIN: SearchRestaurantsInteractor.Callback methods
     @Override
     public void onSearchRestaurantsRetrieved(List<RestaurantModel> restaurants) {
-        mView.hideProgress();
-        mView.displayRestaurants(restaurants);
+        if (mView.isActive()) {
+            mView.hideProgress();
+            mView.displayRestaurants(restaurants);
+        }
     }
     // NOTE: onRetrievalFailed implemented above^^
     // -- END: SearchRestaurantsInteractor.Callback methods

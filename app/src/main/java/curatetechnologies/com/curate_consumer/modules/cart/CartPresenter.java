@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate_consumer.modules.cart;
 
 import android.content.Context;
+import android.location.Location;
 
 import com.stripe.android.PaymentSession;
 
@@ -40,6 +41,9 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
     private OrderModelRepository mOrderRepository;
     private PostModelRepository mPostRepository;
 
+    private Location mLocation;
+    private Float mRadius;
+
     public CartPresenter(Executor executor, MainThread mainThread,
                          View view, RestaurantModelRepository restaurantModelRepository,
                          StripeModelRepository stripeRepository,
@@ -55,7 +59,7 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
 
     // -- BEGIN: CartContract methods
     @Override
-    public void getRestaurantById(Integer restaurantId) {
+    public void getRestaurantById(Integer restaurantId, Location location, Float radiusMiles) {
         if (mView.isActive()) {
             mView.showProgress();
             GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
@@ -63,7 +67,9 @@ public class CartPresenter extends AbstractPresenter implements CartContract,
                     mMainThread,
                     this,
                     mRestaurantRepository,
-                    restaurantId
+                    restaurantId,
+                    location,
+                    radiusMiles
             );
             restaurantInteractor.execute();
         }

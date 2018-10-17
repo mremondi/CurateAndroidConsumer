@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate_consumer.modules.receipt;
 
+import android.location.Location;
+
 import curatetechnologies.com.curate_consumer.domain.executor.Executor;
 import curatetechnologies.com.curate_consumer.domain.executor.MainThread;
 import curatetechnologies.com.curate_consumer.domain.interactor.GetRestaurantByIdInteractor;
@@ -27,7 +29,7 @@ public class ReceiptPresenter extends AbstractPresenter implements ReceiptContra
 
     // -- BEGIN: ReceiptContract methods
     @Override
-    public void getRestaurantById(Integer restaurantId) {
+    public void getRestaurantById(Integer restaurantId, Location location, Float radiusMiles) {
         if (mView.isActive()) {
             mView.showProgress();
             GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
@@ -35,7 +37,10 @@ public class ReceiptPresenter extends AbstractPresenter implements ReceiptContra
                     mMainThread,
                     this,
                     mRestaurantRepository,
-                    restaurantId
+                    restaurantId,
+                    location,
+                    radiusMiles
+
             );
             restaurantInteractor.execute();
         }

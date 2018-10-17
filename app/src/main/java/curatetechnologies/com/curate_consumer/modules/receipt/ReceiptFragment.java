@@ -2,6 +2,7 @@ package curatetechnologies.com.curate_consumer.modules.receipt;
 
 import android.content.DialogInterface;
 import android.graphics.Canvas;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,13 +23,11 @@ import curatetechnologies.com.curate_consumer.R;
 import curatetechnologies.com.curate_consumer.domain.executor.ThreadExecutor;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.manager.CartManager;
-import curatetechnologies.com.curate_consumer.modules.cart.CartPresenter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.CartItemsAdapter;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeController;
 import curatetechnologies.com.curate_consumer.presentation.ui.adapters.SwipeControllerActions;
-import curatetechnologies.com.curate_consumer.storage.OrderRepository;
+import curatetechnologies.com.curate_consumer.storage.LocationRepository;
 import curatetechnologies.com.curate_consumer.storage.RestaurantRepository;
-import curatetechnologies.com.curate_consumer.storage.StripeRepository;
 import curatetechnologies.com.curate_consumer.storage.UserRepository;
 import curatetechnologies.com.curate_consumer.threading.MainThreadImpl;
 
@@ -69,7 +68,8 @@ public class ReceiptFragment extends Fragment implements ReceiptContract.View {
                 this,
                 new RestaurantRepository()
         );
-        mReceiptPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId());
+        mReceiptPresenter.getRestaurantById(CartManager.getInstance().getRestaurantId(),
+                getLocation(), getRadius());
 
         orderItemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -158,6 +158,14 @@ public class ReceiptFragment extends Fragment implements ReceiptContract.View {
         tvTotal.setText("$" + String.format("%.2f",CartManager.getInstance().getOrderTotal()));
 
         CartManager.getInstance().clearCart();
+    }
+
+    private Location getLocation(){
+        return LocationRepository.getInstance(getContext()).getLastLocation();
+    }
+
+    private Float getRadius(){
+        return LocationRepository.getInstance(getContext()).getRadius();
     }
 
 }

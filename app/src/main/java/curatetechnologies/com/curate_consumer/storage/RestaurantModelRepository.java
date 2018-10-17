@@ -14,6 +14,12 @@ public interface RestaurantModelRepository {
 
     List<RestaurantModel> searchRestaurants(String query, Location location, Integer userId, Float radiusMiles);
     List<RestaurantModel> getNearbyRestaurants(Location location, Integer userId, Float radiusMiles);
-    RestaurantModel getRestaurantById(Integer restaurantId);
+    void getRestaurantById(GetRestaurantByIdCallback callback, Integer restaurantId,
+                                      Location location, Float radiusMiles);
     boolean getRestaurantOpen(Integer restaurantId);
+
+    interface GetRestaurantByIdCallback {
+        void postRestaurant(final RestaurantModel restaurantModel);
+        void notifyError(String message);
+    }
 }

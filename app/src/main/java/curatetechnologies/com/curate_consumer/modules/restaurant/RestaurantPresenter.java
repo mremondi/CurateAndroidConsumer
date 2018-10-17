@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate_consumer.modules.restaurant;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.executor.Executor;
@@ -38,7 +40,7 @@ public class RestaurantPresenter extends AbstractPresenter implements
 
     // -- BEGIN: RestaurantContract methods
     @Override
-    public void getRestaurantById(Integer restaurantId) {
+    public void getRestaurantById(Integer restaurantId, Location location, Float radius) {
         if (mView.isActive()) {
             mView.showProgress();
             GetRestaurantByIdInteractor restaurantInteractor = new GetRestaurantByIdInteractorImpl(
@@ -46,7 +48,9 @@ public class RestaurantPresenter extends AbstractPresenter implements
                     mMainThread,
                     this,
                     mRestaurantRepository,
-                    restaurantId
+                    restaurantId,
+                    location,
+                    radius
             );
             restaurantInteractor.execute();
         }

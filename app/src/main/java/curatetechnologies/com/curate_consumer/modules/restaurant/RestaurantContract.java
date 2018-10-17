@@ -1,5 +1,7 @@
 package curatetechnologies.com.curate_consumer.modules.restaurant;
 
+import android.location.Location;
+
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.PostModel;
@@ -18,7 +20,7 @@ public interface RestaurantContract {
         void displayOpenClosed(boolean isOpen);
     }
 
-    void getRestaurantById(Integer restaurantId);
+    void getRestaurantById(Integer restaurantId, Location location, Float radiusMiles);
 
     void getRestaurantPosts(Integer limit, Integer restaurantId);
 

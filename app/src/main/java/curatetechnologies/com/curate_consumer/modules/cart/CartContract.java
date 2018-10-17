@@ -1,6 +1,7 @@
 package curatetechnologies.com.curate_consumer.modules.cart;
 
 import android.content.Context;
+import android.location.Location;
 
 import com.stripe.android.PaymentSession;
 
@@ -20,7 +21,7 @@ public interface CartContract {
         void orderProcessed();
     }
 
-    void getRestaurantById(Integer restaurantId);
+    void getRestaurantById(Integer restaurantId, Location location, Float radiusMiles);
 
     void completeCharge(PaymentSession paymentSession, String email);
 
