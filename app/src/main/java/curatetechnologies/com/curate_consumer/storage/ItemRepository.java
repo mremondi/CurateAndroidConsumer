@@ -3,17 +3,11 @@ package curatetechnologies.com.curate_consumer.storage;
 import android.location.Location;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
-import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
-import curatetechnologies.com.curate_consumer.network.CurateClient;
 import curatetechnologies.com.curate_consumer.network.CurateAPI;
-import curatetechnologies.com.curate_consumer.network.converters.curate.ItemConverter;
-import curatetechnologies.com.curate_consumer.network.model.CurateAPIItem;
-import curatetechnologies.com.curate_consumer.network.services.ItemService;
-import retrofit2.Response;
+import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
 
 public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByIdCallback,
         CurateAPI.SearchItemsCallback {
@@ -22,29 +16,12 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
     private ItemModelRepository.SearchItemsCallback mSearchItemsCallback;
 
     @Override
-    public List<ItemModel> searchItems(SearchItemsCallback callback, String query,
+    public void searchItems(SearchItemsCallback callback, String query,
                                        Location location, Integer userId, Float radius) {
 
         mSearchItemsCallback = callback;
         CurateAPIClient apiClient = new CurateAPIClient();
         apiClient.searchItems(this, query, location, radius);
-
-
-        final List<ItemModel> items = new ArrayList<>();
-
-        // make network call
-        ItemService itemService = CurateClient.getService(ItemService.class);
-        try {
-            Response<List<CurateAPIItem>> response = itemService
-                    .searchItems(query, userId, location.getLatitude(), location.getLongitude(), radius)
-                    .execute();
-            for (CurateAPIItem item: response.body()){
-                items.add(ItemConverter.convertCurateItemToItemModel(item));
-            }
-        } catch (Exception e){
-            Log.d("FAILURE searching", e.getLocalizedMessage());
-        }
-        return items;
     }
 
 

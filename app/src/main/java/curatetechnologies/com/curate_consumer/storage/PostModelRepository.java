@@ -12,7 +12,7 @@ import curatetechnologies.com.curate_consumer.domain.model.PostModel;
 
 public interface PostModelRepository {
 
-    List<PostModel> getPostsByLocation(Integer limit, Location location, Float radius);
+    void getPostsByLocation(GetPostsByLocationCallback callback, Integer limit, Location location, Float radius);
 
     List<PostModel> getPostsByUserId(Integer limit, Integer userId);
 
@@ -21,4 +21,9 @@ public interface PostModelRepository {
     List<PostModel> getPostsByItemId(Integer limit, Integer itemId, String postType);
 
     Integer createPost(String jwt, PostModel postModel);
+
+    interface GetPostsByLocationCallback {
+        void postPosts(final List<PostModel> posts);
+        void notifyError(String message);
+    }
 }

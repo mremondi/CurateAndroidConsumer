@@ -12,7 +12,7 @@ import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 
 public interface ItemModelRepository {
 
-    List<ItemModel> searchItems(SearchItemsCallback callback, String query,
+    void searchItems(SearchItemsCallback callback, String query,
                                 Location location, Integer userId, Float radius);
     void getItemById(GetItemByIdCallback callback, Integer itemId, Location location, Float radiusMiles);
 

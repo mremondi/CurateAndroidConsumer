@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.PostModel;
+import curatetechnologies.com.curate_consumer.network.CurateAPI;
+import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
 import curatetechnologies.com.curate_consumer.network.CurateClient;
 import curatetechnologies.com.curate_consumer.network.converters.curate.PostConverter;
 import curatetechnologies.com.curate_consumer.network.model.CurateAPIPost;
@@ -25,27 +27,36 @@ import retrofit2.Response;
  * Created by mremondi on 2/22/18.
  */
 
-public class PostRepository implements PostModelRepository {
+public class PostRepository implements PostModelRepository, CurateAPI.GetPostsByLocationCallback {
+
+    private PostRepository.GetPostsByLocationCallback mGetPostsByLocationCallback;
 
     @Override
-    public List<PostModel> getPostsByLocation(Integer limit, Location location, Float radius) {
+    public void getPostsByLocation(GetPostsByLocationCallback callback, Integer limit,
+                                              Location location, Float radius) {
 
-        final List<PostModel> posts = new ArrayList<>();
+        mGetPostsByLocationCallback = callback;
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.getPostsByLocation(this, limit, location, radius);
 
-        // make network call
-        PostService postService = CurateClient.getService(PostService.class);
-        try {
-            Response<List<CurateAPIPost>> response = postService
-                    .getPostsByLocation(limit, location.getLatitude(), location.getLongitude(), radius)
-                    .execute();
-            for (CurateAPIPost post: response.body()){
-                posts.add(PostConverter.convertCuratePostToPostModel(post));
-            }
-        } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
-        }
-        return posts;
     }
+
+    // BEGIN CurateAPI.GetPostsByLocationCallback METHODS
+    @Override
+    public void onPostsRetrieved(List<PostModel> postModels) {
+        if (mGetPostsByLocationCallback != null) {
+            mGetPostsByLocationCallback.postPosts(postModels);
+        }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        if (mGetPostsByLocationCallback != null) {
+            mGetPostsByLocationCallback.notifyError(message);
+        }
+    }
+    // END CurateAPI.GetPostsByLocationCallback METHODS
+
 
     @Override
     public List<PostModel> getPostsByUserId(Integer limit, Integer userId) {
@@ -180,4 +191,5 @@ public class PostRepository implements PostModelRepository {
 
         return map;
     }
+
 }

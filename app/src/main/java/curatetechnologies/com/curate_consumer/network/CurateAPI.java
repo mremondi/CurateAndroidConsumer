@@ -6,6 +6,7 @@ import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
 import curatetechnologies.com.curate_consumer.domain.model.MenuModel;
+import curatetechnologies.com.curate_consumer.domain.model.PostModel;
 import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 
 public interface CurateAPI {
@@ -20,6 +21,8 @@ public interface CurateAPI {
                            String query, Location location, Float radius);
     void getNearbyRestaurants(final CurateAPI.GetNearbyRestaurantsCallback restaurantModelRepository,
                               Location location, Float radius);
+    void getPostsByLocation(final CurateAPI.GetPostsByLocationCallback postModelRepository, int limit,
+                            Location location, Float radius);
 
     interface GetItemByIdCallback {
         void onItemRetrieved(ItemModel itemModel);
@@ -48,6 +51,11 @@ public interface CurateAPI {
 
     interface GetNearbyRestaurantsCallback {
         void onNearbyRestaurantsRetrieved(List<RestaurantModel> restaurantModels);
+        void onFailure(String message);
+    }
+
+    interface GetPostsByLocationCallback {
+        void onPostsRetrieved(List<PostModel> postModels);
         void onFailure(String message);
     }
 

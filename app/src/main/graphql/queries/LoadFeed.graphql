@@ -1,6 +1,6 @@
-query LoadFeed($limit: Int) {
+query LoadFeed($limit: Int, $userLocation: UserLocation) {
     # posts($userLocation: UserLocation, ...)
-    posts(limit: $limit) {
+    posts(limit: $limit, userDistance: $userLocation) {
         ...PostsInfoFragment
     }
 }

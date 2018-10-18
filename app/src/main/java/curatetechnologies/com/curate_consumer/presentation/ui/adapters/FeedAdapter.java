@@ -17,10 +17,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-import static com.bumptech.glide.request.RequestOptions.circleCropTransform;
-import static com.bumptech.glide.request.RequestOptions.overrideOf;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +26,9 @@ import curatetechnologies.com.curate_consumer.domain.model.PostModel;
 import curatetechnologies.com.curate_consumer.modules.item.ItemFragment;
 import curatetechnologies.com.curate_consumer.modules.restaurant.RestaurantFragment;
 import curatetechnologies.com.curate_consumer.presentation.ui.views.subclasses.RoundedCornerTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+import static com.bumptech.glide.request.RequestOptions.circleCropTransform;
 
 /**
  * Created by mremondi on 2/22/18.
@@ -207,6 +206,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvRestaurantName.setText(post.getRestaurantName());
             tvUsername.setText(post.getUsername());
             tvTime.setText(post.getTime());
+
+            System.out.println("About to fail");
+            System.out.println(post);
+
             Drawable likeDislikeImage = post.getRating() ?
                     view.getResources().getDrawable( R.drawable.liked) :
                     view.getResources().getDrawable(R.drawable.disliked);

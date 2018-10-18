@@ -9,12 +9,8 @@ import curatetechnologies.com.curate_consumer.domain.model.PostModel;
  */
 
 public interface GetPostsByLocationInteractor extends Interactor {
-
     interface Callback {
-
-        void onPostsRetrieved(List<PostModel> restaurant);
-
+        void onPostsRetrieved(List<PostModel> posts);
         void onRetrievalFailed(String error);
-
     }
 }
