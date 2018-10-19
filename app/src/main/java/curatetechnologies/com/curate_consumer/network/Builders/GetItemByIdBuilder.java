@@ -19,10 +19,7 @@ public class GetItemByIdBuilder {
         MenuModel menuModel;
         MenuSectionModel menuSectionModel;
         RestaurantModel restaurantModel;
-        
-        if (data.items().size() < 1) {
-            return null;
-        }
+
         GetItemByIDQuery.Item item = data.items().get(0);
 
 
@@ -30,7 +27,7 @@ public class GetItemByIdBuilder {
         restaurantModel = buildRestaurant(item.fragments().menuInfo().menu().restaurant());
         menuSectionModel = buildMenuSection(item.fragments().menuInfo().menuSection());
 
-        posts = buildPosts(item.posts());
+        posts = buildPosts(item.posts(), item.id());
 
         String imageURL;
 
@@ -65,7 +62,7 @@ public class GetItemByIdBuilder {
                 "", restaurant.stripeId(), 0.0);
     }
 
-    private static List<PostModel> buildPosts(List<GetItemByIDQuery.Post> posts){
+    private static List<PostModel> buildPosts(List<GetItemByIDQuery.Post> posts, int itemId){
         List<PostModel> postModels = new ArrayList<>();
         for (GetItemByIDQuery.Post post: posts){
             String postType;
@@ -78,7 +75,7 @@ public class GetItemByIdBuilder {
             } else {
                 postType = PostModel.RATING_POST;
             }
-            postModels.add(new PostModel(post.id(), postType, post.restaurant().id(), 0,
+            postModels.add(new PostModel(post.id(), postType, post.restaurant().id(), itemId,
                     "", post.rating(), 0, 0, post.imageUrl(),
                     post.time(), 0, "", "", "",
                     "", 0.0, ""));
