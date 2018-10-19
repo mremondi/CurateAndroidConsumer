@@ -210,10 +210,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             System.out.println("About to fail");
             System.out.println(post);
 
-            Drawable likeDislikeImage = post.getRating() ?
-                    view.getResources().getDrawable( R.drawable.liked) :
-                    view.getResources().getDrawable(R.drawable.disliked);
-            ivLiked.setImageDrawable(likeDislikeImage);
+            if (post.getRating() != null) {
+                Drawable likeDislikeImage = post.getRating() ?
+                        view.getResources().getDrawable(R.drawable.liked) :
+                        view.getResources().getDrawable(R.drawable.disliked);
+                ivLiked.setImageDrawable(likeDislikeImage);
+            }
+
             tvItemName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
