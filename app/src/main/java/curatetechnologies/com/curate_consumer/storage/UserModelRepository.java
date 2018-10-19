@@ -18,9 +18,14 @@ public interface UserModelRepository {
     Boolean saveUser(UserModel userModel, boolean remote, boolean isSocialLogin);
     Boolean saveUserPreferences(UserModel userModel, List<TagTypeModel> preferences);
     UserModel getCurrentUser();
-    Boolean checkUsernameAvailable(String username);
+    void checkUsernameAvailable(IsUsernameAvailableCallback callback, String username);
     void signOutUser();
     UserModel getUserById(Integer userId);
     Integer getUserIdByEmail(String email);
+
+    interface IsUsernameAvailableCallback {
+        void postUsernameAvailable(boolean available);
+        void notifyError(String message);
+    }
 
 }

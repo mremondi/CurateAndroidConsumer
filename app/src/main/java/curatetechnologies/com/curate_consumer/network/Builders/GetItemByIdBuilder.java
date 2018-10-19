@@ -19,7 +19,7 @@ public class GetItemByIdBuilder {
         MenuModel menuModel;
         MenuSectionModel menuSectionModel;
         RestaurantModel restaurantModel;
-
+        
         if (data.items().size() < 1) {
             return null;
         }

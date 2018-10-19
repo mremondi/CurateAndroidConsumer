@@ -25,6 +25,7 @@ public interface CurateAPI {
                             Location location, Float radius);
     void getPostsByUserId(final CurateAPI.GetPostsByUserIdCallback postModelRepository, int limit,
                           int userID);
+    void isUsernameAvailable(final CurateAPI.IsUsernameAvailableCallback userModelRepository, String username);
 
     interface GetItemByIdCallback {
         void onItemRetrieved(ItemModel itemModel);
@@ -64,6 +65,11 @@ public interface CurateAPI {
     interface GetPostsByUserIdCallback {
         void onUserPostsRetrieved(List<PostModel> postModels);
         void onPostsByUserIdFailure(String message);
+    }
+
+    interface IsUsernameAvailableCallback {
+        void onUsernameAvailabilityRetrieved(boolean available);
+        void onFailure(String message);
     }
 
 }

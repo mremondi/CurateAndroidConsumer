@@ -3,12 +3,14 @@ package curatetechnologies.com.curate_consumer.domain.interactor;
 import curatetechnologies.com.curate_consumer.domain.executor.Executor;
 import curatetechnologies.com.curate_consumer.domain.executor.MainThread;
 import curatetechnologies.com.curate_consumer.storage.UserModelRepository;
+import curatetechnologies.com.curate_consumer.storage.UserRepository;
 
 /**
  * Created by mremondi on 2/18/18.
  */
 
-public class CheckUsernameAvailabilityInteractorImpl extends AbstractInteractor implements CheckUsernameAvailabilityInteractor {
+public class CheckUsernameAvailabilityInteractorImpl extends AbstractInteractor implements
+        CheckUsernameAvailabilityInteractor, UserRepository.IsUsernameAvailableCallback {
 
     private CheckUsernameAvailabilityInteractor.Callback mCallback;
     private UserModelRepository mUserModelRepository;
@@ -26,40 +28,21 @@ public class CheckUsernameAvailabilityInteractorImpl extends AbstractInteractor 
         this.username = username;
     }
 
-    private void notifyError() {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onRetrievalFailed("Get Item By Id Failed");
-            }
+    public void notifyError(String message) {
+        mMainThread.post( ()-> {
+            mCallback.onRetrievalFailed(message);
         });
     }
 
-    private void postItem(final boolean available) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onAvailableRetrieved(available);
-            }
+    public void postUsernameAvailable(final boolean available) {
+        mMainThread.post( ()->  {
+            mCallback.onAvailableRetrieved(available);
         });
     }
 
 
     @Override
     public void run() {
-
-        // retrieve the message
-        final boolean available = mUserModelRepository.checkUsernameAvailable(username);
-
-        // check if we have failed to retrieve our message
-        if (username == null) {
-
-            // notify the failure on the main thread
-            notifyError();
-            return;
-        }
-
-        // we have retrieved our message, notify the UI on the main thread
-        this.postItem(available);
+        mUserModelRepository.checkUsernameAvailable(this, username);
     }
 }

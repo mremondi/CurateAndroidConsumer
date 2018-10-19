@@ -18,6 +18,8 @@ import java.util.List;
 import curatetechnologies.com.curate_consumer.config.Constants;
 import curatetechnologies.com.curate_consumer.domain.model.TagTypeModel;
 import curatetechnologies.com.curate_consumer.domain.model.UserModel;
+import curatetechnologies.com.curate_consumer.network.CurateAPI;
+import curatetechnologies.com.curate_consumer.network.CurateAPIClient;
 import curatetechnologies.com.curate_consumer.network.CurateClient;
 import curatetechnologies.com.curate_consumer.network.converters.curate.UserConverter;
 import curatetechnologies.com.curate_consumer.network.model.CurateAPILoginUser;
@@ -35,9 +37,11 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by mremondi on 2/13/18.
  */
 
-public class UserRepository implements UserModelRepository {
+public class UserRepository implements UserModelRepository, CurateAPI.IsUsernameAvailableCallback {
 
     private static UserRepository INSTANCE = null;
+
+    private IsUsernameAvailableCallback mIsUsernameAvailableCallback;
 
     private Context appContext;
 
@@ -195,19 +199,30 @@ public class UserRepository implements UserModelRepository {
         return user;
     }
 
-    public Boolean checkUsernameAvailable(String username){
-        Boolean available;
-        UserService userService = CurateClient.getService(UserService.class);
-        try {
-            Response<JsonObject> response = userService.checkUsernameAvailable(username).execute();
-            available = response.body().get("isAvailable").getAsBoolean();
-            return available;
-        } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
-            available = false;
-        }
-        return available;
+    public void checkUsernameAvailable(IsUsernameAvailableCallback callback, String username){
+        mIsUsernameAvailableCallback = callback;
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.isUsernameAvailable(this, username);
     }
+
+    // BEGIN CurateAPI.IsUsernameAvailable Callback methods
+
+    @Override
+    public void onFailure(String message) {
+        if (mIsUsernameAvailableCallback != null) {
+            mIsUsernameAvailableCallback.notifyError(message);
+        }
+    }
+
+    @Override
+    public void onUsernameAvailabilityRetrieved(boolean available) {
+        if (mIsUsernameAvailableCallback != null) {
+            mIsUsernameAvailableCallback.postUsernameAvailable(available);
+        }
+    }
+
+    //END CurateAPI.IsUsernameAvailable Callback methods
+
 
     @Override
     public void signOutUser() {

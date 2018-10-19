@@ -21,6 +21,7 @@ import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetNearbyRestaurantsQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetPostsByUserIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetRestaurantByIdQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.IsUserNameAvailableQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.LoadFeedQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.SearchItemsQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.SearchRestaurantQuery;
@@ -222,6 +223,27 @@ public class CurateAPIClient implements CurateAPI{
                         postModelRepository.onPostsByUserIdFailure(e.getMessage());
                     }
                 });
+    }
+
+    public void isUsernameAvailable(final CurateAPI.IsUsernameAvailableCallback userModelRepository,
+                                    String username) {
+
+        mClient.query(IsUserNameAvailableQuery.builder()
+                .username(username)
+                .build())
+                .enqueue(new ApolloCall.Callback<IsUserNameAvailableQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<IsUserNameAvailableQuery.Data> response) {
+                        boolean available = response.data().userNameAvailable();
+                        userModelRepository.onUsernameAvailabilityRetrieved(available);
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        userModelRepository.onFailure(e.getMessage());
+                    }
+                });
+
     }
 
     private UserLocation buildUserLocation(Location location, int radius) {
