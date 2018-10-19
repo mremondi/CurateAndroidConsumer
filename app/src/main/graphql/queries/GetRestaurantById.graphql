@@ -18,6 +18,7 @@ query GetRestaurantById($restaurantID: Int, $userLocation: UserLocation) {
             close
         }
         stripeId
+        phoneNumber
         logoUrl
         rating
         url

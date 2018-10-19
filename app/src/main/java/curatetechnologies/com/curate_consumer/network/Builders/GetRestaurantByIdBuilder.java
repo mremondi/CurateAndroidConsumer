@@ -23,8 +23,8 @@ public class GetRestaurantByIdBuilder {
         List<MenuModel> menus = buildMenus(restaurant);
 
         restaurantModel = new RestaurantModel(restaurant.id(), restaurant.name(), restaurant.logoUrl(),
-                String.format("%.2f", restaurant.distance()) + " mi", menus, restaurant.mealTaxRate(), null,
-                restaurant.url(), mapsLocation, restaurantLocation.address(), restaurant.stripeId(),
+                String.format("%.2f", restaurant.distance()) + " mi", menus, restaurant.mealTaxRate(),
+                restaurant.phoneNumber(), restaurant.url(), mapsLocation, restaurantLocation.address(), restaurant.stripeId(),
                 restaurant.rating());
 
         return restaurantModel;
