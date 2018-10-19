@@ -23,6 +23,8 @@ public interface CurateAPI {
                               Location location, Float radius);
     void getPostsByLocation(final CurateAPI.GetPostsByLocationCallback postModelRepository, int limit,
                             Location location, Float radius);
+    void getPostsByUserId(final CurateAPI.GetPostsByUserIdCallback postModelRepository, int limit,
+                          int userID);
 
     interface GetItemByIdCallback {
         void onItemRetrieved(ItemModel itemModel);
@@ -56,7 +58,12 @@ public interface CurateAPI {
 
     interface GetPostsByLocationCallback {
         void onPostsRetrieved(List<PostModel> postModels);
-        void onFailure(String message);
+        void onPostsByLocationFailure(String message);
+    }
+
+    interface GetPostsByUserIdCallback {
+        void onUserPostsRetrieved(List<PostModel> postModels);
+        void onPostsByUserIdFailure(String message);
     }
 
 }

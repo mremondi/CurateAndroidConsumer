@@ -27,9 +27,11 @@ import retrofit2.Response;
  * Created by mremondi on 2/22/18.
  */
 
-public class PostRepository implements PostModelRepository, CurateAPI.GetPostsByLocationCallback {
+public class PostRepository implements PostModelRepository,
+        CurateAPI.GetPostsByLocationCallback, CurateAPI.GetPostsByUserIdCallback {
 
     private PostRepository.GetPostsByLocationCallback mGetPostsByLocationCallback;
+    private PostRepository.GetPostsByUserIdCallback mGetPostsByUserIdCallback;
 
     @Override
     public void getPostsByLocation(GetPostsByLocationCallback callback, Integer limit,
@@ -50,7 +52,7 @@ public class PostRepository implements PostModelRepository, CurateAPI.GetPostsBy
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onPostsByLocationFailure(String message) {
         if (mGetPostsByLocationCallback != null) {
             mGetPostsByLocationCallback.notifyError(message);
         }
@@ -59,23 +61,29 @@ public class PostRepository implements PostModelRepository, CurateAPI.GetPostsBy
 
 
     @Override
-    public List<PostModel> getPostsByUserId(Integer limit, Integer userId) {
-        final List<PostModel> posts = new ArrayList<>();
-
-        // make network call
-        PostService postService = CurateClient.getService(PostService.class);
-        try {
-            Response<List<CurateAPIPost>> response = postService
-                    .getPostsByUserId(limit, userId)
-                    .execute();
-            for (CurateAPIPost post: response.body()){
-                posts.add(PostConverter.convertCuratePostToPostModel(post));
-            }
-        } catch (Exception e){
-            Log.d("FAILURE", e.getMessage());
-        }
-        return posts;
+    public void getPostsByUserId(GetPostsByUserIdCallback callback, Integer limit, Integer userId) {
+        mGetPostsByUserIdCallback = callback;
+        CurateAPIClient apiClient = new CurateAPIClient();
+        apiClient.getPostsByUserId(this, limit, userId);
     }
+
+    // BEGIN CurateAPI.GetPostsByUserIdCallback Methods
+
+    public void onUserPostsRetrieved(List<PostModel> postModels) {
+        if (mGetPostsByUserIdCallback != null) {
+            mGetPostsByUserIdCallback.postUserPosts(postModels);
+        }
+    }
+
+    public void onPostsByUserIdFailure(String message) {
+        if (mGetPostsByUserIdCallback != null) {
+            mGetPostsByUserIdCallback.notifyError(message);
+        }
+    }
+
+    // END CurateAPI.GetPostsByUserIdCallback Methods
+
+
 
     @Override
     public List<PostModel> getPostsByRestaurantId(Integer limit, Integer restaurantId, String postType) {

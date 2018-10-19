@@ -20,6 +20,9 @@ public class GetItemByIdBuilder {
         MenuSectionModel menuSectionModel;
         RestaurantModel restaurantModel;
 
+        if (data.items().size() < 1) {
+            return null;
+        }
         GetItemByIDQuery.Item item = data.items().get(0);
 
 

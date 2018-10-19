@@ -14,7 +14,7 @@ public interface PostModelRepository {
 
     void getPostsByLocation(GetPostsByLocationCallback callback, Integer limit, Location location, Float radius);
 
-    List<PostModel> getPostsByUserId(Integer limit, Integer userId);
+    void getPostsByUserId(GetPostsByUserIdCallback callback, Integer limit, Integer userId);
 
     List<PostModel> getPostsByRestaurantId(Integer limit, Integer restaurantId, String postType);
 
@@ -24,6 +24,11 @@ public interface PostModelRepository {
 
     interface GetPostsByLocationCallback {
         void postPosts(final List<PostModel> posts);
+        void notifyError(String message);
+    }
+
+    interface GetPostsByUserIdCallback {
+        void postUserPosts(final List<PostModel> posts);
         void notifyError(String message);
     }
 }

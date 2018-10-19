@@ -11,7 +11,8 @@ import curatetechnologies.com.curate_consumer.storage.PostModelRepository;
  * Created by mremondi on 2/28/18.
  */
 
-public class GetPostsByUserIdInteractorImpl extends AbstractInteractor implements GetPostsByUserIdInteractor {
+public class GetPostsByUserIdInteractorImpl extends AbstractInteractor implements
+        GetPostsByUserIdInteractor, PostModelRepository.GetPostsByUserIdCallback {
 
     private GetPostsByUserIdInteractor.Callback mCallback;
     private PostModelRepository mPostRepository;
@@ -32,37 +33,19 @@ public class GetPostsByUserIdInteractorImpl extends AbstractInteractor implement
         mUserId = userId;
     }
 
-    private void notifyError() {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onRetrievalFailed("Get Posts By UserId Failed");
-            }
+    public void notifyError(String message) {
+        mMainThread.post( () -> {
+            mCallback.onRetrievalFailed(message);
         });
     }
 
-    private void postPosts(final List<PostModel> postModels) {
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onPostsRetrieved(postModels);
-            }
+    public void postUserPosts(List<PostModel> postModels) {
+        mMainThread.post( ()-> {
+            mCallback.onPostsRetrieved(postModels);
         });
     }
 
 
     @Override
-    public void run() {
-        final List<PostModel> posts = mPostRepository.getPostsByUserId(mLimit, mUserId);
-
-        // check if we have failed to retrieve our message
-        if (posts == null || posts.size() == 0) {
-            // notify the failure on the main thread
-            notifyError();
-
-            return;
-        }
-        // we have retrieved our message, notify the UI on the main thread
-        postPosts(posts);
-    }
+    public void run() {    mPostRepository.getPostsByUserId(this, mLimit, mUserId); }
 }

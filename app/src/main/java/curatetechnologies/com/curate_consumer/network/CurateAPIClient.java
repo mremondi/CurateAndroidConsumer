@@ -19,6 +19,7 @@ import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 import curatetechnologies.com.curate_consumer.graphql.api.GetItemByIDQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetMenuByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetNearbyRestaurantsQuery;
+import curatetechnologies.com.curate_consumer.graphql.api.GetPostsByUserIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.GetRestaurantByIdQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.LoadFeedQuery;
 import curatetechnologies.com.curate_consumer.graphql.api.SearchItemsQuery;
@@ -28,6 +29,7 @@ import curatetechnologies.com.curate_consumer.network.Builders.GetItemByIdBuilde
 import curatetechnologies.com.curate_consumer.network.Builders.GetMenuByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetNearbyRestaurantsBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetPostsByLocationBuilder;
+import curatetechnologies.com.curate_consumer.network.Builders.GetPostsByUserIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.GetRestaurantByIdBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.SearchItemsBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.SearchRestaurantsBuilder;
@@ -196,10 +198,30 @@ public class CurateAPIClient implements CurateAPI{
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        postModelRepository.onFailure(e.getMessage());
+                        postModelRepository.onPostsByLocationFailure(e.getMessage());
                     }
                 });
 
+    }
+
+    public void getPostsByUserId(final CurateAPI.GetPostsByUserIdCallback postModelRepository, int limit,
+                                 int userID) {
+
+        mClient.query(GetPostsByUserIdQuery.builder()
+                .userId(userID)
+                .build())
+                .enqueue(new ApolloCall.Callback<GetPostsByUserIdQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<GetPostsByUserIdQuery.Data> response) {
+                        List<PostModel> postModels = GetPostsByUserIdBuilder.buildPosts(response.data());
+                        postModelRepository.onUserPostsRetrieved(postModels);
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        postModelRepository.onPostsByUserIdFailure(e.getMessage());
+                    }
+                });
     }
 
     private UserLocation buildUserLocation(Location location, int radius) {
