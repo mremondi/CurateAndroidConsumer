@@ -79,7 +79,7 @@ public class RestaurantRepository implements RestaurantModelRepository,
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onGetRestaurantByIdFailure(String message) {
         if (mGetRestaurantByIdCallback != null) {
             mGetRestaurantByIdCallback.notifyError(message);
         }
@@ -94,6 +94,12 @@ public class RestaurantRepository implements RestaurantModelRepository,
             mSearchRestaurantsCallback.postRestaurants(restaurantModels);
         }
     }
+
+    public void onSearchRestaurantsFailure(String message) {
+        if (mSearchRestaurantsCallback != null) {
+            mSearchRestaurantsCallback.notifyError(message);
+        }
+    }
     // -- END: CurateAPI.SearchRestaurantsCallback methods
 
     // -- BEGIN: CurateAPI.GetNearbyRestaurantsCallback methods
@@ -102,6 +108,12 @@ public class RestaurantRepository implements RestaurantModelRepository,
     public void onNearbyRestaurantsRetrieved(List<RestaurantModel> restaurantModels) {
         if (mGetNearbyRestaurantsCallback != null) {
             mGetNearbyRestaurantsCallback.postNearbyRestaurants(restaurantModels);
+        }
+    }
+
+    public void onGetNearbyRestaurantsFailure(String message) {
+        if (mGetNearbyRestaurantsCallback != null) {
+            mGetNearbyRestaurantsCallback.notifyError(message);
         }
     }
 

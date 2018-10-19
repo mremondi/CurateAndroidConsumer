@@ -62,7 +62,7 @@ public class CurateAPIClient implements CurateAPI{
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        itemModelRepository.onFailure(e.getMessage());
+                        itemModelRepository.onGetItemByIdFailure(e.getMessage());
                     }
                 });
     }
@@ -106,7 +106,7 @@ public class CurateAPIClient implements CurateAPI{
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        restaurantModelRepository.onFailure(e.getMessage());
+                        restaurantModelRepository.onGetRestaurantByIdFailure(e.getMessage());
                     }
                 });
     }
@@ -128,7 +128,7 @@ public class CurateAPIClient implements CurateAPI{
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        itemModelRepository.onFailure(e.getMessage());
+                        itemModelRepository.onSearchItemsFailure(e.getMessage());
                     }
                 });
     }
@@ -152,7 +152,7 @@ public class CurateAPIClient implements CurateAPI{
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        restaurantModelRepository.onFailure(e.getMessage());
+                        restaurantModelRepository.onSearchRestaurantsFailure(e.getMessage());
                     }
                 });
 
@@ -175,7 +175,7 @@ public class CurateAPIClient implements CurateAPI{
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        restaurantModelRepository.onFailure(e.getMessage());
+                        restaurantModelRepository.onGetNearbyRestaurantsFailure(e.getMessage());
                     }
                 });
     }

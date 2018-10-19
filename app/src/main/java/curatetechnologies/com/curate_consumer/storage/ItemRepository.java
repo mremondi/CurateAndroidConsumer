@@ -34,7 +34,6 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
     }
 
     // BEGIN GetItemByIDCallback
-
     @Override
     public void onItemRetrieved(ItemModel itemModel){
         Log.d("ITEM RETRIEVED", itemModel.getName());
@@ -46,14 +45,14 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onGetItemByIdFailure(String message) {
         Log.d("ITEM RETRIEVAL FAILURE", message);
         if (mGetItemByIdCallback != null){
             mGetItemByIdCallback.notifyError(message);
         }
     }
 
-    // END GetItemByIdCallback
+    //END GetItemByIdCallback
 
     //BEGIN SEARCHITEMS CALLBACK
 
@@ -64,6 +63,12 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
         }
     }
 
+    @Override
+    public void onSearchItemsFailure(String message) {
+        if (mSearchItemsCallback != null){
+            mSearchItemsCallback.notifyError(message);
+        }
+    }
 
     //END SEARCHITEMS CALLBACK
 

@@ -29,7 +29,7 @@ public interface CurateAPI {
 
     interface GetItemByIdCallback {
         void onItemRetrieved(ItemModel itemModel);
-        void onFailure(String message);
+        void onGetItemByIdFailure(String message);
     }
 
     interface GetMenuByIdCallback {
@@ -39,22 +39,22 @@ public interface CurateAPI {
 
     interface GetRestaurantByIdCallback {
         void onRestaurantRetrieved(RestaurantModel restaurantModel);
-        void onFailure(String message);
+        void onGetRestaurantByIdFailure(String message);
     }
 
     interface SearchItemsCallback {
         void onItemsRetrieved(List<ItemModel> itemModels);
-        void onFailure(String message);
+        void onSearchItemsFailure(String message);
     }
 
     interface SearchRestaurantsCallback {
         void onRestaurantsRetrieved(List<RestaurantModel> restaurantModels);
-        void onFailure(String message);
+        void onSearchRestaurantsFailure(String message);
     }
 
     interface GetNearbyRestaurantsCallback {
         void onNearbyRestaurantsRetrieved(List<RestaurantModel> restaurantModels);
-        void onFailure(String message);
+        void onGetNearbyRestaurantsFailure(String message);
     }
 
     interface GetPostsByLocationCallback {
