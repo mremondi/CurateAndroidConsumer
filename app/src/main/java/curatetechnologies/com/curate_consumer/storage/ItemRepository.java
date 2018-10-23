@@ -26,7 +26,8 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
 
 
     @Override
-    public void getItemById(ItemModelRepository.GetItemByIdCallback callback, Integer itemId, Location location, Float radiusMiles) {
+    public void getItemById(ItemModelRepository.GetItemByIdCallback callback, Integer itemId,
+                            Location location, Float radiusMiles) {
         mGetItemByIdCallback = callback;
 
         CurateAPIClient apiClient = new CurateAPIClient();
@@ -68,6 +69,10 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
         if (mSearchItemsCallback != null){
             mSearchItemsCallback.notifyError(message);
         }
+    }
+
+    public int getUniqueId() {
+        return 32;
     }
 
     //END SEARCHITEMS CALLBACK
