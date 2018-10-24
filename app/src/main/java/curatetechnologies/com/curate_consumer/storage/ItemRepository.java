@@ -15,23 +15,26 @@ public class ItemRepository implements ItemModelRepository, CurateAPI.GetItemByI
     private ItemModelRepository.GetItemByIdCallback mGetItemByIdCallback;
     private ItemModelRepository.SearchItemsCallback mSearchItemsCallback;
 
+
     @Override
     public void searchItems(SearchItemsCallback callback, String query,
                                        Location location, Integer userId, Float radius) {
 
+        CurateAPI apiClient = new CurateAPIClient();
         mSearchItemsCallback = callback;
-        CurateAPIClient apiClient = new CurateAPIClient();
-        apiClient.searchItems(this, query, location, radius);
+        apiClient.searchItems(this, query, (float)location.getLatitude(),
+                (float)location.getLongitude(), Math.round(radius));
     }
 
 
     @Override
     public void getItemById(ItemModelRepository.GetItemByIdCallback callback, Integer itemId,
                             Location location, Float radiusMiles) {
-        mGetItemByIdCallback = callback;
 
-        CurateAPIClient apiClient = new CurateAPIClient();
-        apiClient.getItemById(this, itemId, location, Math.round(radiusMiles));
+        CurateAPI apiClient = new CurateAPIClient();
+        mGetItemByIdCallback = callback;
+        apiClient.getItemById(this, itemId, (float)location.getLatitude(),
+                (float)location.getLongitude(), Math.round(radiusMiles));
     }
 
     // BEGIN GetItemByIDCallback

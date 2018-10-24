@@ -1,8 +1,6 @@
 package curatetechnologies.com.curate_consumer.network;
 
 
-import android.location.Location;
-
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
@@ -35,7 +33,7 @@ import curatetechnologies.com.curate_consumer.network.Builders.GetRestaurantById
 import curatetechnologies.com.curate_consumer.network.Builders.SearchItemsBuilder;
 import curatetechnologies.com.curate_consumer.network.Builders.SearchRestaurantsBuilder;
 
-public class CurateAPIClient implements CurateAPI{
+public class CurateAPIClient implements CurateAPI {
 
     public static final String BASE_URL = "http://curate-staging.appspot.com/graphql";
 
@@ -46,8 +44,9 @@ public class CurateAPIClient implements CurateAPI{
     }
 
     @Override
-    public void getItemById(final CurateAPI.GetItemByIdCallback itemModelRepository, int itemId, Location location, int radius){
-        UserLocation userLocation = buildUserLocation(location, radius);
+    public void getItemById(final CurateAPI.GetItemByIdCallback itemModelRepository, int itemId,
+                            float lat, float lon, int radius){
+        UserLocation userLocation = buildUserLocation(lat, lon, radius);
 
         mClient.query(GetItemByIDQuery.builder()
                 .itemID(itemId)
@@ -57,11 +56,13 @@ public class CurateAPIClient implements CurateAPI{
                     @Override
                     public void onResponse(@NotNull Response<GetItemByIDQuery.Data> response) {
                         ItemModel itemModel = GetItemByIdBuilder.buildItem(response.data());
+                        System.out.println("about to call item repo");
                         itemModelRepository.onItemRetrieved(itemModel);
                     }
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
+                        System.out.println("failure of call");
                         itemModelRepository.onGetItemByIdFailure(e.getMessage());
                     }
                 });
@@ -87,9 +88,9 @@ public class CurateAPIClient implements CurateAPI{
     }
 
     public void getRestaurantById(final CurateAPI.GetRestaurantByIdCallback restaurantModelRepository,
-                                  int restaurantID, Location location, int radius) {
+                                  int restaurantID, float lat, float lon, int radius) {
 
-        UserLocation userLocation = buildUserLocation(location, radius);
+        UserLocation userLocation = buildUserLocation(lat, lon, radius);
 
         mClient.query(GetRestaurantByIdQuery.builder()
                 .restaurantID(restaurantID)
@@ -112,9 +113,9 @@ public class CurateAPIClient implements CurateAPI{
     }
 
     public void searchItems(final CurateAPI.SearchItemsCallback itemModelRepository, String query,
-                            Location location, Float radius) {
+                            float lat, float lon, int radius) {
 
-        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+        UserLocation userLocation = buildUserLocation(lat, lon,radius);
 
         mClient.query(SearchItemsQuery.builder()
                 .itemName(query)
@@ -134,9 +135,9 @@ public class CurateAPIClient implements CurateAPI{
     }
 
     public void  searchRestaurants(final CurateAPI.SearchRestaurantsCallback restaurantModelRepository,
-                                       String query, Location location, Float radius) {
+                                       String query, float lat, float lon, int radius) {
 
-        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+        UserLocation userLocation = buildUserLocation(lat, lon, radius);
 
         mClient.query(SearchRestaurantQuery.builder()
                 .restaurantName(query)
@@ -159,8 +160,8 @@ public class CurateAPIClient implements CurateAPI{
     }
 
     public void getNearbyRestaurants(final CurateAPI.GetNearbyRestaurantsCallback restaurantModelRepository,
-                             Location location, Float radius) {
-        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+                                     float lat, float lon, int radius) {
+        UserLocation userLocation = buildUserLocation(lat, lon, radius);
 
         mClient.query(GetNearbyRestaurantsQuery.builder()
                 .location(userLocation)
@@ -182,9 +183,10 @@ public class CurateAPIClient implements CurateAPI{
 
 
     @Override
-    public void getPostsByLocation(GetPostsByLocationCallback postModelRepository, int limit, Location location, Float radius) {
+    public void getPostsByLocation(GetPostsByLocationCallback postModelRepository, int limit,
+                                   float lat, float lon, int radius) {
 
-        UserLocation userLocation = buildUserLocation(location, Math.round(radius));
+        UserLocation userLocation = buildUserLocation(lat, lon, radius);
 
         mClient.query(LoadFeedQuery.builder()
                 .limit(limit)
@@ -246,10 +248,10 @@ public class CurateAPIClient implements CurateAPI{
 
     }
 
-    private UserLocation buildUserLocation(Location location, int radius) {
+    private UserLocation buildUserLocation(float lat, float lon, int radius) {
         UserLocation userLocation = UserLocation.builder()
-                .latitude(location.getLatitude())
-                .longitude(location.getLongitude())
+                .latitude(lat)
+                .longitude(lon)
                 .radiusLimit(radius)
                 .build();
 

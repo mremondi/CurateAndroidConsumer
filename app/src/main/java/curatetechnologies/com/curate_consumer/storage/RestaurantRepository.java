@@ -32,7 +32,8 @@ public class RestaurantRepository implements RestaurantModelRepository,
 
         mSearchRestaurantsCallback = callback;
         CurateAPIClient apiClient = new CurateAPIClient();
-        apiClient.searchRestaurants(this, query, location, radiusMiles);
+        apiClient.searchRestaurants(this, query, (float)location.getLatitude(),
+                (float)location.getLongitude(), Math.round(radiusMiles));
     }
 
     @Override
@@ -41,7 +42,8 @@ public class RestaurantRepository implements RestaurantModelRepository,
         mGetNearbyRestaurantsCallback = callback;
         CurateAPIClient apiClient = new CurateAPIClient();
         Log.d("RestRepository", "About to getNearbyRestaurants");
-        apiClient.getNearbyRestaurants(this, location, radiusMiles);
+        apiClient.getNearbyRestaurants(this, (float)location.getLatitude(),
+                (float)location.getLongitude(), Math.round(radiusMiles));
     }
 
     @Override
@@ -50,8 +52,8 @@ public class RestaurantRepository implements RestaurantModelRepository,
         mGetRestaurantByIdCallback = callback;
 
         CurateAPIClient apiClient = new CurateAPIClient();
-        apiClient.getRestaurantById(this, restaurantId, location,
-                Math.round(radiusMiles));
+        apiClient.getRestaurantById(this, restaurantId, (float)location.getLatitude(),
+                (float)location.getLongitude(), Math.round(radiusMiles));
     }
 
     @Override

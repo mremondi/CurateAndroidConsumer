@@ -39,7 +39,8 @@ public class PostRepository implements PostModelRepository,
 
         mGetPostsByLocationCallback = callback;
         CurateAPIClient apiClient = new CurateAPIClient();
-        apiClient.getPostsByLocation(this, limit, location, radius);
+        apiClient.getPostsByLocation(this, limit, (float)location.getLatitude(),
+                (float)location.getLongitude(), Math.round(radius));
 
     }
 

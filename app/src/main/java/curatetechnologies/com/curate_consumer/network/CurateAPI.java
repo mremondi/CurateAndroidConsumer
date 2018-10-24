@@ -1,7 +1,5 @@
 package curatetechnologies.com.curate_consumer.network;
 
-import android.location.Location;
-
 import java.util.List;
 
 import curatetechnologies.com.curate_consumer.domain.model.ItemModel;
@@ -11,18 +9,19 @@ import curatetechnologies.com.curate_consumer.domain.model.RestaurantModel;
 
 public interface CurateAPI {
 
-    void getItemById(final CurateAPI.GetItemByIdCallback itemModelRepository, int itemId, Location location, int radius);
+    void getItemById(final CurateAPI.GetItemByIdCallback itemModelRepository, int itemId, float lat,
+                     float lon, int radius);
     void getMenuById(final CurateAPI.GetMenuByIdCallback menuModelRepository, int menuId);
     void getRestaurantById(final CurateAPI.GetRestaurantByIdCallback restaurantModelRepository,
-                           int restaurantID, Location location, int radius);
-    void searchItems(final CurateAPI.SearchItemsCallback itemModelRepository, String query,
-                     Location location, Float radius);
+                           int restaurantID, float lat, float lon, int radius);
+    void searchItems(final CurateAPI.SearchItemsCallback itemModelRepository, String query, float lat,
+                     float lon, int radius);
     void searchRestaurants(final CurateAPI.SearchRestaurantsCallback restaurantModelRepository,
-                           String query, Location location, Float radius);
+                           String query, float lat, float lon, int radius);
     void getNearbyRestaurants(final CurateAPI.GetNearbyRestaurantsCallback restaurantModelRepository,
-                              Location location, Float radius);
+                              float lat, float lon, int radius);
     void getPostsByLocation(final CurateAPI.GetPostsByLocationCallback postModelRepository, int limit,
-                            Location location, Float radius);
+                            float lat, float lon, int radius);
     void getPostsByUserId(final CurateAPI.GetPostsByUserIdCallback postModelRepository, int limit,
                           int userID);
     void isUsernameAvailable(final CurateAPI.IsUsernameAvailableCallback userModelRepository, String username);
