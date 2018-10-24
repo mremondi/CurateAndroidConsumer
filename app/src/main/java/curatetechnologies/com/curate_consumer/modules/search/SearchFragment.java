@@ -54,8 +54,10 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     ProgressBar progressBar;
 
     private SearchContract mSearchPresenter;
-
     private SearchType searchType = SearchType.ITEM_SEARCH;
+
+    List<ItemModel> itemModels = null;
+    List<RestaurantModel> restaurantModels = null;
 
     Unbinder unbinder;
     @BindView(R.id.search_placeholder_layout)
@@ -113,6 +115,15 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     }
 
     // -- BEGIN: Fragment methods
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        searchType = SearchType.ITEM_SEARCH;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -130,14 +141,25 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
         // SET DEFAULTS
 
-        searchResults.setVisibility(View.GONE);
+//        searchResults.setVisibility(View.GONE);
+//
+//        searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.item_search_holder));
+//        searchPlaceHolderText.setText("Search for exactly what you're craving!");
+//        btnItem.setSelected(true);
 
-        searchType = SearchType.ITEM_SEARCH;
-        searchPlaceHolderImage.setImageDrawable(getResources().getDrawable(R.drawable.item_search_holder));
-        searchPlaceHolderText.setText("Search for exactly what you're craving!");
-        btnItem.setSelected(true);
+        switch (searchType) {
+            case ITEM_SEARCH:
+                onItemButtonClick();
+                btnItem.setSelected(true);
+                btnRestaurant.setSelected(false);
+                break;
+            case RESTAURANT_SEARCH:
+                onRestaurantButtonClick();
+                btnRestaurant.setSelected(true);
+                btnItem.setSelected(false);
+        }
+
         searchView.setIconified(false);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -164,13 +186,30 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
                 return false;
             }
         });
-        return v;
 
+        return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        switch (searchType) {
+            case ITEM_SEARCH:
+                if (itemModels != null) {
+                    displayItems(itemModels);
+                }
+                break;
+            case RESTAURANT_SEARCH:
+                if (restaurantModels != null) {
+                    displayRestaurants(restaurantModels);
+                }
+        }
     }
 
     @Override public void onDestroyView() {
@@ -208,6 +247,8 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
     // -- BEGIN: SearchContract.View methods
     @Override
     public void displayItems(final List<ItemModel> items) {
+        itemModels = items;
+
         searchPlaceHolderText.setVisibility(View.GONE);
         searchPlaceHolderImage.setVisibility(View.GONE);
         searchPlaceHolderLayout.setVisibility(View.GONE);
@@ -235,6 +276,8 @@ public class SearchFragment extends Fragment implements SearchPresenter.View {
 
     @Override
     public void displayRestaurants(final List<RestaurantModel> restaurants) {
+        restaurantModels = restaurants;
+
         searchPlaceHolderText.setVisibility(View.GONE);
         searchPlaceHolderImage.setVisibility(View.GONE);
         searchPlaceHolderLayout.setVisibility(View.GONE);
