@@ -1,7 +1,5 @@
 package curatetechnologies.com.curate_consumer.network.Builders;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +38,8 @@ public class GetMenuByIdBuilder {
 
         for (GetMenuByIdQuery.Item item : menuSection.items()) {
 
-            double price = item.price();
-            Log.d("GetMenuBuilder", "Item price is: " + String.format("%.2f", item.price()));
+            String priceString = (item.price() != null) ? ("$" + String.format("%.2f", item.price())) :
+                    ("Price unavailable");
 
             String imageURL;
 
@@ -53,7 +51,7 @@ public class GetMenuByIdBuilder {
             }
 
             itemsModel.add(new ItemModel(item.id(), item.name(), item.description(), imageURL,
-                    null, "$" + String.format("%.2f", item.price()), null, item.rating(),
+                    null, priceString, null, item.rating(),
                     null, null, null, null,
                     null, null, true, null));
         }
